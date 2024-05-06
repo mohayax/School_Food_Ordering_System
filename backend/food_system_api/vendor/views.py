@@ -41,10 +41,10 @@ class VendorProfileView(APIView):
          return Response({'success': 'vendor details updated successfully'}, status=status.HTTP_200_OK)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
-   def delete(self, request, id = None):
-      vendor = VendorProfile.objects.get(id = id)
-      vendor.delete()
-      return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
+   # def delete(self, request, id = None):
+   #    vendor = VendorProfile.objects.get(id = id)
+   #    vendor.delete()
+   #    return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
    
 
 

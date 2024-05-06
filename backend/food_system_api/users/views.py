@@ -26,11 +26,11 @@ class SignUp(APIView):
         
         data = request.data
 
-        first_name = data['first_name']
-        last_name = data['last_name']
+        # last_name = data['last_name']
         # phone_number = data['phone_number']
         # role = data['role']
         email = data['email']
+        role = data['role']
         password = data['password']
         password2 = data['password2']
 
@@ -44,9 +44,9 @@ class SignUp(APIView):
                     if len(password) < 8:
                         return Response({'error': 'password must be atleast 8 characters'})
                     else:
-                        user = User.objects.create_user(email=email, password =password, first_name = first_name, last_name = last_name)
+                        user = User.objects.create_user(email=email, password =password, role = role)
                         user.save()
-                    return Response({'sucess': 'user created sucessfully'}, status=status.HTTP_200_OK)   
+                        return Response({'sucess': 'user created sucessfully'}, status=status.HTTP_200_OK)   
         else:
             return Response({'error': 'passwords do not match'})
         

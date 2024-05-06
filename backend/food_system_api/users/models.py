@@ -48,9 +48,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    first_name = models.CharField(max_length=255, default=None, blank=True, null=True)
-    last_name = models.CharField(max_length=255, default=None, blank=True, null=True)
-    phone_number = models.CharField(max_length=255, default=None, blank=True, null=True)
     role = models.CharField(choices=USER_ROLE, max_length=255, default=None, blank=True, null=True)
     is_active = models.BooleanField(default =True)
     is_superuser = models.BooleanField(default =False)
