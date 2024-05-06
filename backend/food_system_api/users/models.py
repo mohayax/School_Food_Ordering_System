@@ -42,13 +42,12 @@ class UserAccountManager(BaseUserManager):
 
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
-    USER_ROLE = (
-        ("CUSTOMER", "CUSTOMER"),
-        ("VENDOR", "VENDOR")
-    )
+    class UserRole(models.TextChoices):
+        VENDOR = 'Vendor'
+        CUSTOMER = 'Customer'
 
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    role = models.CharField(choices=USER_ROLE, max_length=255, default=None, blank=True, null=True)
+    role = models.CharField(choices=UserRole.choices, max_length=255, default=None, blank=True, null=True)
     is_active = models.BooleanField(default =True)
     is_superuser = models.BooleanField(default =False)
     password_reset_token = models.CharField(max_length=255, blank=True, null=True)
