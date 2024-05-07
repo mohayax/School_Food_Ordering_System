@@ -16,13 +16,13 @@ class MenuItem(models.Model):
 
     item_name = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_description = models.TextField(blank=True)
-    menu_item_photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, null=True)
+    item_photo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, null=True)
     item_price = models.CharField(max_length=255, default=None, blank=True, null=True)
     availability_status = models.CharField(choices=Availability.choices, max_length=255, default=None, blank=True, null=True)
     item_category = models.CharField(choices=Category.choices, max_length=255, default=None, blank=True, null=True)
-    vendor = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, default=None, null=True)
+    vendor = models.ForeignKey(VendorProfile, on_delete=models.CASCADE)
 
     def __self__(self):
         return self.item_name
     
-    
+
