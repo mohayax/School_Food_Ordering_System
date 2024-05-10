@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import OrderView, OrderList, OrderItemView, Get_Customer_Order, OrderItemsList, Get_Vendor_Orders
+from .views import OrderView, OrderList, Add_To_Order, Get_Customer_Order, OrderItemsList, Get_Vendor_Orders
 
 
 urlpatterns = [
@@ -11,9 +11,9 @@ urlpatterns = [
 
     # order items
     # get order item
-    path('order-items/<str:order_id>', OrderItemView.as_view()),
+    # path('order-items/<str:order_id>', Add_To_Order.as_view()),
     # add, delete order item
-    path('order-items/<str:order_id>/<str:item_id>', OrderItemView.as_view()),
+    path('order-items/<str:item_id>', Add_To_Order.as_view()),
     # get all order items
     path('order-items', OrderItemsList.as_view()),
 
@@ -21,6 +21,6 @@ urlpatterns = [
     path('customer/<str:order_id>', Get_Customer_Order.as_view()),
     
     # get vendor view
-    path('vendor/<str:order_id>', Get_Vendor_Orders.as_view())
+    path('vendor/order', Get_Vendor_Orders.as_view())
 
 ]

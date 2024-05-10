@@ -10,16 +10,16 @@ class Order(models.Model):
         CANCELED = 'Canceled'
         SUCCESSFULL = 'Successfull'
 
-    customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
+    customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, related_name='customer_order')
     customer_name = models.CharField(max_length=255, default=None, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
-
+    order_status = models.CharField(choices=OrderStatus.choices, default=None, blank=True, null=True)
     total_amount = models.CharField(max_length=255, default=None, blank=True, null=True)
 
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
     item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     item_name = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_price = models.CharField(max_length=255, default=None, blank=True, null=True)
@@ -31,4 +31,4 @@ class OrderItem(models.Model):
 
 
 
-
+ 
