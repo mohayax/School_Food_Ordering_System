@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Order, OrderItem
-from customer.serializers import CustomerSerializer
+from .models import Order, OrderItem, Cart, CartItem
+
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -13,6 +13,22 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['customer', 'customer_name', 'order_date', 'order_status', 'total_amount', 'order_items']
+
+
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    cart_items = CartItemSerializer(many=True)
+    class Meta:
+        model = Cart
+        fields = ['customer', 'total_items', 'total_price', 'cart_items']
+
 
 
 

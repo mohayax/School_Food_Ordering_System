@@ -27,7 +27,30 @@ class OrderItem(models.Model):
 
 
     def get_total_price(self):
-        return self.item_price * self.item_quantity
+        return int(self.item_price) * int(self.item_quantity)
+
+
+
+
+#cart and cart item
+
+class Cart(models.Model):
+    customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE)
+    total_items = models.CharField(max_length=255, default='', blank=True, null=True)
+    total_price = models.CharField(max_length=255, default='', blank=True, null=True)
+
+    
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    item_name = models.CharField(max_length=255, default='', blank=True, null=True)
+    item_price = models.CharField(max_length=255, default='', blank=True, null=True)
+    item_quantity = models.CharField(max_length=255, default='', blank=True, null=True)
+    total_price = models.CharField(max_length=255, default='', blank=True, null=True)
+
+    def get_total_price(self):
+        return int(self.item_price) * int(self.item_quantity)
 
 
 
