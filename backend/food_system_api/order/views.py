@@ -10,6 +10,7 @@ from customer.models import CustomerProfile
 from customer.serializers import CustomerSerializer
 from menu_item.models import MenuItem
 from vendor.models import VendorProfile
+from django.db.models import Sum
 
 
 class OrderView(APIView):
@@ -159,9 +160,34 @@ class ViewCartItems(APIView):
         if cart is not None:
             cart_items = CartItem.objects.filter(cart = cart).distinct()
             serializer = CartItemSerializer(cart_items, many=True)
-        
             return Response({"cart_items": serializer.data})
         return Response({"message": "no data"})
+    
+class CartView(APIView):
+        def get(self, request):
+            data = request.data
+            user = request.user
+            customer = CustomerProfile.objects.get(user = user)
+            cart = Cart.objects.filter(customer = customer).first()
+            cart_items = CartItem.objects.filter(cart = cart).distinct()
+            serialized_items = CartItemSerializer(cart_items, many=True)
+            items_data = serialized_items.data
+            cart.customer = cart.customer.id
+            cart.cart_items = items_data
+            cart.total_items = CartItem.objects.filter(cart = cart).count()
+            
+            total_price = 0
+            
+            for item in items_data:
+                total_price += int(item['total_price'])
+                
+            cart.total_price = total_price
+            cart.save()
+            serializer = CartSerializer(cart, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"data": serializer.data})
+            return Response({"error": serializer.errors})
 
 
 # list of all order items
