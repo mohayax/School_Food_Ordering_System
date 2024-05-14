@@ -163,31 +163,55 @@ class ViewCartItems(APIView):
             return Response({"cart_items": serializer.data})
         return Response({"message": "no data"})
     
+
+    def put(self, request, item_id = None):
+            data = request.data
+            user = request.user
+            customer = CustomerProfile.objects.get(user = user)
+            cart_item = CartItem.objects.get(id = item_id)
+            cart = Cart.objects.filter(customer = customer).first()
+            data['cart'] = cart.id
+            data['item'] = cart_item.id
+            data['total_price'] = int(cart_item.item_price) * int(data['item_quantity'])
+            serializer = CartItemSerializer(cart_item, data= data)
+            
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"data": serializer.data})
+            return Response({"error": serializer.errors})
+
+
 class CartView(APIView):
         def get(self, request):
-            data = request.data
             user = request.user
             customer = CustomerProfile.objects.get(user = user)
             cart = Cart.objects.filter(customer = customer).first()
             cart_items = CartItem.objects.filter(cart = cart).distinct()
             serialized_items = CartItemSerializer(cart_items, many=True)
             items_data = serialized_items.data
-            cart.customer = cart.customer.id
-            cart.cart_items = items_data
-            cart.total_items = CartItem.objects.filter(cart = cart).count()
             
             total_price = 0
-            
             for item in items_data:
                 total_price += int(item['total_price'])
-                
-            cart.total_price = total_price
-            cart.save()
-            serializer = CartSerializer(cart, data=data)
+
+
+            data = {
+                'customer': customer.id,
+                'total_items': cart_items.count(),
+                'total_price': total_price,
+                'cart_items': items_data
+            }
+
+            if cart:
+                serializer = CartSerializer(cart, data=data)
+            else:
+                serializer = CartSerializer(data=data)
+    
             if serializer.is_valid():
                 serializer.save()
                 return Response({"data": serializer.data})
             return Response({"error": serializer.errors})
+        
 
 
 # list of all order items
