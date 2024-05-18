@@ -96,18 +96,30 @@ class Get_Vendor_Orders(APIView):
 
 class Add_To_Order(APIView):
 
-    def post(self, request, item_id = None):
-        data = request.data
+    def post(self, request):
         user = request.user
         customer = CustomerProfile.objects.get(user =user)
+        cart = Cart.objects.filter(customer = customer).first()
+        items = CartItem.objects.filter(cart = cart)
+        
+        order_data = {
+            'customer': customer.id,
+            'total_amount': cart.total_price,
+            'customer_name': customer.get_full_name(),
+            'order_items': []
+        }
 
-        menu_item = MenuItem.objects.get(id = item_id)
-        data['item'] = menu_item.id
-        data['item_name'] = menu_item.item_name
-        order = Order.objects.create(customer = customer, customer_name = customer.get_full_name() )
-        data['order'] = order.id
-        serializer = OrderItemSerializer(data=request.data)
-
+        for item in items:
+            order_data['order_items'].append({
+                'item': item.item.id,
+                'item_name': item.item_name,
+                'item_price': item.item_price,
+                'item_quantity': item.item_quantity,
+                'total_price': item.total_price
+            })
+        
+        serializer = OrderSerializer(data=order_data)
+        
         if serializer.is_valid():
             serializer.save()
             return Response({"success": serializer.data})
@@ -179,6 +191,19 @@ class ViewCartItems(APIView):
                 serializer.save()
                 return Response({"data": serializer.data})
             return Response({"error": serializer.errors})
+    
+
+    def delete(self, request, item_id = None):
+        item = CartItem.objects.get(id = item_id)
+        item.delete()
+        return Response({"message": "item removed from cart successfully"})
+    
+    # clear all cart items
+    def delete(self, request):
+        cart_items = CartItem.objects.all()
+        cart_items.delete()
+        return Response({"message": "cart cleared successfully"})
+
 
 
 class CartView(APIView):

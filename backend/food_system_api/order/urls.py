@@ -5,12 +5,12 @@ from .views import OrderView, OrderList, Add_To_Order, Get_Customer_Order, Order
 urlpatterns = [
     # path('place-order', OrderView.as_view()),
     # deleting, getting, updating order
-    # path('<str:order_id>', OrderView.as_view()),
+    path('items/<str:order_id>', OrderView.as_view()),
     # list of all orders
     path('', OrderList.as_view()),
 
     
-    path('add-item/<str:item_id>', Add_To_Order.as_view()),
+    path('place-order', Add_To_Order.as_view()),
     # get all order items
     path('order-items', OrderItemsList.as_view()),
 
