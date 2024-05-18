@@ -14,22 +14,6 @@ from django.db.models import Sum
 
 
 class OrderView(APIView):
-
-    # def post(self, request):
-    #     data = request.data
-    #     user = request.user
-    #     customer = CustomerProfile.objects.get(user = user)
-    #     data['customer'] = customer.id
-    #     data['customer_name'] = customer.get_full_name()
-        
-    #     serializer = OrderSerializer(data = request.data)
-
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response({"success": serializer.data}, status=status.HTTP_201_CREATED)
-    #     return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
-
     def get(self, request, order_id = None):
         if order_id is not None:
             order = Order.objects.prefetch_related('order_items').get(id = order_id)
@@ -200,8 +184,14 @@ class ViewCartItems(APIView):
     
     # clear all cart items
     def delete(self, request):
-        cart_items = CartItem.objects.all()
+        user = request.user
+        customer = CustomerProfile.objects.get(user = user)
+        cart = Cart.objects.filter(customer = customer).first()
+        cart_items = CartItem.objects.filter(cart = cart)
         cart_items.delete()
+        cart.total_items = 0
+        cart.total_price = 0
+        cart.save()
         return Response({"message": "cart cleared successfully"})
 
 

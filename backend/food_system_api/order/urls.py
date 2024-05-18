@@ -23,9 +23,13 @@ urlpatterns = [
     #add to cart
     path('add-to-cart/<str:item_id>', Add_To_Cart.as_view()),
     
+    #see user's cart, total amount, total items
     path('cart', CartView.as_view()),
-
+    
+    #get all cart items of a user
     path('cart/items', ViewCartItems.as_view()),
+    
+    #edit and delete a particular cart item
     path('cart/items/<str:item_id>', ViewCartItems.as_view())
 
 
