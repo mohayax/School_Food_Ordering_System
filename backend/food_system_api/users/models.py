@@ -50,6 +50,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(choices=UserRole.choices, max_length=255, default=None, blank=True, null=True)
     is_active = models.BooleanField(default =True)
     is_superuser = models.BooleanField(default =False)
+    is_staff = models.BooleanField(default =False)
     password_reset_token = models.CharField(max_length=255, blank=True, null=True)
 
     objects = UserAccountManager()
