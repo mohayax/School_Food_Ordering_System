@@ -1,8 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
+import signUpReducer from "./features/auth-slice";
 
 
 const rootReducer = combineReducers({
-    // name: redducer
+    auth: signUpReducer
 })
 
 

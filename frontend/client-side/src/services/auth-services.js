@@ -2,12 +2,12 @@ import axiosInstance from "../utils/axios-instance";
 
 
 export class AuthService {
-    static async signup(){
-        return axiosInstance.post('accounts/signup')
+    static async signup(credentials){
+        return axiosInstance.post('accounts/signup', credentials)
     }
     
-    static async login(){
-        return axiosInstance.post('token/')
+    static async login(credentials){
+        return axiosInstance.post('token/', credentials)
     }
 
     static async forgot_password(){
