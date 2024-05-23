@@ -1,4 +1,4 @@
-import Layout from "./components/Layout"
+import Layout from "./component/Layout"
 import Element from "./routes/Element.jsx"
 import { ToastContainer, Zoom } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
