@@ -1,0 +1,20 @@
+import axiosInstance from "../utils/axios-instance.js";
+
+
+export class AuthService {
+    static async signup(data){
+        return axiosInstance.post('accounts/signup', data)
+    }
+    
+    static async login(credentials){
+        return axiosInstance.post('token/', credentials)
+    }
+
+    static async forgot_password(){
+        return axiosInstance.post('accounts/forgot-password')
+    }
+
+    static async reset_password(){
+        return axiosInstance.post('accounts/reset-password')
+    }
+}
