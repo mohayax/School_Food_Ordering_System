@@ -8,32 +8,17 @@ const axiosInstance = axios.create({
 })
 
 
-// axiosInstance.interceptors.request.use(
-//     (config) => {
-//     const state = store.getState();
-//     const token = state.auth.accessToken;
-//     if (token) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-//       return config;
-//     }, 
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// )
-export const setupAxiosInterceptors = (token) => {
-    axiosInstance.interceptors.request.use(
-      (config) => {
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-  };
-
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = window.localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;

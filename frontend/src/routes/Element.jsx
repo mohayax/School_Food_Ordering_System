@@ -1,6 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import Signup from "../pages/Signup";
 import Notfound from "../pages/Notfound";
+import Login from "@/pages/Login";
 
 
 
@@ -15,6 +16,10 @@ const Element = () => {
             path: "*",
             element: <Notfound />
         },
+        {
+            path: "/login",
+            element: <Login/>
+        }
     ])
 
     

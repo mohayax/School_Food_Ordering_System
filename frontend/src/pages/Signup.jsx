@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
-
+import { Link } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 
@@ -55,8 +55,6 @@ const Signup = () => {
       <Form {...form}>
           
           <form onSubmit={form.handleSubmit(onSubmit)}>
-           <>
-
            <Formfield 
               name="email"
               control={form.control}
@@ -103,56 +101,11 @@ const Signup = () => {
               label="Confirm Password"
               />
 
-            {/* <FormField 
-                  control={form.control} 
-                  name="email"
-                  render={({field}) => (
-                    <FormItem >
-                      <FormLabel className='text-[#ADADAD]'>Email</FormLabel>
-                      <FormControl>
-                        <Input type='email' placeholder="johndoe@email.com" {...field}/>
-                      </FormControl>
-                      <FormMessage/>
-                    </FormItem>
-                  )}
-              /> */}
-            
-            
-          
-            
-            {/* <FormField 
-              control={form.control} 
-              name="password"
-              render={({field}) => (
-                <FormItem >
-                  <FormLabel className='text-[#ADADAD]'>Password</FormLabel>
-                  <FormControl>
-                    <Input type='password' {...field}/>
-                  </FormControl>
-                  <FormMessage/>
-                </FormItem>
-            )}
-          /> */}
-{/*           
-              <FormField 
-                control={form.control} 
-                name="password2"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel className='text-[#ADADAD]'>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input type='password' {...field}/>
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-            />
-            */}
-           
-           </>
+
            <Button type="submit">Submit</Button>
           </form>
       </Form>
+      <Link to='/login'>Login</Link>
     </div>
     
   )

@@ -10,7 +10,7 @@ const initialState = {
 export const register = createAsyncThunk("register/signup", async (data) => {
     try {
         const response = await AuthService.signup(data)
-        return toast.success(response?.data?.success || "Account created sucessfully")
+        return toast.success(response?.success || "Account created sucessfully")
 
     } catch (error) {
         return toast.error(error.response.message || "Something went wrong")
