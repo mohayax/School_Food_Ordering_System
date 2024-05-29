@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux"
 
 import Formfield from "@/utils/reusable-components/Formfield"
 import Selectfield from "@/utils/reusable-components/Selectfield"
-
+import { useNavigate } from "react-router-dom"
 
 import {
   Select,
@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 const Signup = () => {
   const dispatch = useDispatch();
   
-
+  const {account, isLoading, error} = useSelector((state) => state.register)
 
   const form = useForm({
     resolver: zodResolver(Signup_Schema),
@@ -39,13 +39,17 @@ const Signup = () => {
     }
   })
 
-
+  const navigate = useNavigate()
   const onSubmit = async (values) => {
-    console.log('values', values)
     dispatch(register(values))
     
-    form.reset()
+    if (!error && account && values.role == "vendor"){
+      navigate("/vendorProfileForm")
+    }
+    // form.reset()
   }
+
+  
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -70,7 +74,7 @@ const Signup = () => {
               <FormItem>
                 <FormLabel className='text-[#ADADAD]'>Role</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value} required>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Role" className='text-[#ADADAD]' />
                     </SelectTrigger>
@@ -102,7 +106,7 @@ const Signup = () => {
               />
 
 
-           <Button type="submit">Submit</Button>
+           <Button type="submit" disabled={isLoading}>Submit</Button>
           </form>
       </Form>
       <Link to='/login'>Login</Link>

@@ -4,16 +4,17 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     isLoading: false,
-    error: null
+    account: false,
+    error: false
 }
 
 export const register = createAsyncThunk("register/signup", async (data) => {
     try {
         const response = await AuthService.signup(data)
-        return toast.success(response?.success || "Account created sucessfully")
+        return toast.success(`${response.data}` || "Account created sucessfully")
 
     } catch (error) {
-        return toast.error(error.response.message || "Something went wrong")
+        return toast.warn(`${error.response.data}` || "something went wrong")
     }
 })
 
@@ -26,10 +27,12 @@ export const registerSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(register.fulfilled, (state) => {
+                state.account = true
                 state.isLoading = false
             })
             .addCase(register.rejected, (state, action) => {
-                state.error = action.payload
+                state.error = true
+                state.account = false
             })
     }
 })

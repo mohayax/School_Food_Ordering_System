@@ -26,29 +26,26 @@ class SignUp(APIView):
         
         data = request.data
 
-        # last_name = data['last_name']
-        # phone_number = data['phone_number']
-        # role = data['role']
         email = data['email']
         role = data['role']
         password = data['password']
         password2 = data['password2']
 
-        if password == password2:
+        if data['password'] == data['password2']:
             if User.objects.filter(email = email).exists():
-                return Response({'error': 'email already exists'})
+                return Response({'email already exists'}, status=status.HTTP_400_BAD_REQUEST)
             else: 
                 if not email_validator(email):
-                    return Response({'error': 'Invalid email address'})
+                    return Response({'Invalid email address'}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     if len(password) < 8:
-                        return Response({'error': 'password must be atleast 8 characters'})
+                        return Response({'password must be atleast 8 characters'}, status=status.HTTP_400_BAD_REQUEST)
                     else:
                         user = User.objects.create_user(email=email, password =password, role = role)
                         user.save()
-                        return Response({'sucess': 'user created sucessfully'}, status=status.HTTP_200_OK)   
-        else:
-            return Response({'error': 'passwords do not match'})
+                        return Response({'user created sucessfully'}, status=status.HTTP_200_OK)   
+        
+        return Response({'passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
         
 
 

@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 
 const initialState = {
-    user: null,
     error: null,
     isLoading: false,
     isAuthenticated: false
@@ -19,7 +18,7 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
         toast.success("Login sucessfull")
 
     } catch (error) {
-        return toast.error(error.response.data.detail || "Something went wrong")
+        return toast.error(`${error.response.data}` || "Something went wrong")
     }
 })
 
@@ -29,12 +28,14 @@ export const authSlice = createSlice({
     reducers: {
         logOut: () => {
             window.localStorage.removeItem('accessToken')
+            state.isAuthenticated = false
         }
     },
     extraReducers(builder) {
         builder
             .addCase(login.pending, (state, action) => {
                 state.isLoading = true
+                state.isAuthenticated = false
             })
             .addCase(login.fulfilled, (state) => {
                 state.isLoading = false
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.error = action.payload
+                state.isAuthenticated = false
             })
     }
 })
