@@ -2,7 +2,7 @@ import { toast } from "react-toastify"
 import { useForm, Controller } from "react-hook-form"
 import { Signup_Schema } from "../utils/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { register } from "@/store/registerSlice"
+import { register } from "@/store/auth/registerSlice"
 import { useSelector, useDispatch } from "react-redux"
 
 import Formfield from "@/utils/reusable-components/Formfield"

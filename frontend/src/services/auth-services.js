@@ -10,11 +10,11 @@ export class AuthService {
         return axiosInstance.post('token/', credentials)
     }
 
-    static async forgot_password(){
-        return axiosInstance.post('accounts/forgot-password')
+    static async forgot_password(data){
+        return axiosInstance.post('accounts/forgot-password', data)
     }
 
-    static async reset_password(){
-        return axiosInstance.post('accounts/reset-password')
+    static async reset_password(data){
+        return axiosInstance.post('accounts/reset-password', data)
     }
 }

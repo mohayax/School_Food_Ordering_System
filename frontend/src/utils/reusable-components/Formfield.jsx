@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription  } from "@/components/ui/form";
 
-const Formfield = ({name, control, label, type, description,placeholder }) => {
+const Formfield = ({name, control, label, type, description,placeholder, required }) => {
   return (
     
      <FormField 
@@ -11,7 +11,7 @@ const Formfield = ({name, control, label, type, description,placeholder }) => {
         <FormItem >
           <FormLabel >{label}</FormLabel>
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field}/>
+            <Input type={type} placeholder={placeholder} {...field} required={required}/>
           </FormControl>
           <FormMessage/>
           <FormDescription>{description}</FormDescription>

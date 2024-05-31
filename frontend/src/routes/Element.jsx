@@ -4,6 +4,8 @@ import Notfound from "../pages/Notfound";
 import Login from "@/pages/Login";
 import CustomerDashboard from "@/pages/CustomerDashboard";
 import VendorProfileForm from "@/pages/VendorProfileForm";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
 
 
 const Element = () => {
@@ -28,7 +30,16 @@ const Element = () => {
         {
             path: "/vendorProfileForm",
             element: <VendorProfileForm/>
-        }
+        },
+        {
+            path: "/forgot-password",
+            element: <ForgotPassword/>
+        },
+        {
+            path: "/reset-password",
+            element: <ResetPassword/>
+        },
+
     ])
 
     

@@ -13,7 +13,8 @@ User = get_user_model()
 # Create your views here.
 
 class VendorProfileView(APIView):
-
+   permission_classes = (permissions.AllowAny, )
+   
    def get(self, request, id = None):
       if id is not None:
         vendor = VendorProfile.objects.get(id = id)
@@ -27,7 +28,7 @@ class VendorProfileView(APIView):
       serializer = VendorSerializer(data= request.data)
       if serializer.is_valid():
          serializer.save(user = user_accout)
-         return Response({'success': serializer.data}, status=status.HTTP_200_OK)
+         return Response({serializer.data}, status=status.HTTP_200_OK)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
    
@@ -38,8 +39,8 @@ class VendorProfileView(APIView):
 
       if serializer.is_valid():
          serializer.save()
-         return Response({'success': 'vendor details updated successfully'}, status=status.HTTP_200_OK)
-      return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+         return Response({'vendor details updated successfully'}, status=status.HTTP_200_OK)
+      return Response({serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
    
    # def delete(self, request, id = None):
    #    vendor = VendorProfile.objects.get(id = id)

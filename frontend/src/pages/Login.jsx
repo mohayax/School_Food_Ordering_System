@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Login_Schema } from "@/utils/form-schema"
 import { Form, FormControl } from "@/components/ui/form"
-import { login, logOut } from "@/store/loginSlice"
+import { login, logOut } from "@/store/auth/loginSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 const Login = () => {
@@ -22,7 +23,7 @@ const Login = () => {
     const onSubmit = (values) => {
         dispatch(login(values))
         form.reset()
-        if (isAuthenticated){
+        if (!isLoading && isAuthenticated){
             navigate('/customerView')
         }
     }
@@ -55,7 +56,7 @@ const Login = () => {
                 </>
             </form>
         </Form>
-        
+        <Link to="/forgot-password">Forgot password</Link>
     </div>
 
   )
