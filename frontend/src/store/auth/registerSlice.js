@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 
 const initialState = {
     isLoading: false,
-    account: false,
-    error: false
+    error: false,
+    email: null
 }
 
 export const register = createAsyncThunk("register/signup", async (data) => {
@@ -21,22 +21,27 @@ export const register = createAsyncThunk("register/signup", async (data) => {
 export const registerSlice = createSlice({
     name: 'register',
     initialState,
+    reducers: {
+        addEmail: (state, action) => {
+            state.email = action.payload
+            console.log("email--", state.email)
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(register.pending, (state, action) => {
                 state.isLoading = true
             })
-            .addCase(register.fulfilled, (state) => {
-                state.account = true
+            .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false
+                
             })
             .addCase(register.rejected, (state, action) => {
                 state.error = true
-                state.account = false
             })
     }
 })
 
 
-
+export const {addEmail} = registerSlice.actions
 export default registerSlice.reducer;

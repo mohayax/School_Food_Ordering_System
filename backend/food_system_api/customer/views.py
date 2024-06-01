@@ -4,6 +4,8 @@ from rest_framework import permissions
 from rest_framework import status
 from .serializers import CustomerSerializer
 from .models import CustomerProfile
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 
@@ -19,12 +21,17 @@ class CustomerProfileView(APIView):
 
    
    def post(self, request):
-      user_accout = request.user
+      data = request.data
+      email = data['email']
+      try:
+         user_accout = User.objects.get(email = email)
+      except User.DoesNotExist:
+         return Response({"no user found with the given email"}, status=status.HTTP_400_BAD_REQUEST )   
       
       serializer = CustomerSerializer(data= request.data)
       if serializer.is_valid():
          serializer.save(user = user_accout)
-         return Response({'success': 'profile created successfully'}, status=status.HTTP_201_CREATED)
+         return Response({'Customer profile created successfully'}, status=status.HTTP_201_CREATED)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
    

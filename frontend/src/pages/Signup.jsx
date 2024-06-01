@@ -19,6 +19,7 @@ import {
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Link } from "react-router-dom"
+import { addEmail } from "@/store/auth/registerSlice"
 
 import { Button } from "@/components/ui/button"
 
@@ -27,7 +28,7 @@ import { Button } from "@/components/ui/button"
 const Signup = () => {
   const dispatch = useDispatch();
   
-  const {account, isLoading, error} = useSelector((state) => state.register)
+  const {isLoading, error, email} = useSelector((state) => state.register)
 
   const form = useForm({
     resolver: zodResolver(Signup_Schema),
@@ -41,11 +42,13 @@ const Signup = () => {
 
   const navigate = useNavigate()
   const onSubmit = async (values) => {
+    dispatch(addEmail(values.email))
     dispatch(register(values))
     
-    if (!error && account && values.role == "vendor"){
+    if (!error && values.role == "vendor" && email != null){
       navigate("/vendorProfileForm")
     }
+   
     // form.reset()
   }
 
