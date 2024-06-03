@@ -5,6 +5,7 @@ import forgotReducer from './auth/forgotSlice';
 import resetReducer from './auth/resetSlice';
 import vendorReducer from './profiles/vendorSlice';
 import vendorListReducer from './profiles/vendor-list-slice';
+import customerReducer from './profiles/customerSlice';
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         forgotPassword: forgotReducer,
         resetPassword: resetReducer,
         vendorProfile: vendorReducer,
-        vendorList: vendorListReducer
+        vendorList: vendorListReducer,
+        customerProfile: customerReducer,
     }
 })
 

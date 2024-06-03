@@ -42,9 +42,12 @@ class VendorProfileAction(APIView):
 
    def get(self, request):
       user = request.user
-      vendor = VendorProfile.objects.get(user = user)
-      serializer = VendorSerializer(vendor)
-      return Response(serializer.data, status=status.HTTP_200_OK)
+      try:
+         vendor = VendorProfile.objects.get(user = user)
+         serializer = VendorSerializer(vendor)
+         return Response(serializer.data, status=status.HTTP_200_OK)
+      except VendorProfile.DoesNotExist:
+         return Response({"vendor data not found"}, status=status.HTTP_404_NOT_FOUND)
       
    def put(self, request):
       user = request.user

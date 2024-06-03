@@ -20,7 +20,7 @@ const vendorProfileSlice = createSlice({
         })
         .addCase(getVendorProfile.fulfilled, (state, action) =>{
             state.isLoading = false
-            console.log("profile--from slice:", action.payload.data)
+            console.log("ven--profile--from slice:", action.payload.data)
             state.profile = action.payload.data
         })
         .addCase(getVendorProfile.rejected, (state) => {

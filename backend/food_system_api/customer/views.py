@@ -40,9 +40,13 @@ class CustomerProfileAction(APIView):
 
    def get(self, request):
       user = request.user
-      customer = CustomerProfile.objects.get(user = user)
-      serializer = CustomerSerializer(customer)
-      return Response({serializer.data}, status=status.HTTP_200_OK)
+
+      try:
+         customer = CustomerProfile.objects.get(user = user)
+         serializer = CustomerSerializer(customer)
+         return Response(serializer.data, status=status.HTTP_200_OK)
+      except CustomerProfile.DoesNotExist:
+         return Response({"customer data not found"}, status=status.HTTP_404_NOT_FOUND)
       
    
    
