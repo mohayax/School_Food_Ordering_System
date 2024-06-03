@@ -12,14 +12,8 @@ User = get_user_model()
 # Create your views here.
 
 class CustomerProfileView(APIView):
+   permission_classes = (permissions.AllowAny, )
 
-   def get(self, request, id = None):
-      if id is not None:
-        customer = CustomerProfile.objects.get(id = id)
-        serializer = CustomerSerializer(customer)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
-
-   
    def post(self, request):
       data = request.data
       email = data['email']
@@ -35,17 +29,29 @@ class CustomerProfileView(APIView):
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
    
-   def put(self, request, id = None):
-      
-      customer = CustomerProfile.objects.get(id = id)
-      serializer = CustomerSerializer(customer, data=request.data)
-
-      if serializer.is_valid():
-         serializer.save()
-         return Response({'success': 'details updated successfully'}, status=status.HTTP_200_OK)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+   
    
 #    def delete(self, request, id = None):
 #       vendor = CustomerSerializer.objects.get(id = id)
 #       vendor.delete()
 #       return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
+
+class CustomerProfileAction(APIView):
+
+   def get(self, request):
+      user = request.user
+      customer = CustomerProfile.objects.get(user = user)
+      serializer = CustomerSerializer(customer)
+      return Response({serializer.data}, status=status.HTTP_200_OK)
+      
+   
+   
+   def put(self, request):
+      user = request.user
+      customer = CustomerProfile.objects.get(user = user)
+      serializer = CustomerSerializer(customer, data=request.data)
+
+      if serializer.is_valid():
+         serializer.save()
+         return Response({'details updated successfully'}, status=status.HTTP_200_OK)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   

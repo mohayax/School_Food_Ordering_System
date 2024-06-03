@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 const initialState = {
     isLoading: false,
     error: false,
-    email: null
+    email: null,
+    account: false
 }
 
 export const register = createAsyncThunk("register/signup", async (data) => {
@@ -34,10 +35,13 @@ export const registerSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false
+                state.error = false
+                state.account = true
                 
             })
             .addCase(register.rejected, (state, action) => {
                 state.error = true
+                state.account = false
             })
     }
 })

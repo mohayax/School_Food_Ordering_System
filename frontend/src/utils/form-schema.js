@@ -23,18 +23,18 @@ export const ResetPassword_Schema = z.object({
     token: z.string({required_error: "enter the token sent to your email"})
 })
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+// const MAX_FILE_SIZE = 5000000;
+// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const Vendor_Profile_Schema = z.object({
     email: z.string().email(),
     vendor_name: z.string(),
-    vendor_logo: z.any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
+    // vendor_logo: z.any()
+    // .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    // .refine(
+    //   (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+    //   "Only .jpg, .jpeg, .png and .webp formats are supported."
+    // ),
     vendor_address: z.string(),
     vendor_contact_number: z.string(),
     vendor_description: z.string()

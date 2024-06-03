@@ -15,13 +15,6 @@ User = get_user_model()
 class VendorProfileView(APIView):
    permission_classes = (permissions.AllowAny, )
    
-   def get(self, request, id = None):
-      if id is not None:
-        vendor = VendorProfile.objects.get(id = id)
-        serializer = VendorSerializer(vendor)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-   
    def post(self, request):
       data = request.data
       email = data['email']
@@ -38,24 +31,32 @@ class VendorProfileView(APIView):
       
 
       
-      
+
+   # def delete(self, request, id = None):
+   #    vendor = VendorProfile.objects.get(id = id)
+   #    vendor.delete()
+   #    return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
    
-   
-   def put(self, request, id = None):
+
+class VendorProfileAction(APIView):
+
+   def get(self, request):
+      user = request.user
+      vendor = VendorProfile.objects.get(user = user)
+      serializer = VendorSerializer(vendor)
+      return Response(serializer.data, status=status.HTTP_200_OK)
       
-      vendor = VendorProfile.objects.get(id = id)
+   def put(self, request):
+      user = request.user
+      vendor = VendorProfile.objects.get(user = user)
       serializer = VendorSerializer(vendor, data=request.data)
 
       if serializer.is_valid():
          serializer.save()
          return Response({'vendor details updated successfully'}, status=status.HTTP_200_OK)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-   
-   # def delete(self, request, id = None):
-   #    vendor = VendorProfile.objects.get(id = id)
-   #    vendor.delete()
-   #    return Response({"message": "No data"}, status=status.HTTP_204_NO_CONTENT)
-   
+         
+
 
 
 class VendorsView(ListAPIView):

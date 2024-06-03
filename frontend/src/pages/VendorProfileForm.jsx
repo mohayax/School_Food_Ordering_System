@@ -7,19 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Vendor_Profile_Schema } from "@/utils/form-schema"
+import { createVendorProfile } from "@/store/profiles/vendor-thunks"
 
 const VendorProfileForm = () => {
   const {email} = useSelector((state)=> state.register)
   const form = useForm({
-    resolver: zodResolver(Vendor_Profile_Schema),
-    defaultValues:{
-      email: email
-    }
+    resolver: zodResolver(Vendor_Profile_Schema)
   })
 
   const dispatch = useDispatch()
+  
   const onSubmit = (values) => {
-
+    dispatch(createVendorProfile(values))
   }
   return (
     <div className="flex flex-col items-center gap-2">
@@ -31,6 +30,7 @@ const VendorProfileForm = () => {
               name="email"
               type="email"
               label="User Account Email"
+              value={`${email}`}
             />
             <Formfield
               control={form.control}
@@ -64,10 +64,13 @@ const VendorProfileForm = () => {
             />
 
             <div>
-              <Label htmlFor="description">Vendor Information</Label>
-              <Textarea placeholder="enter your descripton/information..." id="description" name="vendor_description"/>
+            <Label htmlFor="description">Vendor Information</Label>
+            <Textarea 
+            placeholder="enter your descripton/information..." 
+            id="description" 
+            {...form.register("vendor_description")}
+            />
             </div>
-
             <Button type="submit">Create Vendor Profile</Button>
           </form>
       </Form>

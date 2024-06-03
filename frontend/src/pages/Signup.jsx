@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button"
 const Signup = () => {
   const dispatch = useDispatch();
   
-  const {isLoading, error, email} = useSelector((state) => state.register)
+  const {isLoading, account, error, email} = useSelector((state) => state.register)
 
   const form = useForm({
     resolver: zodResolver(Signup_Schema),
@@ -42,11 +42,15 @@ const Signup = () => {
 
   const navigate = useNavigate()
   const onSubmit = async (values) => {
-    dispatch(addEmail(values.email))
-    dispatch(register(values))
     
-    if (!error && values.role == "vendor" && email != null){
-      navigate("/vendorProfileForm")
+   
+    dispatch(addEmail(values.email))
+    
+    if (values.role == "vendor" && email == values.email){
+      dispatch(register(values))
+      if (!isLoading && account){
+        navigate('/vendorProfileForm')
+      }
     }
    
     // form.reset()
@@ -109,7 +113,7 @@ const Signup = () => {
               />
 
 
-           <Button type="submit" disabled={isLoading}>Submit</Button>
+           <Button type="submit" disabled={isLoading || error}>Submit</Button>
           </form>
       </Form>
       <Link to='/login'>Login</Link>
