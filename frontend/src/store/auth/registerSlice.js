@@ -5,43 +5,41 @@ import { toast } from 'react-toastify';
 const initialState = {
     isLoading: false,
     error: false,
-    email: null,
     account: false
 }
 
-export const register = createAsyncThunk("register/signup", async (data) => {
+
+
+export const register = createAsyncThunk("register/signup", async (data, { rejectWithValue }) => {
+    
     try {
         const response = await AuthService.signup(data)
         return toast.success(`${response.data}` || "Account created sucessfully")
 
     } catch (error) {
-        return toast.warn(`${error.response.data}` || "something went wrong")
+        toast.warn(`${error.response.data}` || "something went wrong")
+        return rejectWithValue(`${error.response.data}` || "something went wrong")
     }
 })
 
 export const registerSlice = createSlice({
     name: 'register',
     initialState,
-    reducers: {
-        addEmail: (state, action) => {
-            state.email = action.payload
-            console.log("email--", state.email)
-        }
-    },
     extraReducers(builder) {
         builder
-            .addCase(register.pending, (state, action) => {
+            .addCase(register.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(register.fulfilled, (state, action) => {
+            .addCase(register.fulfilled, (state) => {
                 state.isLoading = false
                 state.error = false
                 state.account = true
                 
             })
-            .addCase(register.rejected, (state, action) => {
+            .addCase(register.rejected, (state) => {
                 state.error = true
                 state.account = false
+                state.isLoading = false
             })
     }
 })

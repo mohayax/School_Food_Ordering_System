@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Formfield from "@/utils/reusable-components/Formfield"
 import Selectfield from "@/utils/reusable-components/Selectfield"
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 import {
   Select,
@@ -19,8 +20,6 @@ import {
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Link } from "react-router-dom"
-import { addEmail } from "@/store/auth/registerSlice"
-
 import { Button } from "@/components/ui/button"
 
 
@@ -28,7 +27,8 @@ import { Button } from "@/components/ui/button"
 const Signup = () => {
   const dispatch = useDispatch();
   
-  const {isLoading, account, error, email} = useSelector((state) => state.register)
+  const {isLoading, account, error} = useSelector((state) => state.register)
+  const [role, setRole] = useState("")
 
   const form = useForm({
     resolver: zodResolver(Signup_Schema),
@@ -41,20 +41,22 @@ const Signup = () => {
   })
 
   const navigate = useNavigate()
-  const onSubmit = async (values) => {
-    
-   
-    dispatch(addEmail(values.email))
-    
-    if (values.role == "vendor" && email == values.email){
-      dispatch(register(values))
-      if (!isLoading && account){
-        navigate('/vendorProfileForm')
-      }
-    }
-   
+  
+  const onSubmit = (values) => {
+    setRole(values.role)
+    dispatch(register(values))
     // form.reset()
   }
+
+  useEffect(() => {
+    if (!isLoading && !error && account) {
+      if (role === 'vendor') {
+        navigate('/create-vendor-profile');
+      } else if (role === 'customer') {
+        navigate('/create-customer-profile');
+      }
+    }
+  }, [account, isLoading, error]); 
 
   
 
@@ -111,9 +113,7 @@ const Signup = () => {
               type="password"
               label="Confirm Password"
               />
-
-
-           <Button type="submit" disabled={isLoading || error}>Submit</Button>
+           <Button type="submit" disabled={isLoading}>{isLoading ? "loading..." : "Submit"}</Button>
           </form>
       </Form>
       <Link to='/login'>Login</Link>

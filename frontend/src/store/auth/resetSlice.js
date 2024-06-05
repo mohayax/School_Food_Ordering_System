@@ -12,13 +12,14 @@ const initialState = {
 
 
 
-export const resetPassword = createAsyncThunk("auth/reset-password", async(data) =>{
+export const resetPassword = createAsyncThunk("auth/reset-password", async(data, {rejectWithValue}) =>{
     try{
         const resposne = await AuthService.reset_password(data)
         return toast.success(`${resposne.data}`)
     }
     catch (error){
-        return toast.error(`${error.response.data}` || "Something went wrong")
+        toast.error(`${error.response.data}` || "Something went wrong")
+        return rejectWithValue(`${error.response.data}`)
     }
 })
 

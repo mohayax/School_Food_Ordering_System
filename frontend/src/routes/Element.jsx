@@ -6,6 +6,8 @@ import CustomerDashboard from "@/pages/CustomerDashboard";
 import VendorProfileForm from "@/pages/VendorProfileForm";
 import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
+import CustomerProfileForm from "@/pages/CustomerProfileForm";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 const Element = () => {
@@ -24,14 +26,6 @@ const Element = () => {
             element: <Login/>
         },
         {
-            path: "/customerView",
-            element: <CustomerDashboard/>
-        },
-        {
-            path: "/vendorProfileForm",
-            element: <VendorProfileForm/>
-        },
-        {
             path: "/forgot-password",
             element: <ForgotPassword/>
         },
@@ -39,7 +33,21 @@ const Element = () => {
             path: "/reset-password",
             element: <ResetPassword/>
         },
+        {
+            path: "/create-customer-profile",
+            element: <CustomerProfileForm/>
+        },
+        {
+            path: "/create-vendor-profile",
+            element: <VendorProfileForm/>
+        },
+        {
+            path: "/customer-view",
 
+            element:<ProtectedRoute>
+                        <CustomerDashboard/>
+                    </ProtectedRoute> 
+        },
     ])
 
     

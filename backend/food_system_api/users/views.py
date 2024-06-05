@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 import uuid
 from django.core.validators import validate_email
+from .serializers import UserSerializer
 
 
 # Create your views here.
@@ -98,3 +99,13 @@ class ResetPassword(APIView):
             return Response({'password changed successfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'passwords do not match'}, status=status.HTTP_400_BAD_REQUEST )
+
+
+
+class UserView(APIView):
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        if user:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.error, status=status.HTTP_404_NOT_FOUND)

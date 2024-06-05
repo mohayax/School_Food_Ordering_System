@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 
 
 const initialState = {
-    error: null,
+    error: false,
     isLoading: false,
     isAuthenticated: false
 }
 
-export const login = createAsyncThunk("auth/login", async (credentials) => {
+export const login = createAsyncThunk("auth/login", async (credentials, { rejectWithValue }) => {
     try {
         const response = await AuthService.login(credentials)
         console.log("data:", response.data)
@@ -18,7 +18,8 @@ export const login = createAsyncThunk("auth/login", async (credentials) => {
         toast.success("Login sucessfull")
 
     } catch (error) {
-        return toast.error(`${error.response.data}` || "Something went wrong")
+        toast.error(`${error.response.data.detail}` || "Something went wrong")
+        return rejectWithValue(`${error.response.data.detail}` || "Something went wrong")
     }
 })
 
@@ -48,8 +49,8 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isAuthenticated = true
             })
-            .addCase(login.rejected, (state, action) => {
-                state.error = action.payload
+            .addCase(login.rejected, (state) => {
+                state.error = true
                 state.isAuthenticated = false
             })
     }

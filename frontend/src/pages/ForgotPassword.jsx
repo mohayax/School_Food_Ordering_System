@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { useDispatch, useSelector } from "react-redux";
 import { ForgotPassword_Schema } from "@/utils/form-schema";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 
@@ -21,10 +22,13 @@ const ForgotPassword = () => {
     const dispatch = useDispatch()
     const onSubmit = (values) => {
        dispatch(forgotPassword(values))
-       if (!isLoading && account){
-        navigate('/reset-password')
-       }
     }
+
+    useEffect(()=> {
+    if (!isLoading && account){
+        navigate('/reset-password')
+        }
+    }, [isLoading, account])
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -37,7 +41,7 @@ const ForgotPassword = () => {
                 type ="email"
                 placeholder="johndoe@email.com"
                 />
-                <Button type='submit'>Submit</Button>
+                <Button type='submit' disabled={isLoading}>{isLoading ? "loading...":"Submit"}</Button>
             </form>
         </Form>
     </div>

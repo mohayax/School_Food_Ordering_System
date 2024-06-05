@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
 
 const Login = () => {
-    const {isLoading, isAuthenticated} = useSelector((state) => state.auth)
+    const {isLoading, isAuthenticated, error} = useSelector((state) => state.auth)
     const form = useForm({
         resolver: zodResolver(Login_Schema)
     })
@@ -23,10 +24,13 @@ const Login = () => {
     const onSubmit = (values) => {
         dispatch(login(values))
         form.reset()
-        if (!isLoading && isAuthenticated){
+    }
+
+    useEffect(() => {
+        if (!isLoading && isAuthenticated && error === false){
             navigate('/customerView')
         }
-    }
+    }, [isLoading, isAuthenticated])
   return (
     <div className="flex flex-col items-center gap-2">
 

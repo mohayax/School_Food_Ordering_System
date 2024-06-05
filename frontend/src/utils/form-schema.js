@@ -14,7 +14,7 @@ export const Login_Schema = z.object({
 })
 
 export const ForgotPassword_Schema = z.object({
-    email: z.string().email(),
+    email: z.string().email()
 })
 
 export const ResetPassword_Schema = z.object({
@@ -43,14 +43,14 @@ export const Vendor_Profile_Schema = z.object({
 
 export const Customer_Profile_Schema = z.object({
     email: z.string().email(),
-    first_name: z.string(),
-    last_name: z.string(),
-    customer_dob: z.date(),
+    first_name: z.string({required_error: "first name is required"}),
+    last_name: z.string({required_error: "last name is required"}),
+    customer_dob: z.string().date(),
     phone_number: z.string(),
-    profile_photo: z.any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    )
+    // profile_photo: z.any()
+    // .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    // .refine(
+    //   (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+    //   "Only .jpg, .jpeg, .png and .webp formats are supported."
+    // )
 })

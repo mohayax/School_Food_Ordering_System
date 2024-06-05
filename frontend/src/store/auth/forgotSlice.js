@@ -12,13 +12,14 @@ const initialState = {
 
 
 
-export const forgotPassword = createAsyncThunk("auth/forgot-password", async(data) => {
+export const forgotPassword = createAsyncThunk("auth/forgot-password", async(data, {rejectWithValue}) => {
     try{
         const resposne = await AuthService.forgot_password(data)
         return toast.success(`${resposne.data}`)
     }
     catch (error){
-        return toast.error(`${error.response.data}` || "Something went wrong")
+        toast.error(`${error.response.data}` || "Something went wrong")
+        return rejectWithValue(`${error.response.data}`)
     }
 })
 
@@ -43,7 +44,7 @@ export const forgotSlice = createSlice({
             })
             .addCase(forgotPassword.rejected, (state) => {
                 state.error = true
-
+                state.isLoading = false
             })
     }
 })
