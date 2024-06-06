@@ -46,10 +46,10 @@ class MenuItemView(APIView):
             serializer = MenuItemSerializer(item, data=request.data)
             if  serializer.is_valid():
                 serializer.save()
-                return Response({"success": "item updated successfully"}, status=status.HTTP_200_OK)
-            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"item updated successfully"}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response({"error": "invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"invalid request"}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id = None):
         item = MenuItem.objects.get(id = id)

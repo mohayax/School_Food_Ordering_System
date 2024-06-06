@@ -30,4 +30,7 @@ export class ProfileService {
         return axiosInstance.get('customer/customer-profile-action')
     }
 
+    static async customer_get_vendor(id){
+        return axiosInstance.get(`vendors/vendor-customer-view/${id}`)
+    }
 }

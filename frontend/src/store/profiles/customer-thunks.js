@@ -37,3 +37,15 @@ export const createCustomerProfile = createAsyncThunk("vendor/createProfile", as
         return rejectWithValue(`${error.response.data}`)
     }
 })
+
+
+export const customer_get_vendor  = createAsyncThunk("customer/getVendor", async (id,{ rejectWithValue }) => {
+    try{
+        const response = await ProfileService.customer_get_vendor(id)
+        return response.data
+    }
+    catch (error){
+        toast.error(`${error.response.data}` || "something went wrong")
+        return rejectWithValue(`${error.response.data}`)
+    }
+})

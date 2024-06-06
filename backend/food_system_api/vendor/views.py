@@ -59,7 +59,14 @@ class VendorProfileAction(APIView):
          return Response({'vendor details updated successfully'}, status=status.HTTP_200_OK)
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
          
-
+class VendorCustomerView(APIView):
+   def get(self, request, id = None):
+      try:
+         vendor = VendorProfile.objects.get(id = id)
+         serializer = VendorSerializer(vendor)
+         return Response(serializer.data, status=status.HTTP_200_OK)
+      except VendorProfile.DoesNotExist:
+         return Response({"vendor data not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class VendorsView(ListAPIView):
