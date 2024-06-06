@@ -10,6 +10,7 @@ import CustomerProfileForm from "@/pages/CustomerProfileForm";
 import ProtectedRoute from "./ProtectedRoute";
 import VendorDashboard from "@/pages/VendorDashboard";
 import SingleVendorPage from "@/pages/SingleVendorPage";
+import SingleMenuItem from "@/pages/SingleMenuItem";
 
 
 const Element = () => {
@@ -49,17 +50,22 @@ const Element = () => {
             children: [
                 {
                     path: "/vendor/:id",
-                    element: <SingleVendorPage/>
+                    element: <SingleVendorPage/>,
+                    children: [
+                        {
+                            path: "/item/:item_id",
+                            element: <SingleMenuItem/>
+                        },
+                    ]
                 },
+                
             ]
         },
         {
             path: "/vendor-view",
             element: <VendorDashboard/>
         },
-        {
-            
-        },
+
     ])
 
     

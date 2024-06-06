@@ -9,7 +9,7 @@ const initialState = {
     customer: {},
     newCustomer: false,
     vendor_loading: false,
-    customer_vendor_profile: {}
+    customer_vendor_profile: {},
 }
 
 

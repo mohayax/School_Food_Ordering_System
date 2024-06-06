@@ -9,6 +9,7 @@ import { getVendorItems } from '@/store/menu-items/menuItems-thunks'
 
 const SingleVendorPage = () => {
     const {vendor_loading, customer_vendor_profile} = useSelector(state => state.customerProfile)
+    const {vendor_items} = useSelector(state => state.menuItem)
     const {id} = useParams()
     const dispatch = useDispatch()
 
