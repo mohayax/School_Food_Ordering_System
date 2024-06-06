@@ -5,15 +5,16 @@ import { useForm } from "react-hook-form"
 import { Login_Schema } from "@/utils/form-schema"
 import { Form, FormControl } from "@/components/ui/form"
 import { login, logOut } from "@/store/auth/loginSlice"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { useEffect } from "react"
+import { getUser } from "@/store/auth/loginSlice"
 
 
 const Login = () => {
-    const {isLoading, isAuthenticated, error} = useSelector((state) => state.auth)
+    const {isLoading, isAuthenticated, error, user} = useSelector((state) => state.auth)
     const form = useForm({
         resolver: zodResolver(Login_Schema)
     })
@@ -23,23 +24,32 @@ const Login = () => {
 
     const onSubmit = (values) => {
         dispatch(login(values))
-        form.reset()
+    }
+    
+    const handleLogout = async () =>{
+        dispatch(logOut())
+        toast.success("user logged out")
+        navigate('/')
     }
 
     useEffect(() => {
-        if (!isLoading && isAuthenticated && error === false){
-            navigate('/customerView')
+        if (isLoading === false && isAuthenticated && error === false){
+            dispatch(getUser())
+            if (user.role === 'customer'){
+                navigate('/customer-view')
+            }
+            else if (user.role === 'vendor'){
+                navigate('/vendor-view')
+            }
         }
-    }, [isLoading, isAuthenticated])
+       
+    }, [isLoading, isAuthenticated, user])
   return (
     <div className="flex flex-col items-center gap-2">
 
         <h1>Login</h1> 
         <Button 
-        onClick={()=> {
-        dispatch(logOut())
-        toast.success("user logged out")
-        }}>Logout</Button>
+        onClick={handleLogout}>Logout</Button>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <>

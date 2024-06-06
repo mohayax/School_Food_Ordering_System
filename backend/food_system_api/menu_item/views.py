@@ -30,8 +30,8 @@ class MenuItemView(APIView):
         if id is not None:
             item = MenuItem.objects.get(id = id)
             serializer = MenuItemSerializer(item)
-            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"error": "invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response("invalid request", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -58,6 +58,15 @@ class MenuItemView(APIView):
     
 
 
+class GetVendorItems(APIView):
+
+    def get(self, request, id = None):
+        vendor = VendorProfile.objects.get(id = id)
+        if vendor is not None:
+            items = MenuItem.objects.filter(vendor = vendor)
+            serializer = MenuItemSerializer(items, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"Vendor not found"}, status=status.HTTP_204_NO_CONTENT)
 
 
 class MenuItems(ListAPIView):

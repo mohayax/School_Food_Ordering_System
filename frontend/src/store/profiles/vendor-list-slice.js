@@ -4,7 +4,7 @@ import { getVendorList } from "./vendor-thunks";
 const initialState = {
     isLoading: false,
     error: false,
-    vendors: []
+    vendors: null
 }
 
 
@@ -19,11 +19,13 @@ const vendorListSlice = createSlice({
         })
         .addCase(getVendorList.fulfilled, (state, action) =>{
             state.isLoading = false
-            console.log("vendors--from slice:", action.payload.data)
-            state.vendors = action.payload.data
+            state.vendors = action.payload
+            console.log("vendors--from slice:", action.payload)
         })
-        .addCase(getVendorList.rejected, (state) => {
+        .addCase(getVendorList.rejected, (state, action) => {
             state.error = true
+            state.isLoading = false
+            console.log("err--", action.payload)
         })
     }
 })

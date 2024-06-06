@@ -6,8 +6,8 @@ import { createCustomerProfile } from "./customer-thunks";
 const initialState = {
     isLoading: false,
     error: false,
+    customer: {},
     newCustomer: false,
-    profile: []
 }
 
 
@@ -22,8 +22,7 @@ const customerProfileSlice = createSlice({
         })
         .addCase(getCustomerProfile.fulfilled, (state, action) =>{
             state.isLoading = false
-            console.log("Cus--profile--from slice:", action.payload.data)
-            state.profile = action.payload.data
+            state.customer = action.payload
         })
         .addCase(getCustomerProfile.rejected, (state) => {
             state.error = true

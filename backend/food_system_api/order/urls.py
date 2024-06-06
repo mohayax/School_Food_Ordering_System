@@ -1,23 +1,16 @@
 from django.urls import path
-from .views import OrderView, OrderList, Add_To_Order, Get_Customer_Order, OrderItemsList, Get_Vendor_Orders, Add_To_Cart, ViewCartItems, CartView
+from .views import OrderView, Add_To_Order, Get_Customer_Order, Get_Vendor_Orders, Add_To_Cart, ViewCartItems, CartView
 
 
 urlpatterns = [
-    # path('place-order', OrderView.as_view()),
     # deleting, getting, updating order
     path('items/<str:order_id>', OrderView.as_view()),
-    # list of all orders
-    path('', OrderList.as_view()),
-
     
     path('place-order', Add_To_Order.as_view()),
-    # get all order items
-    path('order-items', OrderItemsList.as_view()),
-
     # get order based on customer
     path('customer/orders', Get_Customer_Order.as_view()),
     
-    # get vendor view
+    # get orders based on vendor
     path('vendor/orders', Get_Vendor_Orders.as_view()),
 
     #add to cart
@@ -31,7 +24,4 @@ urlpatterns = [
     
     #edit and delete a particular cart item
     path('cart/items/<str:item_id>', ViewCartItems.as_view())
-
-
-
 ]

@@ -8,6 +8,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import CustomerProfileForm from "@/pages/CustomerProfileForm";
 import ProtectedRoute from "./ProtectedRoute";
+import VendorDashboard from "@/pages/VendorDashboard";
 
 
 const Element = () => {
@@ -43,10 +44,12 @@ const Element = () => {
         },
         {
             path: "/customer-view",
+            element: <CustomerDashboard/>
+        },
 
-            element:<ProtectedRoute>
-                        <CustomerDashboard/>
-                    </ProtectedRoute> 
+        {
+            path: "/vendor-view",
+            element: <VendorDashboard/>
         },
     ])
 

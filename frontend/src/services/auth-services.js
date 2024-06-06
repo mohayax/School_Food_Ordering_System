@@ -10,6 +10,10 @@ export class AuthService {
         return axiosInstance.post('token/', credentials)
     }
 
+    static async get_user(){
+        return axiosInstance.get('accounts/get-user')
+    }
+
     static async forgot_password(data){
         return axiosInstance.post('accounts/forgot-password', data)
     }

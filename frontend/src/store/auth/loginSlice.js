@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 const initialState = {
     error: false,
     isLoading: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    user: {}
 }
 
 export const login = createAsyncThunk("auth/login", async (credentials, { rejectWithValue }) => {
@@ -18,8 +19,20 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
         toast.success("Login sucessfull")
 
     } catch (error) {
-        toast.error(`${error.response.data.detail}` || "Something went wrong")
-        return rejectWithValue(`${error.response.data.detail}` || "Something went wrong")
+        toast.error(`${error.response.data.messages.message}` || "Something went wrong")
+        console.log(error.response.data)
+        return rejectWithValue(error.response.data)
+    }
+})
+
+
+export const getUser = createAsyncThunk("auth/getUser", async (_, { rejectWithValue }) =>{
+    try{
+        const response = await AuthService.get_user()
+        return response.data
+    }
+    catch(error){
+        return rejectWithValue(error.response.data)
     }
 })
 
@@ -34,9 +47,9 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logOut: () => {
-            window.localStorage.removeItem('accessToken')
+        logOut: (state) => {
             state.isAuthenticated = false
+            window.localStorage.removeItem('accessToken')
         }
     },
     extraReducers(builder) {
@@ -48,10 +61,15 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state) => {
                 state.isLoading = false
                 state.isAuthenticated = true
+                state.error = false
             })
             .addCase(login.rejected, (state) => {
                 state.error = true
+                state.isLoading = false
                 state.isAuthenticated = false
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.user = action.payload
             })
     }
 })

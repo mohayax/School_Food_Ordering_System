@@ -18,8 +18,8 @@ class OrderView(APIView):
         if order_id is not None:
             order = Order.objects.prefetch_related('order_items').get(id = order_id)
             serializer = OrderSerializer(order)
-            return Response({"order": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"error": "invalid request"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response( serializer.data, status=status.HTTP_200_OK)
+        return Response({"invalid request"}, status=status.HTTP_400_BAD_REQUEST)
     
 
 
@@ -30,14 +30,14 @@ class OrderView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response({"success": "order details updated successfully"}, status=status.HTTP_200_OK)
-        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"order details updated successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
     def delete(self, request, order_id =None):
         order = Order.objects.get(id = order_id)
         order.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"order removed"},status=status.HTTP_204_NO_CONTENT)
 
 
 # customer order
@@ -51,11 +51,11 @@ class Get_Customer_Order(APIView):
 
             serializer = OrderSerializer(orders, many=True)
             if orders is not None:
-                return Response({"customer_orders": serializer.data})
-            return Response({"data": "No available orders" })
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"data": "No available orders" }, status=status.HTTP_200_OK)
             
         except CustomerProfile.DoesNotExist:
-            return Response({"error": "customer does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"customer does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Get_Vendor_Orders(APIView):
@@ -68,11 +68,11 @@ class Get_Vendor_Orders(APIView):
             
             serializer = OrderSerializer(orders, many=True)
             if orders is not None:
-                return Response({"vendor_orders": serializer.data})
-            return Response({"data": "No available orders" })
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"No available orders" }, status=status.HTTP_200_OK)
         
         except VendorProfile.DoesNotExist:
-            return Response({"error": "vendor does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"vendor does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -106,8 +106,8 @@ class Add_To_Order(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            return Response({"success": serializer.data})
-        return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"items added successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
     
@@ -115,7 +115,7 @@ class Add_To_Order(APIView):
     def delete(request, item_id = None, order_id = None):
         order_item = OrderItem.objects.get(item = item_id, order = order_id)
         order_item.delete()
-        return Response({"success": "item deleted"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"Item removed"}, status=status.HTTP_204_NO_CONTENT)
     
 
 class Add_To_Cart(APIView):
@@ -144,8 +144,8 @@ class Add_To_Cart(APIView):
 
             if serializer.is_valid():
                 serializer.save()
-                return Response({"success": serializer.data})
-            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 
 class ViewCartItems(APIView):
@@ -156,8 +156,8 @@ class ViewCartItems(APIView):
         if cart is not None:
             cart_items = CartItem.objects.filter(cart = cart).distinct()
             serializer = CartItemSerializer(cart_items, many=True)
-            return Response({"cart_items": serializer.data})
-        return Response({"message": "no data"})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"No Items"}, status=status.HTTP_200_OK)
     
 
     def put(self, request, item_id = None):
@@ -173,14 +173,14 @@ class ViewCartItems(APIView):
             
             if serializer.is_valid():
                 serializer.save()
-                return Response({"data": serializer.data})
-            return Response({"error": serializer.errors})
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
     def delete(self, request, item_id = None):
         item = CartItem.objects.get(id = item_id)
         item.delete()
-        return Response({"message": "item removed from cart successfully"})
+        return Response({"item removed from cart successfully"}, status=status.HTTP_204_NO_CONTENT)
     
     # clear all cart items
     def delete(self, request):
@@ -192,7 +192,7 @@ class ViewCartItems(APIView):
         cart.total_items = 0
         cart.total_price = 0
         cart.save()
-        return Response({"message": "cart cleared successfully"})
+        return Response({"cart cleared successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -224,8 +224,8 @@ class CartView(APIView):
     
             if serializer.is_valid():
                 serializer.save()
-                return Response({"data": serializer.data})
-            return Response({"error": serializer.errors})
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
 
@@ -233,17 +233,17 @@ class CartView(APIView):
 
 
 
-class OrderItemsList(ListAPIView):
-    queryset = OrderItem.objects.all()
-    serializer_class = OrderSerializer()
-    pagination_class = PageNumberPagination
+# class OrderItemsList(ListAPIView):
+#     queryset = OrderItem.objects.all()
+#     serializer_class = OrderSerializer()
+#     pagination_class = PageNumberPagination
 
 
 
 
 # list of all orders
-class OrderList(ListAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    pagination_class = PageNumberPagination
+# class OrderList(ListAPIView):
+#     queryset = Order.objects.all()
+#     serializer_class = OrderSerializer
+#     pagination_class = PageNumberPagination
 

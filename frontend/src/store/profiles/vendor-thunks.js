@@ -40,7 +40,7 @@ export const getVendorProfile  = createAsyncThunk("vendor/getProfile", async (_,
 export const getVendorList  = createAsyncThunk("vendor/getVendors", async (_,{ rejectWithValue }) => {
     try{
         const response = await ProfileService.get_vendor_list()
-        return response.data
+        return response.data.results
     }
     catch (error){
         toast.error(`${error.response.data}` || "something went wrong")
