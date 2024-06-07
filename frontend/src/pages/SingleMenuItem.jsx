@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { get_menu_item } from '@/store/menu-items/menuItems-thunks'
 
 const SingleMenuItem = () => {
-    const {id} = useParams()
+    const {menu_item} = useSelector((state) => state.menuItem)
+    const {item_id} = useParams()
     const dispatch = useDispatch()
-
+    
     useEffect(()=>{
-        
+        dispatch(get_menu_item(item_id))
     }, [])
   return (
     <div>SingleMenuItem</div>

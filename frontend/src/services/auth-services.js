@@ -1,24 +1,24 @@
-import axiosInstance from "../utils/axios-instance.js";
+import api from "../utils/axios-instance.js";
 
 
 export class AuthService {
     static async signup(data){
-        return axiosInstance.post('accounts/signup', data)
+        return api.post('accounts/signup', data)
     }
     
     static async login(credentials){
-        return axiosInstance.post('token/', credentials)
+        return api.post('token/', credentials)
     }
 
     static async get_user(){
-        return axiosInstance.get('accounts/get-user')
+        return api.get('accounts/get-user')
     }
 
     static async forgot_password(data){
-        return axiosInstance.post('accounts/forgot-password', data)
+        return api.post('accounts/forgot-password', data)
     }
 
     static async reset_password(data){
-        return axiosInstance.post('accounts/reset-password', data)
+        return api.post('accounts/reset-password', data)
     }
 }

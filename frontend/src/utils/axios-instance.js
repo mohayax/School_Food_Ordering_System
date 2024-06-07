@@ -3,12 +3,12 @@ import axios from "axios";
 
 const API_URL = 'http://127.0.0.1:8000/api/'
 
-const axiosInstance = axios.create({
+const api = axios.create({
     baseURL: API_URL,
 })
 
 
-axiosInstance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token = window.localStorage.getItem('accessToken');
     if (token) {
@@ -35,4 +35,4 @@ axiosInstance.interceptors.request.use(
 //   }
 // );
 
-export default axiosInstance;
+export default api;

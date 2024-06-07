@@ -144,7 +144,7 @@ class Add_To_Cart(APIView):
 
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response({"Item added successfully"}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 
@@ -173,14 +173,14 @@ class ViewCartItems(APIView):
             
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response({"Item updated Successfully"}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
     def delete(self, request, item_id = None):
         item = CartItem.objects.get(id = item_id)
         item.delete()
-        return Response({"item removed from cart successfully"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"item removed!"}, status=status.HTTP_204_NO_CONTENT)
     
     # clear all cart items
     def delete(self, request):
