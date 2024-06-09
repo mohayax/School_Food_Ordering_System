@@ -45,6 +45,7 @@ const customerProfileSlice = createSlice({
         .addCase(customer_get_vendor.fulfilled, (state, action) => {
             state.vendor_loading = false
             state.customer_vendor_profile = action.payload
+            console.log("vendor-from-customer:", action.payload)
         })
     }
 })

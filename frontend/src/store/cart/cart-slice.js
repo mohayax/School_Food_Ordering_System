@@ -25,6 +25,7 @@ const cartSlice = createSlice({
             state.isLoading = false
             state.error = false
             state.user_cart = action.payload
+            console.log("user-cart:", action.payload)
         })
         .addCase(get_user_cart.rejected, (state) => {
             state.error = true
@@ -35,6 +36,7 @@ const cartSlice = createSlice({
         .addCase(get_user_cart_items.fulfilled, (state, action) =>{
             state.items_loading = false
             state.cart_items = action.payload
+            console.log("user-cart-items:", action.payload)
         })
     }
 })

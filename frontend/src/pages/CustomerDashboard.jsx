@@ -3,22 +3,26 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getCustomerProfile } from '@/store/profiles/customer-thunks'
 import { useEffect, useState } from 'react'
 import { getVendorList } from '@/store/profiles/vendor-thunks'
-import { useHistory } from 'react-router-dom';
+import { get_user_cart } from '@/store/cart/cart-thunks'
+import { Link, useNavigate } from 'react-router-dom'
 
 const CustomerDashboard = () => {
-  const [itemId, setId] = useState("")
   const {customer} = useSelector(state => state.customerProfile)
   const {vendors} = useSelector(state => state.vendorList)
+  const {isLoading, user_cart} = useSelector(state => state.cart)
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getCustomerProfile())
     dispatch(getVendorList())
+    dispatch(get_user_cart())
   }, [])
 
+  console.log("user cart from page", user_cart)
+
   const viewVendor = (id) =>{
-    history.push(`/vendor/${id}`)
+    navigate(`vendor/${id}`)
   }
   return (
     <div>CustomerDashboard
@@ -26,15 +30,23 @@ const CustomerDashboard = () => {
         <h1>Hi, {customer.first_name}</h1>
         <h1>{customer.last_name}</h1>
       </div>
+
+      <div>
+        {isLoading? <h1>cart...</h1>:
+        <Link to='/customer-view/cart'>
+        <h1>Cart--{user_cart.total_items}</h1>
+        </Link>
+        }
+      </div>
     
-        {vendors.map((vendor) => (
-            <div>
+        {vendors !== null? vendors.map((vendor) => (
+            <div key={vendor.id}>
             <p>{vendor.id}</p>
             <h1>11{vendor.vendor_name}</h1>
             <p>{vendor.vendor_description}</p>
             <button onClick={() => viewVendor(vendor.id)}>view vendor</button>
             </div>
-        ))}
+        )): <div>loding items</div>}
 
     </div>
   )

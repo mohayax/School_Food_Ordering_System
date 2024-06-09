@@ -8,6 +8,7 @@ import vendorListReducer from './profiles/vendor-list-slice';
 import customerReducer from './profiles/customerSlice';
 import menuItemReducer from './menu-items/item-slice'
 import cartReducer from './cart/cart-slice';
+import orderReducer from './order/order-slice';
 
 const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
         vendorList: vendorListReducer,
         customerProfile: customerReducer,
         menuItem: menuItemReducer,
-        cart: cartReducer
+        cart: cartReducer,
+        customer_order: orderReducer
     }
 })
 

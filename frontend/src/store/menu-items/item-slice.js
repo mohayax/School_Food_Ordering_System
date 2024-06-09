@@ -35,6 +35,7 @@ const menuItemSlice = createSlice({
         .addCase(getVendorItems.fulfilled, (state, action) =>{
             state.items_loading = false
             state.vendor_items = action.payload
+            console.log("vendor items", action.payload)
         })
     }
 })
