@@ -13,11 +13,11 @@ const CustomerDashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    dispatch(getCustomerProfile())
-    dispatch(getVendorList())
-    dispatch(get_user_cart())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getCustomerProfile())
+  //   dispatch(getVendorList())
+  //   dispatch(get_user_cart())
+  // }, [])
 
   console.log("user cart from page", user_cart)
 
