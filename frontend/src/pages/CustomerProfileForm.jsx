@@ -36,7 +36,9 @@ const CustomerProfileForm = () => {
     }, [isLoading, error])
   return (
     <div className="flex flex-col bg-profile bg-cover bg-top h-screen p-4 items-center">
-    <h1 className="text-xl font-bold mt-6">Create Your Profile </h1>
+    
+    <h1 className="text-2xl font-bold mt-6">Create Your Profile </h1>
+    
     <div className="flex flex-col items-center gap-2 w-[40%] ml-auto mr-auto shadow-lg bg-slate-100 rounded-md mt-5 px-10 py-10">
       <div className="rounded-full h-20 border-2 border-gray-400">
       <img src={logo} className="h-full rounded-full"/>
@@ -50,7 +52,7 @@ const CustomerProfileForm = () => {
                 name="first_name"
                 type="text"
                 label="First Name"
-                placeholder="John"
+                placeholder="Enter your first name"
                 className='w-[50%]'
               />
 
@@ -59,7 +61,7 @@ const CustomerProfileForm = () => {
                 name="last_name"
                 type="text"
                 label="Last Name"
-                placeholder="Doe"
+                placeholder="Enter your last name"
                 className='w-[50%]'
               />
             </div>
