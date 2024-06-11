@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { get_user_cart_items } from '@/store/cart/cart-thunks'
+import { get_user_cart_items, update_cart_item } from '@/store/cart/cart-thunks'
 
 const Cart = () => {
     const {items_loading, cart_items} = useSelector(state => state.cart)

@@ -22,7 +22,7 @@ const ResetPassword = () => {
     const onSubmit = (values) => {
        dispatch(resetPassword(values))
        if (!isLoading && reset && !error){
-            navigate('/login')
+            navigate('/')
        }
     }
 

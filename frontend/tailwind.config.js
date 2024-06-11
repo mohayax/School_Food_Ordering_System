@@ -17,7 +17,13 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage:{
+        login: "url('./src/assets/bg-2.jpg')",
+        signup: "url('./src/assets/bg-1.jpg')",
+        profile: "url('./src/assets/bg-3.jpg')"
+      },
       colors: {
+        btn: '#D85B53',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

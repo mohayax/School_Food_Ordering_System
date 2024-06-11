@@ -9,9 +9,7 @@ function App() {
 
   return (
     <>
-      <Layout>
-        <Element />
-      </Layout>
+      <Element />
       <ToastContainer
           position="bottom-right"
           autoClose={2000}

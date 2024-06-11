@@ -18,15 +18,15 @@ const Element = () => {
     const routes = useRoutes([
         {
             path: "/",
+            element: <Login/>
+        },
+        {
+            path: "/signup",
             element: <Signup />
         },
         {
             path: "*",
             element: <Notfound />
-        },
-        {
-            path: "/login",
-            element: <Login/>
         },
         {
             path: "/forgot-password",

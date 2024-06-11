@@ -4,7 +4,7 @@ import { Signup_Schema } from "../utils/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { register } from "@/store/auth/registerSlice"
 import { useSelector, useDispatch } from "react-redux"
-
+import sigUpPic from '../assets/sign-up-form.svg'
 import Formfield from "@/utils/reusable-components/Formfield"
 import Selectfield from "@/utils/reusable-components/Selectfield"
 import { useNavigate } from "react-router-dom"
@@ -61,29 +61,36 @@ const Signup = () => {
   
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <h1>Sign Up</h1>
-        
-
+    <div className="flex">
+      
+      <div className="w-[50%] bg-login bg-cover h-screen">
+      {/* <img src={sigUpPic} className="w-[100%]"/> */}
+      </div>
+      
+      <div className="w-[50%] bg-slate-100" >
+     
+      <div className="flex flex-col w-[60%] ml-auto mr-auto justify-center items-center mt-20 mb-auto px-10 py-5 shadow-lg rounded-lg">
+      <h1 className="text-xl font-bold">Sign Up</h1>
       <Form {...form}>
           
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
            <Formfield 
               name="email"
               control={form.control}
               type="email"
-              description="email--field"
               label="Email"
+              placeholder="johndoe@email.com"
+              // className='mb-3'
               />
 
             <Controller
             control={form.control}
             name="role"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className='text-[#ADADAD]'>Role</FormLabel>
+              <FormItem required>
+                <FormLabel>Account Type</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value} required>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Role" className='text-[#ADADAD]' />
                     </SelectTrigger>
@@ -105,6 +112,8 @@ const Signup = () => {
               control={form.control}
               type="password"
               label="Password"
+              placeholder="Enter password"
+              // className='mt-3'
               />
 
             <Formfield 
@@ -112,11 +121,19 @@ const Signup = () => {
               control={form.control}
               type="password"
               label="Confirm Password"
+              placeholder="Confirm password"
+              // className='mt-3'
               />
-           <Button type="submit" disabled={isLoading}>{isLoading ? "loading..." : "Submit"}</Button>
+           <Button type="submit" disabled={isLoading} className='w-[100%] mt-3'>{isLoading ? "loading..." : "Submit"}</Button>
           </form>
       </Form>
-      <Link to='/login'>Login</Link>
+      <div className='flex items-center mt-4 gap-4'>
+        <p className="text-sm">Already have an account?</p>
+        <Link to='/' className="text-sm text-blue-900">Login</Link>
+      </div>
+      </div>
+  
+      </div>
     </div>
     
   )

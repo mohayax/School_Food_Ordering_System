@@ -8,6 +8,7 @@ import { Customer_Profile_Schema } from "@/utils/form-schema"
 import { Form } from "@/components/ui/form"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import logo from '../assets/bu-lg.png'
 
 
 
@@ -30,37 +31,47 @@ const CustomerProfileForm = () => {
 
     useEffect(() => {
       if (!isLoading && !error && newCustomer){
-        navigate('/login')
+        navigate('/')
       }
     }, [isLoading, error])
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col bg-profile bg-cover bg-top h-screen p-4 items-center">
+    <h1 className="text-xl font-bold mt-6">Create Your Profile </h1>
+    <div className="flex flex-col items-center gap-2 w-[40%] ml-auto mr-auto shadow-lg bg-slate-100 rounded-md mt-5 px-10 py-10">
+      <div className="rounded-full h-20 border-2 border-gray-400">
+      <img src={logo} className="h-full rounded-full"/>
+      </div>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-[100%]">
             
+            <div className="flex justify-between gap-2 mb-3">
+              <Formfield
+                control={form.control}
+                name="first_name"
+                type="text"
+                label="First Name"
+                placeholder="John"
+                className='w-[50%]'
+              />
 
-            <Formfield
-              control={form.control}
-              name="first_name"
-              type="text"
-              label="First Name"
-              placeholder="John"
-            />
-
-            <Formfield
-              control={form.control}
-              name="last_name"
-              type="text"
-              label="Last Name"
-              placeholder="Doe"
-            />
-
+              <Formfield
+                control={form.control}
+                name="last_name"
+                type="text"
+                label="Last Name"
+                placeholder="Doe"
+                className='w-[50%]'
+              />
+            </div>
+            
+            <div className="flex justify-between gap-2">
             <Formfield
               control={form.control}
               name="email"
               type="email"
               label="User Account Email"
               placeholder="Re-enter Your Email"
+              className='w-[50%]'
             />
 
             <Formfield
@@ -68,26 +79,33 @@ const CustomerProfileForm = () => {
               name="customer_dob"
               type="date"
               label="Date of birth"
+              className='w-[50%]'
             />
-
+            </div>
+            
+            <div className="flex justify-between gap-2 mt-3">
             <Formfield
               control={form.control}
               name="phone_number"
               type="text"
               label="Phone Number"
               placeholder="07012345678"
+              className='w-[50%]'
             />
-{/* 
+          
             <Formfield
               control={form.control}
               name="profile_photo"
               type="file"
               label="Profile Photo"
-            /> */}
+              className='w-[50%]'
+            />
+            </div>
 
-            <Button type="submit">Create Profile</Button>
+            <Button type="submit" className='w-[100%] mt-5'>Create Profile</Button>
             </form>
         </Form>
+    </div>
     </div>
   )
 }
