@@ -39,7 +39,7 @@ const CustomerProfileForm = () => {
     
     <h1 className="text-2xl font-bold mt-6">Create Your Profile </h1>
     
-    <div className="flex flex-col items-center gap-2 w-[40%] ml-auto mr-auto shadow-lg bg-slate-100 rounded-md mt-5 px-10 py-10">
+    <div className="flex flex-col items-center gap-2 w-[40%] ml-auto mr-auto  bg-slate-100 rounded-lg mt-5 px-20 py-10">
       <div className="rounded-full h-20 border-2 border-gray-400">
       <img src={logo} className="h-full rounded-full"/>
       </div>
@@ -104,7 +104,7 @@ const CustomerProfileForm = () => {
             />
             </div>
 
-            <Button type="submit" className='w-[100%] mt-5'>Create Profile</Button>
+            <Button type="submit" className='w-[100%] mt-5 bg-gray-700'>Create Profile</Button>
             </form>
         </Form>
     </div>

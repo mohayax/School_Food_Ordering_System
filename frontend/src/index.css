@@ -74,3 +74,23 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+  .grounded-radiants {
+    position: relative;
+    border: 4px solid transparent;
+    border-radius: 16px;
+    background: linear-gradient(#a6a8a6,white);
+    background-clip: padding-box;
+    padding: 10px;
+    box-shadow: 0 3px 9px gray, inset 0 0 9px white;
+  }
+  
+  .grounded-radiants::after {
+    position: absolute;
+    top: -4px; bottom: -4px;
+    left: -4px; right: -4px;
+    content: '';
+    z-index: -1;
+    border-radius: 16px;
+  }

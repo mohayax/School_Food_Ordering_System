@@ -12,6 +12,7 @@ import VendorDashboard from "@/pages/VendorDashboard";
 import SingleVendorPage from "@/pages/SingleVendorPage";
 import SingleMenuItem from "@/pages/SingleMenuItem";
 import Cart from "@/pages/Cart";
+import Layout from "@/component/Layout";
 
 const Element = () => {
     
@@ -46,7 +47,8 @@ const Element = () => {
         },
         {
             path: "/customer-view",
-            element: <CustomerDashboard/>
+
+            element: <Layout> <CustomerDashboard/> </Layout> 
         },
         {
             path: "/customer-view/cart",
