@@ -13,6 +13,8 @@ import SingleVendorPage from "@/pages/SingleVendorPage";
 import SingleMenuItem from "@/pages/SingleMenuItem";
 import Cart from "@/pages/Cart";
 import Layout from "@/component/Layout";
+import CustomerProfilePage from "@/pages/CustomerProfilePage";
+import OrderHistory from "@/pages/OrderHistory";
 
 const Element = () => {
     
@@ -52,13 +54,20 @@ const Element = () => {
         },
         {
             path: "/customer-view/cart",
-            element: <Cart/>
+            element: <Layout> <Cart/> </Layout>
+        },
+        {
+            path: "/customer-view/profile",
+            element: <Layout> <CustomerProfilePage/> </Layout>
+        },
+        {
+            path: "/customer-view/order-history",
+            element: <Layout> <OrderHistory/> </Layout>
         },
         {
             path: "/customer-view/vendor/:id",
             element: <SingleVendorPage/>
         },
-         
         {
             path: "/customer-view/vendor/:id/item/:item_id",
             element: <SingleMenuItem/>
