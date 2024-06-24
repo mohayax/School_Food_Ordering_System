@@ -9,6 +9,11 @@ import logo from '../assets/bu-lg.png'
 import { FaShoppingCart } from "react-icons/fa"
 import { FaSearch } from "react-icons/fa"
 import Header from '@/component/Header'
+import displayImg from '../assets/displayImg.jpg'
+import { BsTelephone } from "react-icons/bs";
+import { CiLocationOn } from "react-icons/ci";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 
 const CustomerDashboard = () => {
 
@@ -39,104 +44,48 @@ const CustomerDashboard = () => {
   const foodVendors = [
     {
         name: "Gourmet Tacos",
-        cuisine: "Mexican",
-        description: "Authentic Mexican tacos made with fresh ingredients and bold flavors.",
-        contact: {
-            phone: "123-456-7890",
-            email: "contact@gourmettacos.com",
-            link: "https://www.gourmettacos.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890",
     },
     {
         name: "Pasta Paradise",
-        cuisine: "Italian",
-        description: "Delicious pasta dishes inspired by traditional Italian recipes.",
-        contact: {
-            phone: "234-567-8901",
-            email: "info@pastaparadise.com",
-            link: "https://www.pastaparadise.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890",
     },
     {
         name: "Burger Haven",
-        cuisine: "American",
-        description: "Juicy burgers made with premium beef and a variety of toppings.",
-        contact: {
-            phone: "345-678-9012",
-            email: "support@burgerhaven.com",
-            link: "https://www.burgerhaven.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890", 
     },
-    {
-        name: "Sushi World",
-        cuisine: "Japanese",
-        description: "Fresh sushi and sashimi prepared by experienced chefs.",
-        contact: {
-            phone: "456-789-0123",
-            email: "hello@sushiworld.com",
-            link: "https://www.sushiworld.com"
-        }
-    },
-    {
-        name: "Curry Express",
-        cuisine: "Indian",
-        description: "Spicy and flavorful Indian curries served with rice and naan.",
-        contact: {
-            phone: "567-890-1234",
-            email: "order@curryexpress.com",
-            link: "https://www.curryexpress.com"
-        }
-    },
+   
     {
         name: "Vegan Delights",
-        cuisine: "Vegan",
-        description: "Plant-based meals that are both healthy and delicious.",
-        contact: {
-            phone: "678-901-2345",
-            email: "contact@vegandelights.com",
-            link: "https://www.vegandelights.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890",
     },
     {
         name: "BBQ Pitstop",
-        cuisine: "Barbecue",
-        description: "Smoked meats and classic BBQ sides cooked to perfection.",
-        contact: {
-            phone: "789-012-3456",
-            email: "info@bbqpitstop.com",
-            link: "https://www.bbqpitstop.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890",
     },
     {
         name: "Mediterranean Bites",
-        cuisine: "Mediterranean",
-        description: "A variety of Mediterranean dishes including falafel, hummus, and more.",
-        contact: {
-            phone: "890-123-4567",
-            email: "hello@mediterraneanbites.com",
-            link: "https://www.mediterraneanbites.com"
-        }
+        photo: displayImg,
+        address: "Opposite block C, Baze University",
+        open: "9:00am - 7:00pm",
+        contact:  "123-456-7890",
     },
-    {
-        name: "Dim Sum Delight",
-        cuisine: "Chinese",
-        description: "Steamed and fried dim sum favorites served fresh daily.",
-        contact: {
-            phone: "901-234-5678",
-            email: "order@dimsumdelight.com",
-            link: "https://www.dimsumdelight.com"
-        }
-    },
-    {
-        name: "Crepe Corner",
-        cuisine: "French",
-        description: "Sweet and savory crepes made with authentic French recipes.",
-        contact: {
-            phone: "012-345-6789",
-            email: "support@crepecorner.com",
-            link: "https://www.crepecorner.com"
-        }
-    }
+    
 ];
 
 console.log(foodVendors);
@@ -147,12 +96,22 @@ console.log(foodVendors);
         <h1 className="font-base text-md font-bold text-gray-500 mr-auto ml-auto">Available Vendors</h1>
       </div>
 
-      <div className="flex flex-col gap-2 p-4 items-center justify-center w-[90%] mr-auto ml-auto">
+      <div className="flex flex-col gap-7 p-4 items-center justify-center w-[90%] mr-auto ml-auto">
         {foodVendors.map((vendor, index) => (
-          <div key={index} className='flex flex-col p-4 w-[100%] border-2 border-gray-400 rounded-lg'>
-            <h1>{vendor.name}</h1>
-            <h1>{vendor.cuisine}</h1>
-            <h1>{vendor.description}</h1>
+          <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400 rounded-lg hover:shadow-lg hover:animate-out'>
+            <div className='w-[30%]'>
+              <img src={vendor.photo} alt="" srcset="" className='h-[100%] w-50 rounded-l-lg rounded-r-none'  />
+            </div>
+            <div className='p-4 w-[70%] flex flex-col gap-2'>
+              <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.name}</h1>
+              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><CiLocationOn/></span>{vendor.address}</p>
+              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><BsTelephone/></span>{vendor.contact}</p>
+              <div className='flex justify-between'>
+                <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>{vendor.open}</p>
+                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-800 text-md inline-flex items-center gap-2 hover:text-primary'>View Vendor <span><HiArrowTopRightOnSquare/></span> </Link>
+              </div>
+            </div>
+            
           </div>
         ) )}
       </div>
