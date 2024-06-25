@@ -31,7 +31,7 @@ const SingleVendorPage = () => {
       id: 2,
       name: "Caesar Salad",
       photo: displayImg,
-      description: "Crisp romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
+      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
       price: 8.99,
       category: "Appetizer",
       isVegetarian: false
@@ -40,7 +40,7 @@ const SingleVendorPage = () => {
       id: 3,
       name: "Grilled Salmon",
       photo: displayImg,
-      description: "Fresh salmon fillet grilled to perfection, served with lemon butter sauce.",
+      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
       price: 15.99,
       category: "food",
       isVegetarian: false
@@ -49,7 +49,7 @@ const SingleVendorPage = () => {
       id: 4,
       name: "Vegetable Stir-fry",
       photo: displayImg,
-      description: "Mixed vegetables stir-fried with soy sauce and ginger, served with steamed rice.",
+      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
       price: 10.99,
       category: "food",
       isVegetarian: true
@@ -67,7 +67,7 @@ const SingleVendorPage = () => {
       id: 6,
       name: "Spaghetti Carbonara",
       photo: displayImg,
-      description: "Classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
+      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
       price: 11.99,
       category: "food",
       isVegetarian: false
@@ -106,7 +106,7 @@ const SingleVendorPage = () => {
     <div className="flex items-center justify-center">
         <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-28 mb-5">The Brim catering Services Ltd.</h1>
     </div>
-    <section className='flex justify-between w-[90%] ml-auto mr-auto  px-10 gap-28 bg-slate-100 rounded-xl h-56'>
+    <section className='flex justify-between w-[90%] ml-auto mr-auto  px-10 gap-28 bg-slate-200 rounded-xl h-56'>
   
       <div className='w-1/2 mt-10'>
         <p className='text-lg font-base text-gray-600 w-[80%] h-20 overflow-hidden'>
@@ -126,26 +126,41 @@ const SingleVendorPage = () => {
       </div>
     </section>
 
-    <div className='w-[90%] mr-auto ml-auto'>
+    <div className='w-[90%] mr-auto ml-auto bg-slate-200 rounded-lg  px-6 py-4 mt-28'>
       {/* <div className="flex items-center justify-center">
           <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-28">Our Menu</h1>
       </div> */}
-      <div className='flex items-center justify-between mt-28'>
-        <p className='font-base text-lg text-gray-600 font-bold'>Categories</p>
-        <a href='#food' className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Drinks <span className='text-gray-700'><RiDrinks2Line/></span></a>
-        <a className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Snacks <span className='text-gray-700'><PiHamburger/></span></a>
-        <a className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Food <span className='text-gray-700'><FaBowlRice/></span></a>
+      <div className='flex items-center justify-between'>
+        <p className='font-base text-lg text-gray-600 font-bold '>Categories</p>
+        <div className='flex gap-4'>
+        <a href='#food' className='border-2 border-gray-600 text-gray-900 px-8 py-2  font-semibold font-base inline-flex gap-2 items-center'>Drinks <span className='text-gray-700'><RiDrinks2Line/></span></a>
+        <a className='border-2 border-gray-600 text-gray-900 px-8 py-2  font-semibold font-base inline-flex gap-2 items-center'>Snacks <span className='text-gray-700'><PiHamburger/></span></a>
+        <a className='border-2 border-gray-600 text-gray-900 px-8 py-2 font-semibold font-base inline-flex gap-2 items-center'>Food <span className='text-gray-700'><FaBowlRice/></span></a>
+        </div>
+      
       </div>
     </div>
     
-    <section id='food' className='w-[90%] mr-auto ml-auto'>
-      <div className="flex items-center justify-center">
+    <section id='food' className='w-[90%] mr-auto ml-auto mt-10'>
+      {/* <div className="flex items-center justify-center">
         <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-20">Food</h1>
-      </div>
+      </div> */}
 
-      <div>
-        {menuItems.map((item, index) => ( item.category == 'food' && <div >
-          <p key={index}>{item.name}</p>
+      <div className='flex flex-wrap justify-center items-center gap-5 mt-5'>
+        {menuItems.map((item, index) => ( item.category == 'food' && <div className='flex flex-col w-72 h-80 bg-slate-200 rounded-lg shadow-lg hover:shadow-2xl border-2 border-gray-300'>
+          <div className='h-[57%] w-full'>
+            <img src={item.photo}  className='h-full w-full rounded-lg rounded-b-none'/>
+          </div>
+          <div className='flex flex-col px-2 pb-2'>
+            <h2 className='font-base text-md text-gray-900 font-semibold mt-2'>{item.name}</h2>
+           <div className='flex items-center justify-center'>
+              <p className='font-base text-sm  mt-2 text-gray-600 t'>{item.description}</p>
+            </div> 
+            <div className='flex justify-between items-center mt-4'>
+              <p className='text-lg font-base font-semibold'>₦{item.price}</p>
+              <button className='border-2 border-gray-600 p-2 text-xs font-base font-semibold'>Add to Cart</button>
+            </div>
+          </div>
         </div>
       
        ))}
