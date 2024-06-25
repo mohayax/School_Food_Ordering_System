@@ -33,7 +33,8 @@ const Layout = ({children}) => {
                   <li key={index}
                   className={`text-gray-300  flex items-center
                   gap-x-4 cursor-pointer p-2 hover:bg-light-white
-                  rounded-md ${item.spacing ? "mt-[100%]": "mt-3"} ${item.top ? "mb-10": "mb-0 text-sm"}
+                  rounded-md ${item.spacing ? "mt-[100%]": "mt-3"} ${item.top ? "mb-10": "mb-0 text-sm"} hover:bg-gray-200
+                  rounded-md
                   `}
                   onClick={() => navigate(item.link)}
                   >

@@ -11,10 +11,70 @@ import displayImg from '../assets/displayImg.jpg'
 import { BsTelephone } from "react-icons/bs";
 import { CiLocationOn } from "react-icons/ci";
 import { AiOutlineClockCircle } from "react-icons/ai";
-
-
+import { RiDrinks2Line } from "react-icons/ri";
+import { PiHamburger } from "react-icons/pi";
+import { FaBowlRice } from "react-icons/fa6";
 
 const SingleVendorPage = () => {
+
+  const menuItems = [
+    {
+      id: 1,
+      name: "Margherita Pizza",
+      photo: displayImg,
+      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
+      price: 12.99,
+      category: "food",
+      isVegetarian: true
+    },
+    {
+      id: 2,
+      name: "Caesar Salad",
+      photo: displayImg,
+      description: "Crisp romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
+      price: 8.99,
+      category: "Appetizer",
+      isVegetarian: false
+    },
+    {
+      id: 3,
+      name: "Grilled Salmon",
+      photo: displayImg,
+      description: "Fresh salmon fillet grilled to perfection, served with lemon butter sauce.",
+      price: 15.99,
+      category: "food",
+      isVegetarian: false
+    },
+    {
+      id: 4,
+      name: "Vegetable Stir-fry",
+      photo: displayImg,
+      description: "Mixed vegetables stir-fried with soy sauce and ginger, served with steamed rice.",
+      price: 10.99,
+      category: "food",
+      isVegetarian: true
+    },
+    {
+      id: 5,
+      name: "Chocolate Lava Cake",
+      photo: displayImg,
+      description: "Rich chocolate cake with a gooey molten center, served with vanilla ice cream.",
+      price: 6.99,
+      category: "Dessert",
+      isVegetarian: true
+    },
+    {
+      id: 6,
+      name: "Spaghetti Carbonara",
+      photo: displayImg,
+      description: "Classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
+      price: 11.99,
+      category: "food",
+      isVegetarian: false
+    }
+  ];
+  
+  
    
     // const {vendor_loading, customer_vendor_profile} = useSelector(state => state.customerProfile)
     // const {vendor_items} = useSelector(state => state.menuItem)
@@ -62,10 +122,37 @@ const SingleVendorPage = () => {
         </div>
       </div>
       <div className='w-1/2 mt-20'>
-        <img src={displayImg}  className='rounded-xl h-52 w-[70%]'/>
+        <img src={displayImg}  className='rounded-xl h-52 w-[70%] shadow-md'/>
       </div>
     </section>
 
+    <div className='w-[90%] mr-auto ml-auto'>
+      {/* <div className="flex items-center justify-center">
+          <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-28">Our Menu</h1>
+      </div> */}
+      <div className='flex items-center justify-between mt-28'>
+        <p className='font-base text-lg text-gray-600 font-bold'>Categories</p>
+        <a href='#food' className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Drinks <span className='text-gray-700'><RiDrinks2Line/></span></a>
+        <a className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Snacks <span className='text-gray-700'><PiHamburger/></span></a>
+        <a className='bg-slate-300 text-gray-600 px-8 py-2 rounded-xl font-base inline-flex gap-2 items-center'>Food <span className='text-gray-700'><FaBowlRice/></span></a>
+      </div>
+    </div>
+    
+    <section id='food' className='w-[90%] mr-auto ml-auto'>
+      <div className="flex items-center justify-center">
+        <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-20">Food</h1>
+      </div>
+
+      <div>
+        {menuItems.map((item, index) => ( item.category == 'food' && <div >
+          <p key={index}>{item.name}</p>
+        </div>
+      
+       ))}
+      </div>
+    </section>
+    
+    
     <div>
       {/* <h2>{customer_vendor_profile.vendor_name}</h2>
       
