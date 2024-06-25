@@ -9,7 +9,7 @@ import { useEffect } from "react"
 const Header = () => {
   const navigate = useNavigate()
   return (
-    <div className='w-[100%] bg-slate-100 shadow-md h-20 fixed '>
+    <div className='w-[100%] bg-slate-100 shadow-md h-20 fixed'>
     <div className='flex justify-between items-center w-[95%] mr-auto ml-auto py-2'>
         <div className='flex justify-between items-center  gap-4'>
           <div className="rounded-full h-16 border-2 border-gray-400">

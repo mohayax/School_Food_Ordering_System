@@ -43,6 +43,7 @@ const CustomerDashboard = () => {
 
   const foodVendors = [
     {
+        id: 1,
         name: "Gourmet Tacos",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -50,6 +51,7 @@ const CustomerDashboard = () => {
         contact:  "123-456-7890",
     },
     {
+        id: 2,
         name: "Pasta Paradise",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -57,6 +59,7 @@ const CustomerDashboard = () => {
         contact:  "123-456-7890",
     },
     {
+        id: 3,
         name: "Burger Haven",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -65,6 +68,7 @@ const CustomerDashboard = () => {
     },
    
     {
+        id: 4,
         name: "Vegan Delights",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -72,6 +76,7 @@ const CustomerDashboard = () => {
         contact:  "123-456-7890",
     },
     {
+        id: 5,
         name: "BBQ Pitstop",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -79,6 +84,7 @@ const CustomerDashboard = () => {
         contact:  "123-456-7890",
     },
     {
+        id: 6,
         name: "Mediterranean Bites",
         photo: displayImg,
         address: "Opposite block C, Baze University",
@@ -107,8 +113,8 @@ console.log(foodVendors);
               <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><CiLocationOn/></span>{vendor.address}</p>
               <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><BsTelephone/></span>{vendor.contact}</p>
               <div className='flex justify-between'>
-                <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>{vendor.open}</p>
-                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-800 text-md inline-flex items-center gap-2 hover:text-primary'>View Vendor <span><HiArrowTopRightOnSquare/></span> </Link>
+                <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>Open: {vendor.open}</p>
+                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-800 text-md inline-flex items-center gap-2 hover:text-blue-500'>View Vendor <span><HiArrowTopRightOnSquare/></span> </Link>
               </div>
             </div>
             
