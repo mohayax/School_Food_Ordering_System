@@ -75,7 +75,9 @@
     }
   }
 
-
+*{
+  scroll-behavior:smooth;
+}
   .grounded-radiants {
     position: relative;
     border: 4px solid transparent;

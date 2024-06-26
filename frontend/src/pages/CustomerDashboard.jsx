@@ -112,10 +112,11 @@ console.log(foodVendors);
               <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.name}</h1>
               <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><CiLocationOn/></span>{vendor.address}</p>
               <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><BsTelephone/></span>{vendor.contact}</p>
+              
               <div className='flex justify-between'>
                 <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>Open: {vendor.open}</p>
-                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-700 text-sm inline-flex items-center gap-2 hover:text-blue-500 bg-gray-300
-                  rounded-lg px-4 py-1'>View Vendor  </Link>
+                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-700 text-sm border-2 border-gray-400 inline-flex items-center gap-2 hover:bg-gray-300 
+                   px-4 py-1'>View Vendor  </Link>
               </div>
             </div>
             
