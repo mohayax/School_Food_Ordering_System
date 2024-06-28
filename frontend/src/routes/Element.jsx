@@ -54,7 +54,7 @@ const Element = () => {
         },
         {
             path: "/customer-view/cart",
-            element: <Layout> <Cart/> </Layout>
+            element:  <Cart/> 
         },
         {
             path: "/customer-view/profile",
