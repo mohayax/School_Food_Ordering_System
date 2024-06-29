@@ -94,19 +94,19 @@ const CustomerDashboard = () => {
     
 ];
 
-console.log(foodVendors);
+
 
   return (
-    <div className='pt-5 over-flow-y-scroll'>
+    <div className='pt-5 over-flow-y-scroll custom-scrollbar'>
       <div className="flex items-center justify-center">
         <h1 className="font-base text-md font-bold text-gray-500 mr-auto ml-auto">Available Vendors</h1>
       </div>
 
       <div className="flex flex-col gap-7 p-4 items-center justify-center w-[90%] mr-auto ml-auto">
         {foodVendors.map((vendor, index) => (
-          <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400 rounded-lg hover:shadow-lg hover:animate-out'>
+          <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400  hover:shadow-lg hover:animate-out'>
             <div className='w-[30%]'>
-              <img src={vendor.photo} alt="" srcset="" className='h-[100%] w-50 rounded-l-lg rounded-r-none'  />
+              <img src={vendor.photo} alt="" srcset="" className='h-[100%] w-50 '  />
             </div>
             <div className='p-4 w-[70%] flex flex-col gap-2'>
               <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.name}</h1>
@@ -115,7 +115,7 @@ console.log(foodVendors);
               
               <div className='flex justify-between'>
                 <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>Open: {vendor.open}</p>
-                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-700 text-sm border-2 border-gray-400 inline-flex items-center gap-2 hover:bg-gray-300 
+                <Link to={`vendor/${vendor.id}`} className='font-base text-gray-700 text-sm border-2 border-gray-400 inline-flex items-center gap-2 hover:bg-gray-100 
                    px-4 py-1'>View Vendor  </Link>
               </div>
             </div>

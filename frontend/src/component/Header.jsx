@@ -19,7 +19,7 @@ const Header = () => {
         </div>
 
         <div className='flex justify-between items-center  gap-auto w-60'>
-          <div className='border-2 border-gray-400 rounded-lg w-auto px-4 py-1'>
+          <div className='border-2 border-gray-400  w-auto px-4 py-1'>
             <h1 className='text-lg text-gray-700 font-base font-semibold'>Hello, Aviator</h1>
           </div>
            

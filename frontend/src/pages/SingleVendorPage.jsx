@@ -351,9 +351,9 @@ const drinksToDisplay = drinks.slice(drinksStartIndex, drinksEndIndex)
       
 
       <div className='flex flex-wrap justify-center items-center gap-5 mt-5'>
-        {foodToDisplay.map((item) => ( <div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200 rounded-lg shadow-lg hover:shadow-2xl border-2 border-gray-300'>
+        {foodToDisplay.map((item) => ( <div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200 shadow-sm hover:shadow-2xl border-2 border-gray-300'>
           <div className='h-[57%] w-full'>
-            <img src={item.photo}  className='h-full w-full rounded-lg rounded-b-none'/>
+            <img src={item.photo}  className='h-full w-full'/>
           </div>
           
           <div className='flex flex-col px-2 pb-4'>
@@ -407,9 +407,9 @@ const drinksToDisplay = drinks.slice(drinksStartIndex, drinksEndIndex)
       
 
       <div className='flex flex-wrap justify-center items-center gap-5 mt-5'>
-        {drinksToDisplay.map((item) => (<div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200 rounded-lg shadow-lg hover:shadow-2xl border-2 border-gray-300'>
+        {drinksToDisplay.map((item) => (<div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200 shadow-sm hover:shadow-2xl border-2 border-gray-300'>
           <div className='h-[57%] w-full'>
-            <img src={item.photo}  className='h-full w-full rounded-lg rounded-b-none'/>
+            <img src={item.photo}  className='h-full w-full'/>
           </div>
           
           <div className='flex flex-col px-2 pb-4'>
@@ -463,9 +463,9 @@ const drinksToDisplay = drinks.slice(drinksStartIndex, drinksEndIndex)
       
 
       <div className='flex flex-wrap justify-center items-center gap-5 mt-5'>
-        {snacksToDisplay.map((item) => (<div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200 rounded-lg shadow-lg hover:shadow-2xl border-2 border-gray-300'>
+        {snacksToDisplay.map((item) => (<div key={item.id} className='flex flex-col w-72 h-80 bg-slate-200  shadow-sm hover:shadow-2xl border-2 border-gray-300'>
           <div className='h-[57%] w-full'>
-            <img src={item.photo}  className='h-full w-full rounded-lg rounded-b-none'/>
+            <img src={item.photo}  className='h-full w-full '/>
           </div>
           
           <div className='flex flex-col px-2 pb-4'>

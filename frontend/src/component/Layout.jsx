@@ -51,7 +51,7 @@ const Layout = ({children}) => {
             </ul>
           </div>
 
-            <div className="flex-1 p-4 mt-20 items-center justify-center overflow-y-scroll">
+            <div className="flex-1 p-4 mt-20 items-center justify-center overflow-y-scroll custom-scrollbar">
               
              
               {children}

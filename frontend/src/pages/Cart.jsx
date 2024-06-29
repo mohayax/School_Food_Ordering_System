@@ -79,22 +79,22 @@ const cartItems = [
         <Header/>
         <div className='flex justify-between mr-auto ml-auto w-[90%] gap-10'>
             <section className='flex flex-col w-[65%] mt-28'>
-                <div className='flex justify-between h-10 px-2 items-center bg-slate-200 '>
+                <div className='flex justify-between h-10 px-2 items-center  '>
                     <h1 className='text-xl font-base font-medium text-gray-600'>My Cart</h1>
                     <h1 className='text-md font-base font-medium text-gray-600 mr-6'>Items - 2</h1>
                 </div>
 
-                <div className='flex flex-col bg-slate-200 mt-5'>
+                <div className='flex flex-col  mt-5'>
                     <div className='flex justify-between h-10 p-2 border-t-2 border-b-2 border-gray-400 items-center'>
                         <h1 className='text-lg font-base font-medium text-gray-600'>Item</h1>
-                        <div className='inline-flex gap-16  mr-4'>
+                        <div className='inline-flex gap-16  mr-24'>
                             <h1 className='text-lg font-base font-medium text-gray-600'>Price</h1>
                             <h1 className='text-lg font-base font-medium text-gray-600'>Quantity</h1>
                             <h1 className='text-lg font-base font-medium text-gray-600'>Subtotal</h1>
                         </div>
                     </div>
 
-                    <div className='flex flex-col h-[300px] overflow-y-scroll custom-scrollbar'>
+                    <div className='flex flex-col '>
                         { cartItems !== null ? ( cartItems.map((item) => 
                             <div className='flex justify-between h-28 border-b-[1px] border-gray-400'>
                                 <div className='flex gap-4'>
@@ -104,11 +104,11 @@ const cartItems = [
                                     <div className='flex flex-col py-2 gap-2'>
                                         <p className='text-lg font-base font-semibold text-gray-700'>{item.name}</p>
                                         {item.availability_status == true ? (<p className='text-xs text-gray-500 font-base'>available</p>): (<p className='text-xs text-gray-500 font-base'>sold out</p>)}
-                                        <button className='inline-flex gap-2 items-center'><p className='text-md font-base text-gray-600'>remove</p> <GoTrash  className='text-red-600 '/></button>
+                                       
                                     </div>
                                 </div>
 
-                                <div className='inline-flex gap-16 items-center mr-7'>
+                                <div className='inline-flex gap-16 items-center mr-8'>
                                     <p className='text-md font-base font-medium text-gray-600'>₦ {item.price}</p>
                                     <div className='inline-flex items-center gap-4'>
                                         <button className='font-base text-lg text-gray-700 font-semibold'>-</button>
@@ -116,6 +116,7 @@ const cartItems = [
                                         <button className='font-base text-md text-gray-700 font-semibold'>+</button>
                                     </div>
                                     <p className='text-md font-base font-medium text-gray-600'>₦ {item.price}</p>
+                                    <button className='inline-flex gap-2 items-center text-lg text-red-600'><GoTrash/></button>
                                 </div>
                             </div>
                             
@@ -128,7 +129,7 @@ const cartItems = [
                 </div>
             </section>
 
-            <section className='flex flex-col w-[35%] h-72 bg-slate-200 mt-28 pt-4 px-6'>
+            <section className='flex flex-col w-[35%] h-72 bg-slate-100 mt-28 pt-4 px-6'>
                 <h1 className='text-xl font-base font-medium text-gray-600 mb-6'>Summary</h1>
                 <div className='flex flex-col border-b-[1px] border-gray-700'>
                     <div className='inline-flex justify-between '>
