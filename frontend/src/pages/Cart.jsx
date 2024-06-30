@@ -77,7 +77,7 @@ const cartItems = [
     return(
         <>
         <Header/>
-        <div className='flex justify-between mr-auto ml-auto w-[90%] gap-10'>
+        <div className='flex justify-between mr-auto ml-auto w-[90%] gap-10 min-h-[81vh]'>
             <section className='flex flex-col w-[65%] mt-28'>
                 <div className='flex justify-between h-10 px-2 items-center  '>
                     <h1 className='text-xl font-base font-medium text-gray-600'>My Cart</h1>
@@ -147,12 +147,12 @@ const cartItems = [
                         <p>Total:</p>
                         <p>1239.00</p>
                 </div>
-                <button className='w-full border-2 border-gray-500 mt-5 p-2'>Checkout</button>
+                <button className='w-full border-2 border-gray-500 mt-5 p-2 hover:bg-gray-200'>Checkout</button>
             </section>
 
         </div>
 
-        <footer className='bg-slate-200 flex items-center justify-center p-6 mt-12'>
+        <footer className='bg-slate-200 flex items-center justify-center p-6 mt-12 '>
             <p className='font-base text-gray-600 font-semibold '>Copyright <span>&copy;</span> Baze Food Mart 2024</p>
         </footer>
         </>

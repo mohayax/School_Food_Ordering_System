@@ -15,6 +15,11 @@ import Cart from "@/pages/Cart";
 import Layout from "@/component/Layout";
 import CustomerProfilePage from "@/pages/CustomerProfilePage";
 import OrderHistory from "@/pages/OrderHistory";
+import VendorLayout from "@/component/VendorLayout";
+import MenuItems from "@/pages/MenuItems";
+import Orders from "@/pages/Orders";
+import VendorProfile from "@/pages/VendorProfile";
+
 
 const Element = () => {
     
@@ -74,7 +79,20 @@ const Element = () => {
         },
         {
             path: "/vendor-view",
-            element: <VendorDashboard/>
+            element:<VendorLayout> <VendorDashboard/> </VendorLayout> 
+        },
+
+        {
+            path: "/vendor-view/profile",
+            element:<VendorLayout> <VendorProfile/> </VendorLayout> 
+        },
+        {
+            path: "/vendor-view/menu-items",
+            element:<VendorLayout> <MenuItems/> </VendorLayout> 
+        },
+        {
+            path: "/vendor-view/orders",
+            element:<VendorLayout> <Orders/> </VendorLayout> 
         },
 
     ])

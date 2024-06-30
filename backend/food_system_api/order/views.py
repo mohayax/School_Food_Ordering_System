@@ -52,7 +52,7 @@ class Get_Customer_Order(APIView):
             serializer = OrderSerializer(orders, many=True)
             if orders is not None:
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response({"data": "No available orders" }, status=status.HTTP_200_OK)
+            return Response({"No available orders" }, status=status.HTTP_200_OK)
             
         except CustomerProfile.DoesNotExist:
             return Response({"customer does not exist"}, status=status.HTTP_400_BAD_REQUEST)

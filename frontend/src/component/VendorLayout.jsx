@@ -1,34 +1,32 @@
-import Header from "./Header"
+import React from 'react'
+import VendorHeader from './Vendor-Header'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { BsPerson, BsShop  } from "react-icons/bs";
 import { AiOutlineLogout} from "react-icons/ai";
 import { RiFolderHistoryFill } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa"
-import logo from '../assets/bu-lg.png'
-import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { CiCircleList } from "react-icons/ci";
+import { RxDashboard } from "react-icons/rx";
+import { CiShoppingTag } from "react-icons/ci";
 
-const Layout = ({children}) => {
-  const Menus = [
-    { title: "Baze Food Mart", icon: <BsShop/>, top: true, link: '/customer-view' },
-    { title: "My Profile", icon: <BsPerson/>, link: '/customer-view/profile' },
-    { title: "Order History", icon: <RiFolderHistoryFill/>, link: '/customer-view/order-history' },
-    { title: "My Cart", icon: <FaShoppingCart/>, link: '/customer-view/cart'},
-    { title: "Logout", icon: <AiOutlineLogout/>, spacing: true },
-  ];
-  
+const VendorLayout = ({children}) => {
+    const Menus = [
+        { title: "Dashboard", icon: <RxDashboard/>, top: true, link: '/vendor-view' },
+        { title: "My Profile", icon: <BsShop/>, link: '/vendor-view/profile' },
+        { title: "Menu Items", icon: <CiShoppingTag/>, link: '/vendor-view/menu-items' },
+        { title: "Orders", icon: <CiCircleList/>, link: '/vendor-view/orders'},
+        { title: "Logout", icon: <AiOutlineLogout/>, spacing: true },
+      ];
 
-  const [active, setActive] = useState('/customer-view')
-
-
-  const navigate = useNavigate()
-
+    const [active, setActive] = useState('/vendor-view')
 
   return (
-    
-        
-        <div className="flex h-screen">
-        <Header/>
-          <div className="w-1/5 bg-slate-100 p-4  mt-20 pl-8">
+    <div className="flex h-screen">
+        <VendorHeader/>
+
+        <div className="w-1/5 bg-slate-100 p-4  mt-20 pl-8">
             
             <ul className="pt-2">
 
@@ -53,7 +51,6 @@ const Layout = ({children}) => {
                       {item.title}
                     </span>
 
-
                     </Link>
                    
               </li>
@@ -62,25 +59,11 @@ const Layout = ({children}) => {
             </ul>
           </div>
 
-            <div className="flex-1 p-4 mt-20 items-center justify-center overflow-y-scroll custom-scrollbar">
-              
-             
-              {children}
-            </div>
-
-          
-          
-          
-          <div className="w-1/5 bg-slate-100 p-4  mt-20">
-            <div className="flex flex-col items-center justify-center">
-              <h2 className="text-xl font-lg">Top Picks For You</h2>
-            </div>
+          <div className='flex-1 p-4 mt-20 items-center justify-center overflow-y-scroll custom-scrollbar'>
+            {children}
           </div>
-
-        </div>
-        
-  
+    </div>
   )
 }
 
-export default Layout
+export default VendorLayout
