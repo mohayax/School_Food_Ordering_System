@@ -31,32 +31,27 @@ const options = {
     <>
     <div className='flex flex-col w-[90%] mr-auto ml-auto'>
       <div className='flex gap-8 mt-5 ml-auto mr-auto'>
-       
 
-        <DashbordCard
-          title="Pending Orders"
-          data="10"
-          borderColor="blue"
-        />
+        <div className='flex flex-col p-4 gap-3  items-center bg-slate-50 shadow-md h-20 w-44 border-l-[4px] border-yellow-400'>
+                    <h2 className='text-sm font-base font-semibold text-gray-700'>Pending Orders</h2>
+                    <p className='text-sm font-base font-semibold text-gray-600'>10</p>
+        </div>
 
-        <DashbordCard
-          title="Successfull Orders"
-          data="10"
-          borderColor='gray'
-        />
 
-        <DashbordCard
-          title="Cancelled Orders"
-          data="10"
-          borderColor='gray'
-        />
+        <div className='flex flex-col p-4 gap-3  items-center bg-slate-50 shadow-md h-20 w-44 border-l-[4px] border-green-400'>
+            <h2 className='text-sm font-base font-semibold text-gray-700'>Successfull Orders</h2>
+            <p className='text-sm font-base font-semibold text-gray-600'>12</p>
+        </div>
 
-        <DashbordCard
-          title="Earnings This Month"
-          data="₦1,994,345"
-          borderColor='gray'
-        />
+        <div className='flex flex-col p-4 gap-3  items-center bg-slate-50 shadow-md h-20 w-44 border-l-[4px] border-red-400'>
+            <h2 className='text-sm font-base font-semibold text-gray-700'>Cancelled Orders</h2>
+            <p className='text-sm font-base font-semibold text-gray-600'>20</p>
+        </div>
 
+        <div className='flex flex-col p-4 gap-3  items-center bg-slate-50 shadow-md h-20 w-44 border-l-[4px] border-gray-400'>
+            <h2 className='text-sm font-base font-semibold text-gray-700'>Earnings This Month</h2>
+            <p className='text-sm font-base font-semibold text-gray-600'>₦1,994,345</p>
+        </div>
       </div>
 
       <div className='ml-auto mr-auto mt-11'>
