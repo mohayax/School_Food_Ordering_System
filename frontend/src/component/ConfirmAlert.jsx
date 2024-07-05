@@ -10,13 +10,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog"
 
-const ConfirmAlert = ({title, description, btnText}) => {
+const ConfirmAlert = ({title, description, btnText, triggerText, onclick, triggerStyle}) => {
   return (
     <>
         <AlertDialog>
-            <AlertDialogTrigger>Open</AlertDialogTrigger>
+            <AlertDialogTrigger className={triggerStyle}>{triggerText}</AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                 <AlertDialogTitle>{title}</AlertDialogTitle>
@@ -26,7 +26,7 @@ const ConfirmAlert = ({title, description, btnText}) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>{btnText}</AlertDialogAction>
+                <AlertDialogAction onclick={onclick}>{btnText}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

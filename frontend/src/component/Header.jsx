@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaShoppingCart } from "react-icons/fa"
-import { FaSearch } from "react-icons/fa"
 import logo from '../assets/bu-lg.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
