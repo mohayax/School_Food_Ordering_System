@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, Controller } from "react-hook-form"
-import { Signup_Schema } from "../utils/form-schema"
+import { Menu_Item_Schema } from "../utils/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
@@ -27,72 +27,83 @@ import {
   import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
   import { Textarea } from '@/components/ui/textarea'
   import displayImg from '../assets/displayImg.jpg'
+import { Button } from '@/components/ui/button'
 
   const MenuItemAction = ({
-    
+    defaultValues,
     triggerStyle, 
     triggerText, 
-    itemName, 
-    itemDescription, 
-    nameOnChange, 
-    descriptionOnChange, 
-    btnText}) => {
+    }) => {
+
+      const [open, setOpen] = useState(false)
       const form = useForm(
-      //   {
-      //   resolver: zodResolver(),
-      //   defaultValues: {}
-      // }
+        {
+        resolver: zodResolver(Menu_Item_Schema),
+        defaultValues: {
+          item_name: '',
+          // item_photo: '',
+          item_price: '',
+          item_category: '',
+          availability_status: '',
+          item_description: ''
+        }
+      }
     )
+
+
+    useEffect(() => {
+      form.reset(defaultValues)
+    },[defaultValues])
+
+    const onSubmit = (values) => {
+      console.log(values)
+      
+    }
   return (
     <>
           <AlertDialog >
-            <AlertDialogTrigger className={triggerStyle}>{triggerText}</AlertDialogTrigger>
+            <AlertDialogTrigger  className={triggerStyle}>{triggerText}</AlertDialogTrigger>
             <AlertDialogContent className='min-w-[60vw] bg-slate-100'>
-                {/* <AlertDialogHeader >
-                  <AlertDialogTitle>Item  Name</AlertDialogTitle>
-                </AlertDialogHeader> */}
+              <AlertDialogTitle>Item Details</AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
                 <div className='flex gap-10 w-[90%] mr-auto ml-auto'>
                 <div className='w-[70%]'>
                 <Form {...form}>
                     
-                    <form onSubmit={() => {}} >
+                    <form onSubmit={form.handleSubmit(onSubmit)} >
                       <div className='flex flex-col gap-2 mb-6 '>
                         <div className='flex gap-4'>
                           <Formfield
+                          required='required'
                             name="item_name"
-                            value='yrergeyi'
                             control={form.control}
                             type="text"
                             label="Item Name"
                             placeholder="enter item name"
-                            onChange={() => {}}
                             className='w-[50%]'
                           />
                           
 
-                          <Formfield
+                          {/* <Formfield
                             name="item_photo"
-                            value=''
                             control={form.control}
                             type="file"
                             label="Item Photo"
                             placeholder="enter item description"
-                            onChange={() => {}}
-                             className='w-[50%]'
-                          />
+                            className='w-[50%]'
+                          /> */}
                         </div>
 
                         <div className='flex gap-2'>
 
 
                         <Formfield
+                            required='required'
                             name="item_price"
-                            value=''
                             control={form.control}
-                            type="number"
+                            type="text"
                             label="Item Price (₦)"
                             placeholder="2333"
-                            onChange={() => {}}
                              className='w-[50%]'
                           />  
 
@@ -102,11 +113,11 @@ import {
                             render={({ field }) => (
                               <FormItem required
                               className='w-[50%]'
-                              value='aaaa'
+                              
                               >
                                 <FormLabel>Item Category</FormLabel>
                                 <FormControl>
-                                  <Select onValueChange={field.onChange} value={field.value}  >
+                                  <Select onValueChange={field.onChange} value={field.value} required >
                                     <SelectTrigger>
                                       <SelectValue placeholder="Select Category" className='text-[#ADADAD]' />
                                     </SelectTrigger>
@@ -133,13 +144,13 @@ import {
                               >
                                 <FormLabel>Availability Status</FormLabel>
                                 <FormControl>
-                                  <Select onValueChange={field.onChange} value={field.value}  >
+                                  <Select onValueChange={field.onChange} value={field.value}  required>
                                     <SelectTrigger>
                                       <SelectValue placeholder="Select Status" className='text-[#ADADAD]' />
                                     </SelectTrigger>
                                     <SelectContent>
                                       <SelectItem value="available">Available</SelectItem>
-                                      <SelectItem value="navailable">Unavailable</SelectItem>
+                                      <SelectItem value="unavailable">Unavailable</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
@@ -156,10 +167,13 @@ import {
 
                         <div className='w-full'>
                           <FormField
+
                             control={form.control}
                             name="item_description"
                             render={({ field }) => (
-                              <FormItem>
+                              <FormItem
+                              required
+                              >
                                 <FormLabel>Item Description</FormLabel>
                                 <FormControl>
                                   <Textarea
@@ -178,12 +192,15 @@ import {
                          
                  
                       </div>
+
+                      <AlertDialogFooter>
+                      <AlertDialogCancel >Cancel</AlertDialogCancel>
+                      {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
+                       ( <AlertDialogAction type="submit">  Update </AlertDialogAction> )}
+                    </AlertDialogFooter>
                     </form>
 
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction type='submit'>{btnText}</AlertDialogAction>
-                    </AlertDialogFooter>
+                    
                     
                   </Form>  
                     </div>
@@ -193,7 +210,7 @@ import {
                       <h1>Item name</h1>
                     </div>
                 </div>
-                 
+              
             </AlertDialogContent>
         </AlertDialog>
     </>

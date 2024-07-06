@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Table,
   TableBody,
@@ -47,75 +47,86 @@ const MenuItems = () => {
       name: "Margherita Pizza",
       description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
       price: 12.99,
-      category: "Food",
-      availabilityStatus: true
+      category: "food",
+      availabilityStatus: 'available'
     },
     {
       name: "Caesar Salad",
       description: "Fresh romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
       price: 8.99,
-      category: "Food",
-      availabilityStatus: true
+      category: "food",
+      availabilityStatus: 'available'
     },
     {
       name: "Grilled Salmon",
       description: "Fresh salmon fillet grilled to perfection, served with lemon butter sauce.",
       price: 15.99,
-      category: "Food",
-      availabilityStatus: false
+      category: "food",
+      availabilityStatus: 'unavailable'
     },
     {
       name: "Vegetable Stir-fry",
       description: "Mixed vegetables stir-fried in a savory sauce, served with steamed rice.",
       price: 10.99,
-      category: "Food",
-      availabilityStatus: true
+      category: "food",
+      availabilityStatus: 'available'
     },
     {
       name: "Chocolate Lava Cake",
       description: "Rich chocolate cake with a gooey molten center, served with vanilla ice cream.",
       price: 6.99,
-      category: "Dessert",
-      availabilityStatus: true
+      category: "frinks",
+      availabilityStatus: 'available'
     },
     {
       name: "Spaghetti Carbonara",
       description: "Classic Italian pasta dish with creamy sauce, pancetta, and Parmesan cheese.",
       price: 11.99,
-      category: "Food",
-      availabilityStatus: true
+      category: "food",
+      availabilityStatus: 'available'
     },
     {
       name: "Beef Tacos",
       description: "Soft tortillas filled with seasoned beef, lettuce, cheese, and salsa.",
       price: 9.99,
-      category: "Food",
-      availabilityStatus: true
+      category: "food",
+      availabilityStatus: 'available'
     },
     {
       name: "Chicken Parmesan",
       description: "Breaded chicken breast topped with marinara sauce and melted mozzarella.",
       price: 13.99,
-      category: "Food",
-      availabilityStatus: false
+      category: "food",
+      availabilityStatus: 'unavailable'
     },
     {
       name: "Mango Smoothie",
       description: "Refreshing smoothie made with ripe mangoes, yogurt, and a hint of honey.",
       price: 5.99,
-      category: "Drinks",
-      availabilityStatus: true
+      category: "drinks",
+      availabilityStatus: 'available'
     },
     {
       name: "Iced Coffee",
       description: "Chilled coffee served over ice, with optional milk and sweetener.",
       price: 3.99,
-      category: "Drinks",
-      availabilityStatus: true
+      category: "drinks",
+      availabilityStatus: 'available'
     }
   ];
 
-
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filteredItems, setFilteredItems] = useState(items);
+  
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    setFilteredItems(
+      items.filter((item) =>
+        item.name.toLowerCase().includes(query)
+      )
+    );
+  };
 
   return (
     <>
@@ -124,8 +135,11 @@ const MenuItems = () => {
        
        <div className='flex justify-between w-[100%] mt-10'>
           <div className='inline-flex items-center justify-center h-8 w-64 '>
-            <input type="text" placeholder='Search...' className='border-2  border-gray-500 px-2 text-sm text-gray-600 font-base outline-none h-full w-[80%] border-r-none'/>
-            <button className='px-3 text-md  text-gray-500 border-2 border-l-0 border-gray-500 text-lg w-[20%] h-full text-center hover:bg-slate-100'><FaSearch/></button>
+            <input type="text" placeholder='Search...' className='border-2  border-gray-500 px-2 text-sm text-gray-600 font-base outline-none h-full w-[80%] border-r-none'
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+            <button disabled className='px-3 text-md  text-gray-500 border-2 border-l-0 border-gray-500 text-lg w-[20%] h-full text-center hover:bg-slate-100'><FaSearch/></button>
           </div>
 
           <div>
@@ -148,7 +162,7 @@ const MenuItems = () => {
             </TableHeader>
             <TableBody className='border-[2px] border-gray-500'>
              
-                { items.map(item =>  <TableRow className='border-[1px] border-gray-500'>
+                { filteredItems.map(item =>  <TableRow className='border-[1px] border-gray-500'>
                   <TableCell className=" border-e-[1px] border-gray-500 font-semibold text-sm">{item.name}</TableCell>
                 <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.description}</TableCell>
                 <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">₦{item.price}</TableCell>
@@ -159,14 +173,20 @@ const MenuItems = () => {
                   <PopoverTrigger><button><MdOutlineModeEdit/></button></PopoverTrigger>
                   <PopoverContent className='flex flex-col gap-2 w-32'>
       
-                    <MenuItemAction triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' triggerText='Edit Item' btnText='Save'/>
+                    <MenuItemAction triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' triggerText='Edit Item' btnText='Save' 
+                    defaultValues= {{
+                      item_name: item.name,
+                      // item_photo: '',
+                      item_price: item.price,
+                      item_category: item.category,
+                      availability_status: item.availabilityStatus,
+                      item_description: item.description
+                    }}/>
                     <ConfirmAlert triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' triggerText='Delete Item' title='Are you sure you want to delete this item?' btnText='Delete Item'/>
                   </PopoverContent>
                 </Popover>
                 </TableCell>
-                  
-                  
-                   </TableRow> )  }
+              </TableRow> )  }
              
             </TableBody>
         </Table>

@@ -54,3 +54,14 @@ export const Customer_Profile_Schema = z.object({
     //   "Only .jpg, .jpeg, .png and .webp formats are supported."
     // )
 })
+
+
+
+export const Menu_Item_Schema = z.object({
+    item_name: z.string({ required_error: "Item name is required"}),
+    // item_photo: '',
+    item_price: z.string(),
+    item_category: z.string({ message: "Options must be one of Food, Drinks, Snacks", required_error: "Select Item Category"}),
+    availability_status:  z.string({ message: "Options must be one of Available, Unavailable", required_error: "Select Item Category"}),
+    item_description: z.string().min(15, {message: 'Description must be at least 15 characters long'}).max(75, { message: 'Description must be at most 75 characters long' }),
+})
