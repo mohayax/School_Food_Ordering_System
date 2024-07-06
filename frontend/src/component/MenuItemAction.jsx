@@ -98,7 +98,6 @@ import { Button } from '@/components/ui/button'
 
 
                         <Formfield
-                            required='required'
                             name="item_price"
                             control={form.control}
                             type="text"
@@ -207,7 +206,7 @@ import { Button } from '@/components/ui/button'
 
                     <div className='w-[30%] mt-14 flex flex-col items-center'>
                     <img src={displayImg} className='h-[60%] w-full rounded-lg'/>
-                      <h1>Item name</h1>
+                      <h1 className='font-base mt-5 text-sm text-gray-800'>Item photo in customer view</h1>
                     </div>
                 </div>
               

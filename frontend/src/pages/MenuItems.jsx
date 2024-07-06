@@ -15,17 +15,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 
 import ConfirmAlert from '@/component/ConfirmAlert'
 

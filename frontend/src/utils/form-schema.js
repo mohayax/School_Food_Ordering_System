@@ -65,3 +65,16 @@ export const Menu_Item_Schema = z.object({
     availability_status:  z.string({ message: "Options must be one of Available, Unavailable", required_error: "Select Item Category"}),
     item_description: z.string().min(15, {message: 'Description must be at least 15 characters long'}).max(75, { message: 'Description must be at most 75 characters long' }),
 })
+
+const orderItemSchema = z.object({
+    item_name: z.string()
+  });
+
+  export const orderSchema = z.object({
+    id: z.string(),
+    customer_name: z.string(),
+    order_items: z.string(),
+    order_date: z.string(),
+    order_status: z.string(),
+    total_amount: z.string()
+  });
