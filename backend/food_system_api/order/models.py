@@ -7,8 +7,8 @@ from menu_item.models import MenuItem
 class Order(models.Model):
     class OrderStatus(models.TextChoices):
         PENDING = 'Pending'
-        CANCELED = 'Canceled'
-        SUCCESSFULL = 'Successfull'
+        CANCELLED = 'Cancelled'
+        COMPLETED = 'Completed'
 
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, related_name='customer_order')
     customer_name = models.CharField(max_length=255, default=None, blank=True, null=True)

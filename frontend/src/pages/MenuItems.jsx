@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -28,8 +28,12 @@ import { GrPrevious } from "react-icons/gr";
 import { GrNext } from "react-icons/gr";
 import MenuItemAction from '@/component/MenuItemAction'
 import AddMenuItem from '@/component/AddMenuItem'
+import { getVendorItems, delete_menu_item } from '@/store/menu-items/menuItems-thunks';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MenuItems = () => {
+  const {vendor_items} = useSelector(state => state.menuItem)
+  const dispatch = useDispatch()
 
   const items = [
     {
@@ -117,6 +121,10 @@ const MenuItems = () => {
     );
   };
 
+  useEffect(()=>{
+    dispatch(getVendorItems())
+  },[])
+
   return (
     <>
       <div className='w-[90%] ml-auto mr-auto'>
@@ -170,8 +178,18 @@ const MenuItems = () => {
                       item_category: item.category,
                       availability_status: item.availabilityStatus,
                       item_description: item.description
-                    }}/>
-                    <ConfirmAlert triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' triggerText='Delete Item' title='Are you sure you want to delete this item?' btnText='Delete Item'/>
+                    }}
+                    itemID={item.id}
+                    />
+                    
+                    <ConfirmAlert 
+                      triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' 
+                      triggerText='Delete Item' 
+                      title='Are you sure you want to delete this item?' 
+                      btnText='Delete Item' 
+                      onClick={() => dispatch(delete_menu_item(item.id))}
+                    />
+
                   </PopoverContent>
                 </Popover>
                 </TableCell>

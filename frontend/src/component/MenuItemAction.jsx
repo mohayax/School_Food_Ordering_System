@@ -28,14 +28,16 @@ import {
   import { Textarea } from '@/components/ui/textarea'
   import displayImg from '../assets/displayImg.jpg'
 import { Button } from '@/components/ui/button'
+import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
 
   const MenuItemAction = ({
     defaultValues,
     triggerStyle, 
-    triggerText, 
+    triggerText,
+    itemID, 
     }) => {
-
-      const [open, setOpen] = useState(false)
+      const dispatch = useDispatch()
+      const [id, setItemID] = useState(null)
       const form = useForm(
         {
         resolver: zodResolver(Menu_Item_Schema),
@@ -56,8 +58,10 @@ import { Button } from '@/components/ui/button'
     },[defaultValues])
 
     const onSubmit = (values) => {
-      console.log(values)
-      
+      if (id !==null){
+        dispatch(update_menu_item(id, values))
+      }
+     
     }
   return (
     <>
@@ -84,14 +88,14 @@ import { Button } from '@/components/ui/button'
                           />
                           
 
-                          {/* <Formfield
+                          <Formfield
                             name="item_photo"
                             control={form.control}
                             type="file"
                             label="Item Photo"
                             placeholder="enter item description"
                             className='w-[50%]'
-                          /> */}
+                          />
                         </div>
 
                         <div className='flex gap-2'>
@@ -159,14 +163,10 @@ import { Button } from '@/components/ui/button'
                             )}
                           />
 
-
-                          
-
                         </div>
 
                         <div className='w-full'>
                           <FormField
-
                             control={form.control}
                             name="item_description"
                             render={({ field }) => (
@@ -189,13 +189,12 @@ import { Button } from '@/components/ui/button'
                                   />
                           </div>        
                          
-                 
                       </div>
 
                       <AlertDialogFooter>
                       <AlertDialogCancel >Cancel</AlertDialogCancel>
                       {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
-                       ( <AlertDialogAction type="submit">  Update </AlertDialogAction> )}
+                       ( <AlertDialogAction  onClick={() => setItemID(itemID)} type="submit">  Update </AlertDialogAction> )}
                     </AlertDialogFooter>
                     </form>
 

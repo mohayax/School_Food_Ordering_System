@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -25,8 +25,11 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { FaSearch } from "react-icons/fa"
 import { GrPrevious } from "react-icons/gr";
+import { useSelector, useDispatch } from 'react-redux'
+import { get_vendor_orders } from '@/store/order/order-thunks'
 
 const Orders = () => {
+  const {vendor_orders} = useSelector(state => state.vendor_order)
   const orders = [
     {
       id: '1',
@@ -86,6 +89,7 @@ const Orders = () => {
   ];
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredItems, setFilteredItems] = useState(orders);
+  const dispatch = useDispatch()
   
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -99,10 +103,15 @@ const Orders = () => {
       setFilteredItems(orders)
     }
   };
+
+  useEffect(() => {
+    dispatch(get_vendor_orders())
+  }, [])
+
   return (
     <>
     <div className='w-[90%] ml-auto mr-auto'>
-      <h1 className='text-2xl font-base text-gray-700 mt-3 '>Inventory</h1>
+      <h1 className='text-2xl font-base text-gray-700 mt-3 '>Orders</h1>
        
        <div className='flex  w-[100%] mt-10  ml-auto mr-auto justify-end mb-10'>
           <div className='inline-flex items-center justify-center h-8 w-64 '>
@@ -148,10 +157,11 @@ const Orders = () => {
                         order_status: order.order_status,
                         total_amount: order.total_amount,
                         order_items: order.order_items.map(item => item.item_name).join(', ')
-                      }}/>
+                      }}
+                      orderID={order.id}
+                      />
                 </TableCell>
               </TableRow> )  }
-              
             </TableBody>
         </Table>
        </div>

@@ -9,6 +9,7 @@ import customerReducer from './profiles/customerSlice';
 import menuItemReducer from './menu-items/item-slice'
 import cartReducer from './cart/cart-slice';
 import orderReducer from './order/order-slice';
+import vendorOrderReducer from './order/vendor-order-slice'
 
 const store = configureStore({
     reducer: {
@@ -21,7 +22,8 @@ const store = configureStore({
         customerProfile: customerReducer,
         menuItem: menuItemReducer,
         cart: cartReducer,
-        customer_order: orderReducer
+        customer_order: orderReducer,
+        vendor_order: vendorOrderReducer
     }
 })
 

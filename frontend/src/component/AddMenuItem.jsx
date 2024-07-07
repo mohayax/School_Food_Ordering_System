@@ -29,10 +29,10 @@ import {
   import { Button } from '@/components/ui/button'
   import { Menu_Item_Schema } from '../utils/form-schema'
   import displayImg from '../assets/displayImg.jpg'
-
-
+  import { create_menu_item } from '@/store/menu-items/menuItems-thunks'
 
 const AddMenuItem = ({triggerStyle, triggerText}) => {
+  const dispatch = useDispatch()
 
     const form = useForm(
         {
@@ -41,6 +41,7 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
       )
 
     const onSubmit = (values) => {
+        dispatch(create_menu_item(values))
         console.log(values)
     }
   return (
@@ -67,13 +68,13 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
                           />
                           
 
-                          {/* <Formfield
+                          <Formfield
                             name="item_photo"
                             control={form.control}
                             type="file"
                             label="Item Photo"
                              className='w-[50%]'
-                          /> */}
+                          />
                         </div>
 
                         <div className='flex gap-2'>

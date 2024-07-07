@@ -37,9 +37,9 @@ export const  get_vendor_orders = createAsyncThunk("order/get-vendor-orders", as
     }
 })
 
-export const  update_order = createAsyncThunk("order/update-order", async (order_id,{ rejectWithValue }) => {
+export const  update_order = createAsyncThunk("order/update-order", async (order_id, data,{ rejectWithValue }) => {
     try{
-        const response = await OrderServies.update_order(order_id)
+        const response = await OrderServies.update_order(order_id, data)
         return toast.success(`${response.data}` || 'order successfull')
     }
     catch (error){

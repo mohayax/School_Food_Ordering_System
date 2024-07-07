@@ -25,13 +25,14 @@ import {
   } from "@/components/ui/select"
   import Formfield from '@/utils/reusable-components/Formfield'
   import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
- 
+ import { useDispatch } from 'react-redux'
 import { Button } from '@/components/ui/button'
-
+import { update_order } from '@/store/order/order-thunks'
 const OrderAction = ({
     defaultValues,
     triggerStyle, 
-    triggerText, 
+    triggerText,
+    orderID 
 }) => {
     const form = useForm(
         {
@@ -46,7 +47,8 @@ const OrderAction = ({
         }
       }
     )
-
+    const dispatch = useDispatch()
+    const [id, setOrderID] = useState(null)
 
     useEffect(() => {
       form.reset(defaultValues)
@@ -54,17 +56,19 @@ const OrderAction = ({
 
     const onSubmit = (values) => {
       console.log(values)
-      
+      if (id !==null){
+        dispatch(update_order(id, values))
+      }
     }
 
   return (
     <>
-        <AlertDialog >
+        <AlertDialog>
             <AlertDialogTrigger  className={triggerStyle}>{triggerText}</AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogTitle>Order Details</AlertDialogTitle>
               <AlertDialogDescription>
-
+                    Update Order status
               </AlertDialogDescription>
                 <div className='flex gap-10 w-[90%] mr-auto ml-auto'>
                 <Form {...form}>
@@ -112,15 +116,21 @@ const OrderAction = ({
                             name="order_items"
                             label="Order Items"
                             control={form.control}
-                            className='w-[50%]'
+                            className='w-[100%]'
                           />  
+                           
 
+
+                        </div>
+                        <div className='flex gap-2'>
+
+                       
                         <Controller
                             control={form.control}
                             name="order_status"
                             render={({ field }) => (
                               <FormItem required
-                              className='w-[30%]'
+                              className='w-[50%]'
                               >
                                 <FormLabel>Order Status</FormLabel>
                                 <FormControl>
@@ -130,8 +140,8 @@ const OrderAction = ({
                                     </SelectTrigger>
                                     <SelectContent>
                                       <SelectItem value="Pending">Pending</SelectItem>
-                                      <SelectItem value="Canceled">Canceled</SelectItem>
-                                      <SelectItem value="Successful">Successful</SelectItem>
+                                      <SelectItem value="Completed">Completed</SelectItem>
+                                      <SelectItem value="Cancelled">Cancelled</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
@@ -141,7 +151,6 @@ const OrderAction = ({
                             )}
                           />
 
-
                         <Formfield
                             disabled
                             name="total_amount"
@@ -150,17 +159,14 @@ const OrderAction = ({
                             label="Total Amount"
                             className='w-[50%]'
                           />
-
                         </div>
-
-                         
                  
                       </div>
 
                       <AlertDialogFooter>
                       <AlertDialogCancel >Cancel</AlertDialogCancel>
                       {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
-                       ( <AlertDialogAction type="submit">  Update </AlertDialogAction> )}
+                       (<AlertDialogAction onClick={() => setOrderID(orderID)} type="submit" >  Update </AlertDialogAction> )}
                     </AlertDialogFooter>
                     </form>
 

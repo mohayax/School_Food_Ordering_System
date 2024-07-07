@@ -23,18 +23,18 @@ export const ResetPassword_Schema = z.object({
     token: z.string({required_error: "enter the token sent to your email"})
 })
 
-// const MAX_FILE_SIZE = 5000000;
-// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const Vendor_Profile_Schema = z.object({
     email: z.string().email(),
     vendor_name: z.string(),
-    // vendor_logo: z.any()
-    // .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    // .refine(
-    //   (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-    //   "Only .jpg, .jpeg, .png and .webp formats are supported."
-    // ),
+    vendor_logo: z.any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported."
+    ),
     vendor_address: z.string(),
     vendor_contact_number: z.string(),
     vendor_description: z.string()
@@ -59,16 +59,18 @@ export const Customer_Profile_Schema = z.object({
 
 export const Menu_Item_Schema = z.object({
     item_name: z.string({ required_error: "Item name is required"}),
-    // item_photo: '',
+    item_photo: z.any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported."
+    ),
     item_price: z.string(),
     item_category: z.string({ message: "Options must be one of Food, Drinks, Snacks", required_error: "Select Item Category"}),
     availability_status:  z.string({ message: "Options must be one of Available, Unavailable", required_error: "Select Item Category"}),
     item_description: z.string().min(15, {message: 'Description must be at least 15 characters long'}).max(75, { message: 'Description must be at most 75 characters long' }),
 })
 
-const orderItemSchema = z.object({
-    item_name: z.string()
-  });
 
   export const orderSchema = z.object({
     id: z.string(),

@@ -12,7 +12,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-const ConfirmAlert = ({title, description, btnText, triggerText, onclick, triggerStyle}) => {
+const ConfirmAlert = ({title, description, btnText, triggerText, onClick, triggerStyle}) => {
   return (
     <>
         <AlertDialog>
@@ -26,7 +26,7 @@ const ConfirmAlert = ({title, description, btnText, triggerText, onclick, trigge
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onclick={onclick}>{btnText}</AlertDialogAction>
+                <AlertDialogAction><button onClick={onClick}>{btnText}</button></AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

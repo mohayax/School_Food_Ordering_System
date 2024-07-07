@@ -9,8 +9,8 @@ export class OrderServies {
         return await api.get(`orders/items/${order_id}`)
     }
 
-    static async update_order(order_id){
-        return await api.put(`orders/items/${order_id}`)
+    static async update_order(order_id, data){
+        return await api.put(`orders/items/${order_id}`, data)
     }
 
     static async delete_order(order_id){
