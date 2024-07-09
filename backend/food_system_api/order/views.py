@@ -9,8 +9,12 @@ from rest_framework.pagination import PageNumberPagination
 from customer.models import CustomerProfile
 from customer.serializers import CustomerSerializer
 from menu_item.models import MenuItem
+from menu_item.serializers import MenuItemSerializer
 from vendor.models import VendorProfile
 from django.db.models import Sum
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 
 class OrderView(APIView):
@@ -48,6 +52,7 @@ class Get_Customer_Order(APIView):
             user = request.user
             customer = CustomerProfile.objects.get(user = user)
             orders = Order.objects.filter(customer = customer).distinct()
+            [order.order_date.date() for order in orders]
 
             serializer = OrderSerializer(orders, many=True)
             if orders is not None:
@@ -90,6 +95,7 @@ class Add_To_Order(APIView):
             'customer': customer.id,
             'total_amount': cart.total_price,
             'customer_name': customer.get_full_name(),
+            'customer_phone_number': customer.phone_number,
             'order_items': []
         }
 
@@ -247,3 +253,56 @@ class CartView(APIView):
 #     serializer_class = OrderSerializer
 #     pagination_class = PageNumberPagination
 
+
+
+#Recommendations
+
+def getRecommedations(user):
+    last_order = Order.objects.filter(user=user).order_by('-order_date').first()
+    if not last_order:
+        return False
+
+    # Get descriptions of the items in the last order
+    last_order_descriptions = [item.description for item in last_order.order_items.all()]
+
+    # Get all menu items and their descriptions
+    all_menu_items = MenuItem.objects.all()
+    all_descriptions = [item.description for item in all_menu_items]
+
+    # Combine descriptions for tf-idf
+    combined_descriptions = last_order_descriptions + all_descriptions
+
+    # Create a TF-IDF Vectorizer specifying English stop words
+    vectorizer = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = vectorizer.fit_transform(combined_descriptions)
+
+    # Compute cosine similarity
+    cosine_sim = cosine_similarity(tfidf_matrix)
+
+    # Get similarity scores for the last order items against all items
+    last_order_indices = list(range(len(last_order_descriptions)))
+    all_item_indices = list(range(len(last_order_descriptions), len(combined_descriptions)))
+
+    # Average similarity scores for each item in the menu
+    similarity_scores = np.mean(cosine_sim[last_order_indices][:, all_item_indices], axis=0)
+
+    # Get top N recommendations (excluding already ordered items)
+    ordered_item_ids = [item.id for item in last_order.menu_items.all()]
+    menu_items_with_scores = [
+        (all_menu_items[i - len(last_order_descriptions)], score) 
+        for i, score in enumerate(similarity_scores) if all_menu_items[i - len(last_order_descriptions)].id not in ordered_item_ids
+    ]
+    menu_items_with_scores.sort(key=lambda x: x[1], reverse=True)
+
+    return [item[0] for item in menu_items_with_scores[:5]]  # Return top 5 recommendations
+
+
+
+class RecommendationsView(APIView):
+    def get(self, request):
+        user = request.user
+        recommendations = getRecommedations(user)
+        if recommendations:
+            serializer = MenuItemSerializer(recommendations, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"No items"}, status=status.HTTP_204_NO_CONTENT)

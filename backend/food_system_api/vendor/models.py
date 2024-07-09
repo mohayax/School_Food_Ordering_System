@@ -10,6 +10,7 @@ class VendorProfile(models.Model):
     vendor_address = models.CharField(max_length=255, default=None, blank=True, null=True)
     vendor_contact_number = models.CharField(max_length=20, default=None, blank=True, null=True)
     vendor_logo = models.ImageField(upload_to='photos/%Y/%m/%d', default=None, null=True)
+    vendor_openining_hours = models.CharField(max_length=255, default=None, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, null=True)
 
 

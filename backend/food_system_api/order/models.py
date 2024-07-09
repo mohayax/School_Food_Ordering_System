@@ -12,6 +12,7 @@ class Order(models.Model):
 
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, related_name='customer_order')
     customer_name = models.CharField(max_length=255, default=None, blank=True, null=True)
+    customer_phone_number = models.CharField(max_length=255, default=None, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(choices=OrderStatus.choices, default=OrderStatus.PENDING, blank=True, null=True)
     total_amount = models.CharField(max_length=255, default=None, blank=True, null=True)

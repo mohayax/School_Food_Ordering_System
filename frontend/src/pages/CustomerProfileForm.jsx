@@ -92,16 +92,16 @@ const CustomerProfileForm = () => {
               type="text"
               label="Phone Number"
               placeholder="07012345678"
-              className='w-[50%]'
+              className='w-[100%]'
             />
           
-            <Formfield
+            {/* <Formfield
               control={form.control}
               name="profile_photo"
               type="file"
               label="Profile Photo"
               className='w-[50%]'
-            />
+            /> */}
             </div>
 
             <Button type="submit" className='w-[100%] mt-5 bg-gray-700'>Create Profile</Button>
