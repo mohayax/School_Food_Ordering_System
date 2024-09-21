@@ -7,24 +7,29 @@ from .serializers import MenuItemSerializer
 from .models import MenuItem
 from rest_framework.pagination import PageNumberPagination
 from vendor.models import VendorProfile
-
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.core.files.base import ContentFile
+import base64
 # Create your views here.
 
 
 class MenuItemView(APIView):
+    # parser_classes = (MultiPartParser, FormParser)
 
-    def post(self, request):
+    def post(self, request, format=None):
         user = request.user
         vendor = VendorProfile.objects.get(user = user)
-        request.data['vendor'] = vendor.id
-        serializer = MenuItemSerializer(data=request.data)
+        data = request.data.copy()
+        data['vendor'] = vendor.id
+        serializer = MenuItemSerializer(data = data)
         
         if vendor:
             if serializer.is_valid():
                 serializer.save()
-                return Response({'success': 'Item added successfully'}, status=status.HTTP_201_CREATED) 
-            return Response({'error': serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
+                return Response({'Item added successfully'}, status=status.HTTP_201_CREATED) 
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         return Response({'no data'})
+
 
     def get(self, request, id = None):
         if id is not None:
@@ -38,12 +43,13 @@ class MenuItemView(APIView):
     def put(self, request, id = None):
         user = request.user
         vendor = VendorProfile.objects.get(user = user)
-        request.data['vendor'] = vendor.id
+        data = request.data.copy()
+        data['vendor'] = vendor.id
 
         if id is not None:
 
             item = MenuItem.objects.get(id = id)
-            serializer = MenuItemSerializer(item, data=request.data)
+            serializer = MenuItemSerializer(item, data=data, partial=True)
             if  serializer.is_valid():
                 serializer.save()
                 return Response({"item updated successfully"}, status=status.HTTP_200_OK)
@@ -61,12 +67,28 @@ class MenuItemView(APIView):
 class GetVendorItems(APIView):
 
     def get(self, request, id = None):
-        vendor = VendorProfile.objects.get(id = id)
+        user = request.user
+        vendor = VendorProfile.objects.get(user = user)
         if vendor is not None:
             items = MenuItem.objects.filter(vendor = vendor)
             serializer = MenuItemSerializer(items, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"Vendor not found"}, status=status.HTTP_204_NO_CONTENT)
+    
+
+
+class GetCustomerVendorItems(APIView):
+
+    def get(self, request, id = None):
+        data = request.data
+        vendor = id
+        # vendor = VendorProfile.objects.get(user = user)
+        if vendor is not None:
+            items = MenuItem.objects.filter(vendor = vendor)
+            serializer = MenuItemSerializer(items, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"Vendor not found"}, status=status.HTTP_204_NO_CONTENT)
+
 
 
 class MenuItems(ListAPIView):

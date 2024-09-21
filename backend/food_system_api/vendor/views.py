@@ -52,7 +52,7 @@ class VendorProfileAction(APIView):
    def put(self, request):
       user = request.user
       vendor = VendorProfile.objects.get(user = user)
-      serializer = VendorSerializer(vendor, data=request.data)
+      serializer = VendorSerializer(vendor, data=request.data, partial=True)
 
       if serializer.is_valid():
          serializer.save()

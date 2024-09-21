@@ -22,10 +22,11 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
     item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    item_description = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_name = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_price = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_quantity = models.CharField(max_length=255, default=None, blank=True, null=True)
-
+    item_category = models.CharField(max_length=255, default=None, blank=True, null=True)
 
     def get_total_price(self):
         return int(self.item_price) * int(self.item_quantity)
@@ -48,6 +49,8 @@ class CartItem(models.Model):
     item_name = models.CharField(max_length=255, default='', blank=True, null=True)
     item_price = models.CharField(max_length=255, default='', blank=True, null=True)
     item_quantity = models.CharField(max_length=255, default='', blank=True, null=True)
+    item_photo =  models.ImageField(upload_to='photos/%Y/%m/%d', default=None, null=True)
+    item_category = models.CharField(max_length=255, default=None, blank=True, null=True)
     total_price = models.CharField(max_length=255, default='', blank=True, null=True)
 
     def get_total_price(self):

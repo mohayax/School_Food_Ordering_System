@@ -1,3 +1,5 @@
+import json
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -15,7 +17,8 @@ from django.db.models import Sum
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 class OrderView(APIView):
     def get(self, request, order_id = None):
@@ -28,9 +31,25 @@ class OrderView(APIView):
 
 
     def put(self, request, order_id = None):
-        
+        data = request.data.copy()
+    
         order = Order.objects.get(id = order_id)
-        serializer = OrderSerializer(order, data = request.data)
+        customer = order.customer  
+        customer_user = customer.user  
+        customer_email = customer_user.email
+        print("cusyomer", customer_email)
+        data['order_items'] = order.order_items.all()
+        serializer = OrderSerializer(order, data = data, partial=True)
+
+        if data['order_status'] == 'Completed':
+             send_mail(
+            "Order Completed",
+            'Dear Customer,Your Order has been completed. Thank You!',
+            settings.EMAIL_HOST_USER,
+            [customer_email],
+            fail_silently=False
+        )
+        
 
         if serializer.is_valid():
             serializer.save()
@@ -105,6 +124,7 @@ class Add_To_Order(APIView):
                 'item_name': item.item_name,
                 'item_price': item.item_price,
                 'item_quantity': item.item_quantity,
+                'item_category': item.item_category,
                 'total_price': item.total_price
             })
         
@@ -112,7 +132,8 @@ class Add_To_Order(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            return Response({"items added successfully"}, status=status.HTTP_200_OK)
+            items.delete()
+            return Response({"Order placed successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
@@ -125,13 +146,16 @@ class Add_To_Order(APIView):
     
 
 class Add_To_Cart(APIView):
-        def post(self, request, item_id =None):
+        def post(self, request, item_id, qtr):
             data = request.data
             user = request.user
             customer = CustomerProfile.objects.get(user =user)
             menu_item = MenuItem.objects.get(id = item_id)
             data['item'] = menu_item.id
             data['item_name'] = menu_item.item_name
+            data['item_description'] = menu_item.item_description
+            data['item_category'] = menu_item.item_category
+            data['item_photo'] = menu_item.item_photo
             cart = Cart.objects.get_or_create(customer = customer)
             
             if isinstance(cart, tuple):
@@ -139,7 +163,8 @@ class Add_To_Cart(APIView):
                 data['cart'] = cart.id
             
             item_price = menu_item.item_price
-            quantity = data['item_quantity']
+            quantity = qtr
+            data['item_quantity'] = quantity
             data['item_price'] = item_price
             
             # cart.total_items = CartItem.objects.filter(cart = cart).count()
@@ -189,6 +214,17 @@ class ViewCartItems(APIView):
         return Response({"item removed!"}, status=status.HTTP_204_NO_CONTENT)
     
     # clear all cart items
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+class ClearCartView(APIView):  
     def delete(self, request):
         user = request.user
         customer = CustomerProfile.objects.get(user = user)
@@ -201,7 +237,7 @@ class ViewCartItems(APIView):
         return Response({"cart cleared successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
-
+  
 class CartView(APIView):
         def get(self, request):
             user = request.user
@@ -257,17 +293,18 @@ class CartView(APIView):
 
 #Recommendations
 
-def getRecommedations(user):
-    last_order = Order.objects.filter(user=user).order_by('-order_date').first()
+def getRecommedations(customer):
+    last_order = Order.objects.filter(customer=customer).order_by('-order_date').first()
     if not last_order:
         return False
 
     # Get descriptions of the items in the last order
-    last_order_descriptions = [item.description for item in last_order.order_items.all()]
+    last_order_descriptions = [item.item_description if item.item_description is not None else "" for item in last_order.order_items.all()]
+    
 
     # Get all menu items and their descriptions
     all_menu_items = MenuItem.objects.all()
-    all_descriptions = [item.description for item in all_menu_items]
+    all_descriptions = [item.item_description if item.item_description is not None else "" for item in all_menu_items]
 
     # Combine descriptions for tf-idf
     combined_descriptions = last_order_descriptions + all_descriptions
@@ -287,10 +324,10 @@ def getRecommedations(user):
     similarity_scores = np.mean(cosine_sim[last_order_indices][:, all_item_indices], axis=0)
 
     # Get top N recommendations (excluding already ordered items)
-    ordered_item_ids = [item.id for item in last_order.menu_items.all()]
+    ordered_item_ids = [item.id for item in last_order.order_items.all()]
     menu_items_with_scores = [
-        (all_menu_items[i - len(last_order_descriptions)], score) 
-        for i, score in enumerate(similarity_scores) if all_menu_items[i - len(last_order_descriptions)].id not in ordered_item_ids
+        (all_menu_items[i], score) 
+        for i, score in enumerate(similarity_scores) if all_menu_items[i].id not in ordered_item_ids
     ]
     menu_items_with_scores.sort(key=lambda x: x[1], reverse=True)
 
@@ -301,7 +338,8 @@ def getRecommedations(user):
 class RecommendationsView(APIView):
     def get(self, request):
         user = request.user
-        recommendations = getRecommedations(user)
+        customer = CustomerProfile.objects.get(user =user)
+        recommendations = getRecommedations(customer)
         if recommendations:
             serializer = MenuItemSerializer(recommendations, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)

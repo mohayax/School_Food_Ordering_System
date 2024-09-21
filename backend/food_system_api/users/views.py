@@ -15,8 +15,10 @@ from .serializers import UserSerializer
 
 class SignUp(APIView):
     permission_classes = (permissions.AllowAny, )
+    
 
     def post(self, request, format = None):
+        roles = ['vendor', 'customer']
 
         def email_validator(email):
             try:
@@ -39,12 +41,15 @@ class SignUp(APIView):
                 if not email_validator(email):
                     return Response({'Invalid email address'}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    if len(password) < 8:
-                        return Response({'password must be atleast 8 characters'}, status=status.HTTP_400_BAD_REQUEST)
+                    if role.lower() not in roles:
+                        return Response({'Role must be either vendor or customer'}, status=status.HTTP_400_BAD_REQUEST)
                     else:
-                        user = User.objects.create_user(email=email, password =password, role = role)
-                        user.save()
-                        return Response({'user created sucessfully'}, status=status.HTTP_200_OK)   
+                        if len(password) < 8:
+                            return Response({'password must be atleast 8 characters'}, status=status.HTTP_400_BAD_REQUEST)
+                        else:
+                            user = User.objects.create_user(email=email, password =password, role = role)
+                            user.save()
+                            return Response({'user created sucessfully'}, status=status.HTTP_200_OK)   
         
         return Response({'passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
         

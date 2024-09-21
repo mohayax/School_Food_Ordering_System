@@ -53,7 +53,7 @@ class CustomerProfileAction(APIView):
    def put(self, request):
       user = request.user
       customer = CustomerProfile.objects.get(user = user)
-      serializer = CustomerSerializer(customer, data=request.data)
+      serializer = CustomerSerializer(customer, data=request.data, partial=True)
 
       if serializer.is_valid():
          serializer.save()
