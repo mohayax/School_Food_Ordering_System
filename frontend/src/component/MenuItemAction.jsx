@@ -29,21 +29,23 @@ import {
   import displayImg from '../assets/displayImg.jpg'
 import { Button } from '@/components/ui/button'
 import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
-
+import { convertImg } from '@/utils/image-converter'
   const MenuItemAction = ({
     defaultValues,
     triggerStyle, 
     triggerText,
-    itemID, 
+    itemID,
+    itemPhoto 
     }) => {
+      const imageSrc = `http://localhost:8000${itemPhoto}`;
       const dispatch = useDispatch()
-      const [id, setItemID] = useState(null)
+    
       const form = useForm(
         {
         resolver: zodResolver(Menu_Item_Schema),
         defaultValues: {
           item_name: '',
-          // item_photo: '',
+          // item_photo: imageSrc,
           item_price: '',
           item_category: '',
           availability_status: '',
@@ -51,18 +53,41 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
         }
       }
     )
+    
+    
+    const handleImgChange = async(img) =>{
+      const pic = await convertImg(img)
+      return pic
+    }
 
-
+    const convertedImg = handleImgChange(imageSrc)
+    console.log("con", convertedImg)
+    
     useEffect(() => {
       form.reset(defaultValues)
     },[defaultValues])
+    
+   const [photo, setPhoto] = useState('')
 
-    const onSubmit = (values) => {
-      if (id !==null){
-        dispatch(update_menu_item(id, values))
-      }
-     
-    }
+    const onSubmit = async (values) => {
+
+      const formData = new FormData();
+      
+      formData.append('item_name', values.item_name);
+      formData.append('item_price', values.item_price);
+      formData.append('item_category', values.item_category);
+      formData.append('availability_status', values.availability_status);
+      formData.append('item_description', values.item_description);
+
+      if (photo !== ''){
+        formData.append('item_photo', photo);
+      } 
+  
+      dispatch(update_menu_item({ id: itemID, data: formData }));
+    };
+
+
+   
   return (
     <>
           <AlertDialog >
@@ -93,7 +118,15 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
                             control={form.control}
                             type="file"
                             label="Item Photo"
-                            placeholder="enter item description"
+                            onChange={({target}) => {
+                              const file = target.files[0];
+                              const reader = new FileReader()
+                              reader.readAsDataURL(file)
+                              reader.onloadend = () =>{
+                                const result = reader.result
+                                setPhoto(result)
+                              }
+                            }}
                             className='w-[50%]'
                           />
                         </div>
@@ -125,9 +158,9 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
                                       <SelectValue placeholder="Select Category" className='text-[#ADADAD]' />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="food">Food</SelectItem>
-                                      <SelectItem value="drinks">Drinks</SelectItem>
-                                      <SelectItem value="snacks">Snacks</SelectItem>
+                                      <SelectItem value="Food">Food</SelectItem>
+                                      <SelectItem value="Drinks">Drinks</SelectItem>
+                                      <SelectItem value="Snacks">Snacks</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
@@ -152,8 +185,8 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
                                       <SelectValue placeholder="Select Status" className='text-[#ADADAD]' />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="available">Available</SelectItem>
-                                      <SelectItem value="unavailable">Unavailable</SelectItem>
+                                      <SelectItem value="Available">Available</SelectItem>
+                                      <SelectItem value="Unavailable">Unavailable</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
@@ -194,7 +227,7 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
                       <AlertDialogFooter>
                       <AlertDialogCancel >Cancel</AlertDialogCancel>
                       {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
-                       ( <AlertDialogAction  onClick={() => setItemID(itemID)} type="submit">  Update </AlertDialogAction> )}
+                       ( <AlertDialogAction   type="submit">  Update...! </AlertDialogAction> )}
                     </AlertDialogFooter>
                     </form>
 
@@ -204,7 +237,7 @@ import { update_menu_item } from '@/store/menu-items/menuItems-thunks'
                     </div>
 
                     <div className='w-[30%] mt-14 flex flex-col items-center'>
-                    <img src={displayImg} className='h-[60%] w-full rounded-lg'/>
+                    <img src={imageSrc} className='h-[60%] w-full rounded-lg'/>
                       <h1 className='font-base mt-5 text-sm text-gray-800'>Item photo in customer view</h1>
                     </div>
                 </div>

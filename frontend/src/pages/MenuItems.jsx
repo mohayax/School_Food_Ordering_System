@@ -32,99 +32,30 @@ import { getVendorItems, delete_menu_item } from '@/store/menu-items/menuItems-t
 import { useSelector, useDispatch } from 'react-redux';
 
 const MenuItems = () => {
-  const {vendor_items} = useSelector(state => state.menuItem)
+  const {items_loading, vendor_items} = useSelector(state => state.menuItem)
   const dispatch = useDispatch()
 
-  const items = [
-    {
-      name: "Margherita Pizza",
-      description: "Classic pizza topped with fresh tomatoes, mozzarella, and basil.",
-      price: 12.99,
-      category: "food",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Caesar Salad",
-      description: "Fresh romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
-      price: 8.99,
-      category: "food",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Grilled Salmon",
-      description: "Fresh salmon fillet grilled to perfection, served with lemon butter sauce.",
-      price: 15.99,
-      category: "food",
-      availabilityStatus: 'unavailable'
-    },
-    {
-      name: "Vegetable Stir-fry",
-      description: "Mixed vegetables stir-fried in a savory sauce, served with steamed rice.",
-      price: 10.99,
-      category: "food",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Chocolate Lava Cake",
-      description: "Rich chocolate cake with a gooey molten center, served with vanilla ice cream.",
-      price: 6.99,
-      category: "frinks",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Spaghetti Carbonara",
-      description: "Classic Italian pasta dish with creamy sauce, pancetta, and Parmesan cheese.",
-      price: 11.99,
-      category: "food",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Beef Tacos",
-      description: "Soft tortillas filled with seasoned beef, lettuce, cheese, and salsa.",
-      price: 9.99,
-      category: "food",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Chicken Parmesan",
-      description: "Breaded chicken breast topped with marinara sauce and melted mozzarella.",
-      price: 13.99,
-      category: "food",
-      availabilityStatus: 'unavailable'
-    },
-    {
-      name: "Mango Smoothie",
-      description: "Refreshing smoothie made with ripe mangoes, yogurt, and a hint of honey.",
-      price: 5.99,
-      category: "drinks",
-      availabilityStatus: 'available'
-    },
-    {
-      name: "Iced Coffee",
-      description: "Chilled coffee served over ice, with optional milk and sweetener.",
-      price: 3.99,
-      category: "drinks",
-      availabilityStatus: 'available'
-    }
-  ];
-
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredItems, setFilteredItems] = useState(items);
-  
+  const [filteredItems, setFilteredItems] = useState([]);
+
   const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
+    setSearchQuery(e.target.value);
+  };
+  
+  useEffect(() => {
     setFilteredItems(
-      items.filter((item) =>
-        item.name.toLowerCase().includes(query)
+      vendor_items.filter((item) =>
+        item.item_name ? item.item_name.toLowerCase().includes(searchQuery.toLowerCase()): false
       )
     );
-  };
+  }, [vendor_items, searchQuery]);
+
+  
 
   useEffect(()=>{
     dispatch(getVendorItems())
-  },[])
-
+  },[dispatch])
+ 
   return (
     <>
       <div className='w-[90%] ml-auto mr-auto'>
@@ -159,12 +90,21 @@ const MenuItems = () => {
             </TableHeader>
             <TableBody className='border-[2px] border-gray-500'>
              
-                { filteredItems.map(item =>  <TableRow className='border-[1px] border-gray-500'>
-                  <TableCell className=" border-e-[1px] border-gray-500 font-semibold text-sm">{item.name}</TableCell>
-                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.description}</TableCell>
-                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">₦{item.price}</TableCell>
-                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.category}</TableCell>
-                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.availabilityStatus}</TableCell>
+                {items_loading  ? (<TableRow>
+                  <TableCell colSpan={7} rowSpan={7} className="text-center">
+                    Retrieving Items...
+                  </TableCell>
+                </TableRow>) : 
+                filteredItems.length === 0? (<TableRow>
+                  <TableCell colSpan={7} rowSpan={7} className="text-center">
+                    No Items
+                  </TableCell>
+                </TableRow>):  ( filteredItems.map((item, index) =>  <TableRow className='border-[1px] border-gray-500' key={index}>
+                <TableCell className=" border-e-[1px] border-gray-500 font-semibold text-sm">{item.item_name}</TableCell>
+                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.item_description}</TableCell>
+                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">₦ {item.item_price}</TableCell>
+                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.item_category}</TableCell>
+                <TableCell className=" border-e-[1px] border-gray-500 font-base text-sm">{item.availability_status}</TableCell>
                 <TableCell className=" border-e-[1px] border-gray-500 text-center text-xl">
                 <Popover>
                   <PopoverTrigger><button><MdOutlineModeEdit/></button></PopoverTrigger>
@@ -172,14 +112,15 @@ const MenuItems = () => {
       
                     <MenuItemAction triggerStyle='text-sm bg-slate-300 rounded-lg px-2 py-1 text-gray-600' triggerText='Edit Item' btnText='Save' 
                     defaultValues= {{
-                      item_name: item.name,
-                      // item_photo: '',
-                      item_price: item.price,
-                      item_category: item.category,
-                      availability_status: item.availabilityStatus,
-                      item_description: item.description
+                      item_name: item.item_name,
+                      item_photo: '',
+                      item_price: item.item_price,
+                      item_category: item.item_category,
+                      availability_status: item.availability_status,
+                      item_description: item.item_description
                     }}
                     itemID={item.id}
+                    itemPhoto={item.item_photo} 
                     />
                     
                     <ConfirmAlert 
@@ -193,7 +134,7 @@ const MenuItems = () => {
                   </PopoverContent>
                 </Popover>
                 </TableCell>
-              </TableRow> )  }
+              </TableRow> )) }
              
             </TableBody>
         </Table>

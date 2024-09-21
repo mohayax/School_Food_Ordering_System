@@ -2,7 +2,7 @@ import React from 'react'
 import VendorHeader from './Vendor-Header'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { logOut } from '@/store/auth/loginSlice';
 import { BsPerson, BsShop  } from "react-icons/bs";
 import { AiOutlineLogout} from "react-icons/ai";
 import { RiFolderHistoryFill } from "react-icons/ri";
@@ -10,6 +10,7 @@ import { FaShoppingCart } from "react-icons/fa"
 import { CiCircleList } from "react-icons/ci";
 import { RxDashboard } from "react-icons/rx";
 import { CiShoppingTag } from "react-icons/ci";
+import { useDispatch } from 'react-redux';
 
 const VendorLayout = ({children}) => {
     const Menus = [
@@ -17,11 +18,11 @@ const VendorLayout = ({children}) => {
         { title: "My Profile", icon: <BsShop/>, link: '/vendor-view/profile' },
         { title: "Menu Items", icon: <CiShoppingTag/>, link: '/vendor-view/menu-items' },
         { title: "Orders", icon: <CiCircleList/>, link: '/vendor-view/orders'},
-        { title: "Logout", icon: <AiOutlineLogout/>, spacing: true },
+        { title: "Logout", icon: <AiOutlineLogout/>, spacing: true, logout: true },
       ];
 
     const [active, setActive] = useState('/vendor-view')
-
+    const dispatch = useDispatch()
   return (
     <div className="flex h-screen">
         <VendorHeader/>
@@ -41,7 +42,13 @@ const VendorLayout = ({children}) => {
                         rounded-md ${active == item.link ? 'bg-gray-300': ''}
                         `}
                         to={item.link}
-                        onClick={() => setActive(item.link)}
+                        onClick={() =>{ if (item.logout){
+                          setActive(item.link)
+                          dispatch(logOut())
+                        } else{
+                          setActive(item.link)
+                        }
+                        }}
                     >
                          <span className={`text-gray-700 block float-left ${item.top ? "text-3xl": "text-2xl"}`}>
                       {item.icon}

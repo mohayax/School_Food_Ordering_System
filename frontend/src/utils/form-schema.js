@@ -23,22 +23,18 @@ export const ResetPassword_Schema = z.object({
     token: z.string({required_error: "enter the token sent to your email"})
 })
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 
 export const Vendor_Profile_Schema = z.object({
     email: z.string().email(),
     vendor_name: z.string(),
-    vendor_logo: z.any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
-    vendor_address: z.string(),
+    vendor_logo: z.any(),
+    vendor_address: z.string().min(5, {message: 'Description must be at least 30 characters long'}).max(24, { message: 'Description must be at most 148 characters long' }),
     vendor_contact_number: z.string(),
-    vendor_description: z.string()
+    vendor_openining_hours: z.string(),
+    vendor_description: z.string().min(30, {message: 'Description must be at least 30 characters long'}).max(148, { message: 'Description must be at most 148 characters long' }),
 })
+
 
 
 export const Customer_Profile_Schema = z.object({
@@ -59,12 +55,7 @@ export const Customer_Profile_Schema = z.object({
 
 export const Menu_Item_Schema = z.object({
     item_name: z.string({ required_error: "Item name is required"}),
-    item_photo: z.any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
+    item_photo: z.any(),
     item_price: z.string(),
     item_category: z.string({ message: "Options must be one of Food, Drinks, Snacks", required_error: "Select Item Category"}),
     availability_status:  z.string({ message: "Options must be one of Available, Unavailable", required_error: "Select Item Category"}),
@@ -73,9 +64,9 @@ export const Menu_Item_Schema = z.object({
 
 
   export const orderSchema = z.object({
-    id: z.string(),
+    id: z.any(),
     customer_name: z.string(),
-    order_items: z.string(),
+    order_items: z.any(),
     order_date: z.string(),
     order_status: z.string(),
     total_amount: z.string()

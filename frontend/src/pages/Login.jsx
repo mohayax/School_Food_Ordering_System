@@ -53,6 +53,7 @@ const Login = () => {
         onClick={handleLogout}>Logout</Button> */}
 
         <div className="w-[50%] bg-login bg-cover h-screen">
+            <h1 className="text-4xl z-50 font-semibold justify-center text-center mt-[15%] text-gray-900">Baze Food Mart</h1>
         {/* <img src={sigUpPic} className="w-[100%]"/> */}
         </div>
        

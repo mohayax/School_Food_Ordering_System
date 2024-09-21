@@ -10,6 +10,7 @@ import menuItemReducer from './menu-items/item-slice'
 import cartReducer from './cart/cart-slice';
 import orderReducer from './order/order-slice';
 import vendorOrderReducer from './order/vendor-order-slice'
+import recommendationReducer from './order/recommendation-slice';
 
 const store = configureStore({
     reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
         menuItem: menuItemReducer,
         cart: cartReducer,
         customer_order: orderReducer,
-        vendor_order: vendorOrderReducer
+        vendor_order: vendorOrderReducer,
+        recommendations: recommendationReducer
     }
 })
 

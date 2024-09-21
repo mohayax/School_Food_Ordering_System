@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux'
 import logo from '../assets/bu-lg.png'
 import { Link, useNavigate } from 'react-router-dom'
 
 const VendorHeader = () => {
+  const {isLoading, vendor_profile} = useSelector(state => state.vendorProfile)
+  console.log("pp", vendor_profile)
   return (
     <div className='w-[100%] bg-slate-100 shadow-md h-20 fixed'>
     <div className='flex justify-between items-center w-[95%] mr-auto ml-auto py-2'>
@@ -14,7 +17,7 @@ const VendorHeader = () => {
 
       
         <div className='border-2 border-gray-400  w-auto px-4 py-1'>
-            <h1 className='text-lg text-gray-700 font-base font-semibold'>Hello, Vendor</h1>
+            <h1 className='text-lg text-gray-700 font-base font-semibold'>Hello, {!isLoading && vendor_profile !== null? vendor_profile.vendor_name: "..."}</h1>
         </div>
         
 

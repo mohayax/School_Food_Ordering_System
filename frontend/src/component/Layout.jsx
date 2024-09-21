@@ -5,27 +5,27 @@ import { RiFolderHistoryFill } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa"
 import logo from '../assets/bu-lg.png'
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "@/store/auth/loginSlice";
 
 const Layout = ({children}) => {
+  const dispatch = useDispatch()
+
   const Menus = [
     { title: "Baze Food Mart", icon: <BsShop/>, top: true, link: '/customer-view' },
     { title: "My Profile", icon: <BsPerson/>, link: '/customer-view/profile' },
     { title: "Order History", icon: <RiFolderHistoryFill/>, link: '/customer-view/order-history' },
     { title: "My Cart", icon: <FaShoppingCart/>, link: '/customer-view/cart'},
-    { title: "Logout", icon: <AiOutlineLogout/>, spacing: true },
+    { title: "Logout", icon: <AiOutlineLogout/>, spacing: true, logout: true },
   ];
   
-
+  const  {isLoading, recommendations} = useSelector(state => state.recommendations)
   const [active, setActive] = useState('/customer-view')
-
+  
 
   const navigate = useNavigate()
-
-
-  return (
-    
-        
+  return ( 
         <div className="flex h-screen">
         <Header/>
           <div className="w-1/5 bg-slate-100 p-4  mt-20 pl-8">
@@ -43,7 +43,13 @@ const Layout = ({children}) => {
                         rounded-md ${active == item.link ? 'bg-gray-300': ''}
                         `}
                         to={item.link}
-                        onClick={() => setActive(item.link)}
+                        onClick={() =>{ if (item.logout){
+                          setActive(item.link)
+                          dispatch(logOut())
+                        } else{
+                          setActive(item.link)
+                        }
+                        }}
                     >
                          <span className={`text-gray-700 block float-left ${item.top ? "text-3xl": "text-2xl"}`}>
                       {item.icon}
@@ -74,6 +80,12 @@ const Layout = ({children}) => {
           <div className="w-1/5 bg-slate-100 p-4  mt-20">
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-xl font-lg">Top Picks For You</h2>
+            </div>
+            <div className="flex flex-col items-center">
+              {isLoading ? (<div><h1>loading...</h1></div>): recommendations.length === 0? (<div><h2 className="text-xl font-lg">No Items</h2></div>) :(recommendations.map((item, index) => (<div key={index}>
+                <h1>{item.item_name}</h1>
+              </div>))
+              )}
             </div>
           </div>
 

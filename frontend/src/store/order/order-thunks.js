@@ -37,13 +37,14 @@ export const  get_vendor_orders = createAsyncThunk("order/get-vendor-orders", as
     }
 })
 
-export const  update_order = createAsyncThunk("order/update-order", async (order_id, data,{ rejectWithValue }) => {
+export const  update_order = createAsyncThunk("order/update-order", async (payload,{ rejectWithValue }) => {
     try{
-        const response = await OrderServies.update_order(order_id, data)
+        const response = await OrderServies.update_order(payload?.id, payload?.payload)
         return toast.success(`${response.data}` || 'order successfull')
     }
     catch (error){
-        toast.error(`${error.response.data}` || "something went wrong")
+        toast.error(`${error.res}` || "something went wrong")
+        console.log("order-eerrr", error.response.data[0])
         return rejectWithValue(`${error.response.data}`)
     }
 })
@@ -62,6 +63,18 @@ export const  delete_order = createAsyncThunk("order/delete-order", async (order
 export const  get_single_order = createAsyncThunk("order/get-order", async (order_id,{ rejectWithValue }) => {
     try{
         const response = await OrderServies.delete_order(order_id)
+        return response.data
+    }
+    catch (error){
+        toast.error(`${error.response.data}` || "something went wrong")
+        return rejectWithValue(`${error.response.data}`)
+    }
+})
+
+
+export const get_recommendations = createAsyncThunk("order/recommendations", async (_,{ rejectWithValue }) => {
+    try{
+        const response = await OrderServies.get_recommendations()
         return response.data
     }
     catch (error){

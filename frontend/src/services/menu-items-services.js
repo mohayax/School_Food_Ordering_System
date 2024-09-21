@@ -17,7 +17,14 @@ export class MenuItemServices {
         return await api.delete(`/menu-items/${id}`)
     }
 
-    static async get_vendor_items(id){
-        return await api.get(`/menu-items/vendor-items/${id}`)
+    static async get_vendor_items(){
+        return await api.get('/menu-items/vendor-items/items')
     } 
+
+    static async get_customer_vendor_items(id){
+        return await api.get(`/menu-items/customer-vendor-items/${id}`)
+    } 
+    
+
+    
 }

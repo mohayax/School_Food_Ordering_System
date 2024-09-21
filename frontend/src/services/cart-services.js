@@ -1,8 +1,8 @@
 import api from "@/utils/axios-instance";
 
 export class CartServices{
-    static async addToCart(item_id, data){
-        return await api.post(`orders/add-to-cart/${item_id}`, data)
+    static async addToCart(id, qtr){
+        return await api.post(`orders/add-to-cart/${id}/${qtr}`)
     }
 
     static async getUserCart(){

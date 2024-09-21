@@ -50,6 +50,7 @@ export const authSlice = createSlice({
         logOut: (state) => {
             state.isAuthenticated = false
             window.localStorage.removeItem('accessToken')
+            window.location.href = '/'
         }
     },
     extraReducers(builder) {

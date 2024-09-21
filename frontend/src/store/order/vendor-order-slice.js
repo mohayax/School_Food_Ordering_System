@@ -6,7 +6,7 @@ import { get_vendor_orders } from "./order-thunks";
 const initialState = {
     error: false,
     isLoading: false,
-    vendor_orders: null,
+    vendor_orders: [],
 }
 
 

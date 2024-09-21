@@ -24,4 +24,9 @@ export class OrderServies {
     static async get_vendor_orders(){
         return await api.get('orders/vendor/orders')
     }
+
+    static async get_recommendations(){
+        return await api.get('orders/recommendations/get-recommendations')
+    }
+
 }

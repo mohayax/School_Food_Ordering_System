@@ -4,6 +4,7 @@ import { orderSchema } from "../utils/form-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
+import { format } from 'date-fns'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -32,8 +33,10 @@ const OrderAction = ({
     defaultValues,
     triggerStyle, 
     triggerText,
-    orderID 
-}) => {
+    orderID,
+    orderItems,
+    customer 
+}) => { 
     const form = useForm(
         {
         resolver: zodResolver(orderSchema),
@@ -54,11 +57,19 @@ const OrderAction = ({
       form.reset(defaultValues)
     },[defaultValues])
 
-    const onSubmit = (values) => {
-      console.log(values)
+    const onSubmit = (data) => {
+      const payload = new FormData()
+      console.log(data)
       if (id !==null){
-        dispatch(update_order(id, values))
+        payload.append('customer', customer)
+        payload.append('customer_name', data.customer_name)
+        payload.append('order_date', data.order_date)
+        payload.append('order_status', data.order_status)
+        payload.append('order_items', JSON.stringify(orderItems))
+        payload.append('total_amount', data.total_amount)
       }
+      dispatch(update_order({id, payload}))
+      
     }
 
   return (
@@ -91,7 +102,6 @@ const OrderAction = ({
                             disabled
                             name="order_date"
                             control={form.control}
-                            type="date"
                             label="Order Date"
                             placeholder="2333"
                              className='w-[30%]'

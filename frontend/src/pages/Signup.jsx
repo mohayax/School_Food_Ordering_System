@@ -64,12 +64,13 @@ const Signup = () => {
     <div className="flex">
       
       <div className="w-[50%] bg-login bg-cover h-screen">
+        <h1 className="text-4xl z-50 font-semibold justify-center text-center mt-[15%] text-gray-900">Baze Food Mart</h1>
       {/* <img src={sigUpPic} className="w-[100%]"/> */}
       </div>
       
       <div className="w-[50%] bg-slate-100" >
      
-      <div className="flex flex-col w-[60%] ml-auto mr-auto justify-center items-center mt-20 mb-auto px-10 py-5 shadow-lg rounded-lg">
+      <div className=" z-30 flex flex-col w-[60%] ml-auto mr-auto justify-center items-center mt-20 mb-auto px-10 py-5 shadow-lg rounded-lg">
       <h1 className="text-xl font-bold">Sign Up</h1>
       <Form {...form}>
           

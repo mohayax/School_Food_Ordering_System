@@ -7,7 +7,7 @@ const initialState = {
     error: false,
     isLoading: false,
     order_pending: false,
-    user_orders: null,
+    user_orders: [],
     del_pending: false
 }
 

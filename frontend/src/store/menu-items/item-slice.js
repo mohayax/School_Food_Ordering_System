@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get_menu_item } from "./menuItems-thunks";
-import { getVendorItems } from "./menuItems-thunks";
+import { getVendorItems, getCustomerVendorItems } from "./menuItems-thunks";
 
 const initialState = {
     error: false,
     isLoading: false,
     menu_item: {},
     items_loading: false,
-    vendor_items: null
+    vendor_items: [],
+    customer_items_loading: false,
+    customer_vendor_items: []
 }
 
 
@@ -37,6 +39,15 @@ const menuItemSlice = createSlice({
             state.vendor_items = action.payload
             console.log("vendor items", action.payload)
         })
+        .addCase(getCustomerVendorItems.pending, (state) => {
+            state.customer_items_loading = true
+        })
+        .addCase(getCustomerVendorItems.fulfilled, (state, action) =>{
+            state.customer_items_loading = false
+            state.customer_vendor_items = action.payload
+            console.log("vendor items", action.payload)
+        })
+
     }
 })
 

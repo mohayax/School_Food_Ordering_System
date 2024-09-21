@@ -35,7 +35,7 @@ const CustomerProfileForm = () => {
       }
     }, [isLoading, error])
   return (
-    <div className="flex flex-col bg-profile bg-cover bg-top h-screen p-4 items-center">
+    <div className="flex flex-col h-screen p-4 items-center">
     
     <h1 className="text-2xl font-bold mt-6">Create Your Profile </h1>
     

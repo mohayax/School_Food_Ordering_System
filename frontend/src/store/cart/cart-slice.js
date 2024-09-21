@@ -5,9 +5,9 @@ import { get_user_cart, get_user_cart_items } from "./cart-thunks";
 const initialState = {
     error: false,
     isLoading: false,
-    user_cart: {},
+    user_cart: [],
     items_loading: false,
-    cart_items: null
+    cart_items: []
 }
 
 

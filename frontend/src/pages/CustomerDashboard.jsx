@@ -4,6 +4,7 @@ import { getCustomerProfile } from '@/store/profiles/customer-thunks'
 import { useEffect, useState } from 'react'
 import { getVendorList } from '@/store/profiles/vendor-thunks'
 import { get_user_cart } from '@/store/cart/cart-thunks'
+import { get_recommendations } from '@/store/order/order-thunks'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/bu-lg.png'
 import { FaShoppingCart } from "react-icons/fa"
@@ -21,26 +22,27 @@ const CustomerDashboard = () => {
 
 
 
-  // const {customer} = useSelector(state => state.customerProfile)
-  // const {vendors} = useSelector(state => state.vendorList)
-  // const {isLoading, user_cart} = useSelector(state => state.cart)
-  // const dispatch = useDispatch()
-  // const navigate = useNavigate()
+  const {customer} = useSelector(state => state.customerProfile)
+  const {vendors} = useSelector(state => state.vendorList)
+  const {isLoading, user_cart} = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   dispatch(getCustomerProfile())
-  //   dispatch(getVendorList())
-  //   dispatch(get_user_cart())
-  // }, [])
+  useEffect(() => {
+    dispatch(getCustomerProfile())
+    dispatch(getVendorList())
+    dispatch(get_user_cart())
+    dispatch(get_recommendations())
+  }, [])
 
-  // console.log("user cart from page", user_cart)
+  console.log("user cart from page", user_cart)
 
-  // const viewVendor = (id) =>{
-  //   navigate(`vendor/${id}`)
-  // }
+  const viewVendor = (id) =>{
+    navigate(`vendor/${id}`)
+  }
 
 
-
+const imageSrc = 'http://localhost:8000'
   const foodVendors = [
     {
         id: 1,
@@ -103,25 +105,25 @@ const CustomerDashboard = () => {
       </div>
 
       <div className="flex flex-col gap-7 p-4 items-center justify-center w-[90%] mr-auto ml-auto">
-        {foodVendors.map((vendor, index) => (
+        {vendors !== null? vendors.map((vendor, index) => (
           <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400  hover:shadow-lg hover:animate-out'>
             <div className='w-[30%]'>
-              <img src={vendor.photo} alt="" srcset="" className='h-[100%] w-50 '  />
+              <img src={vendor.vendor_logo} alt="" srcset="" className='h-[100%] w-50 '  />
             </div>
             <div className='p-4 w-[70%] flex flex-col gap-2'>
-              <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.name}</h1>
-              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><CiLocationOn/></span>{vendor.address}</p>
-              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><BsTelephone/></span>{vendor.contact}</p>
+              <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.vendor_name}</h1>
+              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><CiLocationOn/></span>{vendor.vendor_address}</p>
+              <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><BsTelephone/></span>{vendor.vendor_contact_number}</p>
               
               <div className='flex justify-between'>
-                <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>Open: {vendor.open}</p>
+                <p className='inline-flex items-center gap-2 text-gray-600 text-sm'><span><AiOutlineClockCircle/></span>Open: {vendor.vendor_openining_hours}</p>
                 <Link to={`vendor/${vendor.id}`} className='font-base text-gray-700 text-sm border-2 border-gray-400 inline-flex items-center gap-2 hover:bg-gray-100 
                    px-4 py-1'>View Vendor  </Link>
               </div>
             </div>
             
           </div>
-        ) )}
+        )): (<div>Retrieving Vendors...</div>)}
       </div>
 
       

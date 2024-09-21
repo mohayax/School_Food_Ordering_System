@@ -8,16 +8,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 
-const Modal = ({title,description,label,value,onChange, btnText, onClick}) => {
+const Modal = ({title,description,label,value,onChange, btnText, onClick, status}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <button className='border-2 border-gray-600 p-2 text-xs font-base font-semibold hover:bg-gray-300'>Add to Cart</button>
+      <button className='border-2 border-gray-600 p-2 text-xs font-base font-semibold hover:bg-gray-300' disabled={status === "Unavailable"}>Add to Cart</button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -36,7 +37,9 @@ const Modal = ({title,description,label,value,onChange, btnText, onClick}) => {
           
         </div>
         <DialogFooter>
-          <Button onClick={onClick}>{btnText}</Button>
+          <DialogClose>
+            <Button onClick={onClick}>{btnText}</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

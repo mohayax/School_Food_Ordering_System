@@ -3,9 +3,12 @@ import { CartServices } from "@/services/cart-services";
 import { toast } from "react-toastify";
 
 
-export const add_to_cart  = createAsyncThunk("cart/addItem", async ({item_id, data},{ rejectWithValue }) => {
+export const add_to_cart  = createAsyncThunk(
+    "cart/addItem", 
+    async (payload,
+    { rejectWithValue }) => {
     try{
-        const response = await CartServices.addToCart(item_id, data)
+        const response = await CartServices.addToCart(payload?.item_id, payload?.quantity)
         return toast.success(`${response.data}` || 'Item Added Successfully')
     }
     catch (error){
@@ -28,9 +31,9 @@ export const get_user_cart  = createAsyncThunk("cart/getCart", async (_,{ reject
 
 
 
-export const  update_cart_item = createAsyncThunk("cart/updateItem", async ({item_id, data},{ rejectWithValue }) => {
+export const  update_cart_item = createAsyncThunk("cart/updateItem", async (payload,{ rejectWithValue }) => {
     try{
-        const response = await CartServices.update_cart_item(item_id, data)
+        const response = await CartServices.update_cart_item(payload?.item_id, payload?.data)
         return toast.success(`${response.data}` || 'Item updated')
     }
     catch (error){

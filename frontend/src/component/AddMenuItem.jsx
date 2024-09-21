@@ -29,21 +29,24 @@ import {
   import { Button } from '@/components/ui/button'
   import { Menu_Item_Schema } from '../utils/form-schema'
   import displayImg from '../assets/displayImg.jpg'
-  import { create_menu_item } from '@/store/menu-items/menuItems-thunks'
+  import { create_menu_item, getVendorItems } from '@/store/menu-items/menuItems-thunks'
 
 const AddMenuItem = ({triggerStyle, triggerText}) => {
   const dispatch = useDispatch()
-
+  const [photo, setPhoto] = useState('')
     const form = useForm(
         {
           resolver: zodResolver(Menu_Item_Schema),
         }
       )
 
+    
+
     const onSubmit = (values) => {
-        dispatch(create_menu_item(values))
-        console.log(values)
+        dispatch(create_menu_item({...values, item_photo: photo})).then(() => dispatch(getVendorItems()))
+        form.reset()
     }
+
   return (
     <>
      <AlertDialog >
@@ -55,7 +58,7 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
                 <AlertDialogDescription></AlertDialogDescription>
                 <Form {...form}>
                 <div className='flex flex-col gap-4 w-[90%] mr-auto ml-auto'>
-                    <form onSubmit={form.handleSubmit(onSubmit)} >
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
                       <div className='flex flex-col gap-2 mb-6 '>
                         <div className='flex gap-4'>
                           <Formfield
@@ -72,8 +75,18 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
                             name="item_photo"
                             control={form.control}
                             type="file"
+                            onChange={({target}) => {
+                              const file = target.files[0];
+                              const reader = new FileReader()
+                              reader.readAsDataURL(file)
+                              reader.onloadend = () =>{
+                                const result = reader.result
+                                console.log('result', result)
+                                setPhoto(result)
+                              }
+                            }}
                             label="Item Photo"
-                             className='w-[50%]'
+                            className='w-[50%]'
                           />
                         </div>
 
@@ -103,9 +116,9 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
                                       <SelectValue placeholder="Select Category" className='text-[#ADADAD]' />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="food">Food</SelectItem>
-                                      <SelectItem value="drinks">Drinks</SelectItem>
-                                      <SelectItem value="snacks">Snacks</SelectItem>
+                                      <SelectItem value="Food">Food</SelectItem>
+                                      <SelectItem value="Drinks">Drinks</SelectItem>
+                                      <SelectItem value="Snacks">Snacks</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
@@ -130,8 +143,8 @@ const AddMenuItem = ({triggerStyle, triggerText}) => {
                                       <SelectValue placeholder="Select Status" className='text-[#ADADAD]' />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      <SelectItem value="available">Available</SelectItem>
-                                      <SelectItem value="unavailable">Unavailable</SelectItem>
+                                      <SelectItem value="Available">Available</SelectItem>
+                                      <SelectItem value="Unavailable">Unavailable</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </FormControl>
