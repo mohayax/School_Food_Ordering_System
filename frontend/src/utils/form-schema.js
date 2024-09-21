@@ -37,6 +37,17 @@ export const Vendor_Profile_Schema = z.object({
 
 
 
+export const Vendor_Profile_Update_Schema = z.object({
+    vendor_name: z.string(),
+    vendor_logo: z.any(),
+    vendor_address: z.string().min(5, {message: 'Description must be at least 30 characters long'}).max(24, { message: 'Description must be at most 148 characters long' }),
+    vendor_contact_number: z.string(),
+    vendor_openining_hours: z.string(),
+    vendor_description: z.string().min(30, {message: 'Description must be at least 30 characters long'}).max(148, { message: 'Description must be at most 148 characters long' }),
+})
+
+
+
 export const Customer_Profile_Schema = z.object({
     email: z.string().email(),
     first_name: z.string({required_error: "first name is required"}),

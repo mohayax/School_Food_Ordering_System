@@ -5,7 +5,7 @@ import { getVendorProfile, createVendorProfile } from "./vendor-thunks";
 const initialState = {
     isLoading: false,
     error: false,
-    vendor_profile: null,
+    vendor_profile: [],
     vendorLoading: false,
     newVendor: false,
     vendorError: false

@@ -110,6 +110,7 @@ const Orders = () => {
                           orderID={order.id}
                           customer={order.customer}
                           orderItems={order.order_items}
+                          orderStatus={order.order_status}
                         />
                       </TableCell>
                     </TableRow>

@@ -26,7 +26,7 @@ import {
   } from "@/components/ui/select"
   import Formfield from '@/utils/reusable-components/Formfield'
   import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
- import { update_order } from '@/store/order/order-thunks'
+ import { get_vendor_orders, update_order } from '@/store/order/order-thunks'
 import { Button } from '@/components/ui/button'
 
 const OrderAction = ({
@@ -35,6 +35,7 @@ const OrderAction = ({
     triggerText,
     orderID,
     orderItems,
+    orderStatus,
     customer 
 }) => { 
     const form = useForm(
@@ -68,7 +69,7 @@ const OrderAction = ({
         payload.append('order_items', JSON.stringify(orderItems))
         payload.append('total_amount', data.total_amount)
       }
-      dispatch(update_order({id, payload}))
+      dispatch(update_order({id, payload})).then(dispatch(get_vendor_orders()))
       
     }
 
@@ -176,7 +177,7 @@ const OrderAction = ({
                       <AlertDialogFooter>
                       <AlertDialogCancel >Cancel</AlertDialogCancel>
                       {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
-                       (<AlertDialogAction onClick={() => setOrderID(orderID)} type="submit" >  Update </AlertDialogAction> )}
+                       (<AlertDialogAction onClick={() => setOrderID(orderID)} type="submit" disabled={orderStatus === "Completed"}>  Update </AlertDialogAction> )}
                     </AlertDialogFooter>
                     </form>
 

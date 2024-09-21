@@ -140,7 +140,7 @@ const MenuItems = () => {
         </Table>
        </div>
 
-       <div className='flex items-center justify-center gap-16 mt-10 mb-20'>
+       {/* <div className='flex items-center justify-center gap-16 mt-10 mb-20'>
         <button
           onClick=''
           disabled=''
@@ -149,7 +149,7 @@ const MenuItems = () => {
         onClick=''
         disabled=''
         className={`font-semibold text-xl text-gray-600 inline-flex items-center `}>Next<GrNext className='text-2xl'/></button>
-      </div>
+      </div> */}
       </div>
     </>
   )

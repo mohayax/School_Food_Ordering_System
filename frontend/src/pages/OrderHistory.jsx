@@ -30,7 +30,7 @@ const OrderHistory = () => {
         <div key={item.id} className='flex flex-col w-[95%] mr-auto ml-auto mt-5 gap-6'>
           <div className={`flex gap-20 bg-slate-100 p-4 h-36 w-full border-l-[4px] ${order.order_status === "Pending"? 'border-yellow-400': order.order_status === "Cancelled"? 'border-yellow-600': 'border-green-600' }`}>
             <div className='flex gap-4 bg-white w-[50%] h-[90%] rounded-lg p-4 shadow-lg'>
-              <img src={item.item_photo} alt="" className='h-full w-[40%] rounded-lg'/>
+              <img src={`http://localhost:8000${item.item_photo}`} alt="" className='h-full w-[40%] rounded-lg'/>
               <div className='flex flex-col'>
                 <p className='text-lg text-gray-500 font-base font-semibold'>{item.item_name}</p>
                 <p className='text-xs text-gray-500 font-base'>Item Price: {item.item_price}</p>
