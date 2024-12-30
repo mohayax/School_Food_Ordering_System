@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME':'food_system_db',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '@Germany23',
         'HOST': 'localhost',
         'PORT': '5432'
     }
