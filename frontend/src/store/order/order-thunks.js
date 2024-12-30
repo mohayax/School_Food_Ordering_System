@@ -15,6 +15,18 @@ export const  place_order = createAsyncThunk("order/place-order", async (_,{ rej
 })
 
 
+export const  place_item_order = createAsyncThunk("order/place-order", async (item_id,{ rejectWithValue }) => {
+    try{
+        const response = await OrderServies.place_item_order(item_id)
+        return toast.success(`${response.data}` || 'order successfull')
+    }
+    catch (error){
+        toast.error(`${error.response.data}` || "something went wrong")
+        return rejectWithValue(`${error.response.data}`)
+    }
+})
+
+
 export const  get_customer_orders = createAsyncThunk("order/get-cust-orders", async (_,{ rejectWithValue }) => {
     try{
         const response = await OrderServies.get_customer_orders()

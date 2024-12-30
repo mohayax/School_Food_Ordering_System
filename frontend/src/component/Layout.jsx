@@ -85,8 +85,8 @@ const Layout = ({children}) => {
               {isLoading ? (<div><h1>loading...</h1></div>): recommendations.length === 0? (<div><h2 className="text-xl font-lg">No Items</h2></div>) :
               (recommendations.map((item, index) => (<div className="mt-3">
                 <div key={index} className="flex flex-row mb-5 h-[60px]">
-                <div className="h-full rounded-lg w-[100px] mr-2">
-                  <img src={`http://localhost:8000${item.item_photo}`}  className="rounded-lg w-full"/>
+                <div className="h-[100%] rounded-lg w-[100px] mr-2">
+                  <img src={`http://localhost:8000${item.item_photo}`}  className="rounded-lg w-full h-full"/>
                 </div>
                 <div >
                   <p className='text-md font-base '>{item.item_name}</p>

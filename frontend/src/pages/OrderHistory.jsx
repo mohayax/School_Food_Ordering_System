@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import displayImg from '../assets/displayImg.jpg'
-import { get_customer_orders } from '@/store/order/order-thunks'
+import { get_customer_orders, place_item_order } from '@/store/order/order-thunks'
 import { useDispatch, useSelector } from 'react-redux'
 
 const OrderHistory = () => {
@@ -28,7 +28,7 @@ const OrderHistory = () => {
 
       return (
         <div key={item.id} className='flex flex-col w-[95%] mr-auto ml-auto mt-5 gap-6'>
-          <div className={`flex gap-20 bg-slate-100 p-4 h-36 w-full border-l-[4px] ${order.order_status === "Pending"? 'border-yellow-400': order.order_status === "Cancelled"? 'border-yellow-600': 'border-green-600' }`}>
+          <div className={`flex gap-20 bg-slate-100 p-4 h-36 w-full border-l-[4px] ${order.order_status === "Pending"? 'border-yellow-400': order.order_status === "Cancelled"? 'border-red-600': 'border-green-600' }`}>
             <div className='flex gap-4 bg-white w-[50%] h-[90%] rounded-lg p-4 shadow-lg'>
               <img src={`http://localhost:8000${item.item_photo}`} alt="" className='h-full w-[40%] rounded-lg'/>
               <div className='flex flex-col'>
@@ -39,9 +39,9 @@ const OrderHistory = () => {
               </div>
             </div>
 
-            <div className='flex items-center gap-3'>
-              <button className='py-2 px-10 border-2 border-gray-500 hover:bg-gray-200 font-base text-md text-gray-700'>Re-Order</button>
-            </div>
+            {/* <div className='flex items-center gap-3'>
+              <button className='py-2 px-10 border-2 border-gray-500 hover:bg-gray-200 font-base text-md text-gray-700' onClick={() => dispatch(place_item_order(item.id)).then(dispatch(get_customer_orders()))}>Re-Order</button>
+            </div> */}
           </div> 
         </div>
       );

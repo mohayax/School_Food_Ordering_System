@@ -19,8 +19,8 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
         toast.success("Login sucessfull")
 
     } catch (error) {
-        toast.error(`${error.response.data.messages.message}` || "Something went wrong")
-        console.log(error.response.data)
+        toast.error(`${error.response.data.detail}` || "Something went wrong")
+        console.log("err:",error.response.data.detail)
         return rejectWithValue(error.response.data)
     }
 })

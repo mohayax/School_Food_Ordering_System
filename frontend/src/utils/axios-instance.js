@@ -30,8 +30,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       window.localStorage.removeItem('accessToken');
-      window.location.href = '/'
-      toast.error('Please log in again.'); 
+      // window.location.href = '/'
+      // toast.error('Please log in again.'); 
     }
     return Promise.reject(error);
   }

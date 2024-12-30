@@ -5,6 +5,10 @@ export class OrderServies {
         return await api.post('orders/place-order')
     }
 
+    static async place_item_order(item_id){
+        return await api.post(`orders/order-item/${item_id}`)
+    }
+
     static async get_single_order(order_id){
         return await api.get(`orders/items/${order_id}`)
     }

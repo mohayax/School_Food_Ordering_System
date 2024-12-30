@@ -37,7 +37,6 @@ class OrderView(APIView):
         customer = order.customer  
         customer_user = customer.user  
         customer_email = customer_user.email
-        print("cusyomer", customer_email)
         data['order_items'] = order.order_items.all()
         serializer = OrderSerializer(order, data = data, partial=True)
 
@@ -47,9 +46,8 @@ class OrderView(APIView):
             'Dear Customer,Your Order has been completed. Thank You!',
             settings.EMAIL_HOST_USER,
             [customer_email],
-            fail_silently=False
-        )
-        
+            fail_silently=False)
+
 
         if serializer.is_valid():
             serializer.save()
@@ -70,7 +68,7 @@ class Get_Customer_Order(APIView):
         try:
             user = request.user
             customer = CustomerProfile.objects.get(user = user)
-            orders = Order.objects.filter(customer = customer).distinct()
+            orders = Order.objects.filter(customer = customer).distinct().order_by('-order_date')
             [order.order_date.date() for order in orders]
 
             serializer = OrderSerializer(orders, many=True)
@@ -88,7 +86,7 @@ class Get_Vendor_Orders(APIView):
             user = request.user
             vendor = VendorProfile.objects.get(user = user)
             order_items = OrderItem.objects.filter(item__vendor = vendor)
-            orders = Order.objects.filter(order_items__in = order_items).distinct()
+            orders = Order.objects.filter(order_items__in = order_items).distinct().order_by('-order_date')
             
             serializer = OrderSerializer(orders, many=True)
             if orders is not None:
@@ -144,6 +142,43 @@ class Add_To_Order(APIView):
         order_item.delete()
         return Response({"Item removed"}, status=status.HTTP_204_NO_CONTENT)
     
+
+
+
+class OrderSingleItem(APIView):
+    def post(self, request, item_id=None):
+        user = request.user
+        customer = CustomerProfile.objects.get(user=user)
+        cart = Cart.objects.filter(customer=customer).first()
+        cart_item = CartItem.objects.filter(cart=cart, id=item_id).first()
+        
+        order_data = {
+            'customer': customer.id,
+            'total_amount': cart_item.total_price,
+            'customer_name': customer.get_full_name(),
+            'customer_phone_number': customer.phone_number,
+            'order_items': [{
+                'item': cart_item.item.id,
+                'item_name': cart_item.item_name,
+                'item_price': cart_item.item_price,
+                'item_quantity': cart_item.item_quantity,
+                'item_photo': cart_item.item_photo,
+                'item_category': cart_item.item_category,
+                'total_price': cart_item.total_price
+            }]
+        }
+
+        serializer = OrderSerializer(data=order_data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            cart_item.delete()
+            return Response({"Order placed successfully"}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+
+
 
 class Add_To_Cart(APIView):
         def post(self, request, item_id, qtr):

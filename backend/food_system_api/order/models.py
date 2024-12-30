@@ -26,6 +26,7 @@ class OrderItem(models.Model):
     item_name = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_price = models.CharField(max_length=255, default=None, blank=True, null=True)
     item_quantity = models.CharField(max_length=255, default=None, blank=True, null=True)
+    item_photo =  models.ImageField(upload_to='photos/%Y/%m/%d', default=None, null=True)
     item_category = models.CharField(max_length=255, default=None, blank=True, null=True)
 
     def get_total_price(self):

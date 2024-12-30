@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { customer_get_vendor } from '@/store/profiles/customer-thunks'
 import { getCustomerVendorItems } from '@/store/menu-items/menuItems-thunks'
-import { add_to_cart, update_cart_item } from '@/store/cart/cart-thunks'
+import { add_to_cart, get_user_cart, update_cart_item } from '@/store/cart/cart-thunks'
 import { quotelessJson } from 'zod'
 import Header from '@/component/Header'
 import displayImg from '../assets/displayImg.jpg'
@@ -295,18 +295,19 @@ const handleQtyChange = (id, quantity) =>{
 
 
     const addToCart = (item_id, quantity) =>{
-      dispatch(add_to_cart({item_id, quantity})).then(dispatch(get_user_cart()))
+      dispatch(add_to_cart({item_id, quantity}))
     }
 
     useEffect(()=>{
         dispatch(customer_get_vendor(id))
         dispatch(getCustomerVendorItems(id))
+        dispatch(get_user_cart())
     },[dispatch])
 
     console.log('ventdor item.. form page', customer_vendor_items)
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
     <div className="flex items-center justify-center">
         <h1 className="font-base text-lg font-bold text-gray-500 mr-auto ml-auto mt-28 mb-5">{customer_vendor_profile.vendor_name}</h1>
     </div>

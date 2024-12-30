@@ -227,7 +227,7 @@ import { convertImg } from '@/utils/image-converter'
                       <AlertDialogFooter>
                       <AlertDialogCancel >Cancel</AlertDialogCancel>
                       {!form.formState.isValid ? ( <Button type="submit" > Update </Button> ) :
-                       ( <AlertDialogAction   type="submit">  Update...! </AlertDialogAction> )}
+                       ( <AlertDialogAction   type="submit">  Update </AlertDialogAction> )}
                     </AlertDialogFooter>
                     </form>
 

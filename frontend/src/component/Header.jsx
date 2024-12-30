@@ -30,7 +30,7 @@ const Header = () => {
               className='text-2xl text-gray-500 hover:cursor-pointer'
               onClick={() => navigate('/customer-view/cart')}
             />
-            <div className='text-primary absolute bottom-5 rounded-full bg-white text-md -right-3 px-1  h-6 items-center content-center'>{isLoading? "0": user_cart.total_items}</div>
+            <div className='text-primary absolute bottom-5 rounded-full bg-white text-md -right-3 px-1  h-6 items-center content-center'>{ user_cart.total_items}</div>
           </div>
         </div>
     </div>

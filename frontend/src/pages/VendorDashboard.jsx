@@ -18,23 +18,40 @@ ChartJS.register(Tooltip, Legend, ArcElement, Title)
 const VendorDashboard = () => {
   const {isLoading, vendor_orders} = useSelector(state => state.vendor_order)
   const dispatch = useDispatch()
+
+
   
-  const ordersThisWeek = filterOrdersByWeek(vendor_orders);
-  const pending_orders = ordersThisWeek.filter(order => order.order_status === "Pending").length;
-  const completed_orders = ordersThisWeek.filter(order => order.order_status === "Completed").length;
-  const cancelled_orders = ordersThisWeek.filter(order => order.order_status === "Cancelled").length;
-  const monthlyEarnings = calculateMonthlyEarnings(vendor_orders);
-  const food = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
-    return total + order.order_items.filter(item => item.item_category === "Food").length;
-  }, 0); 
-  const drinks = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
-    return total + order.order_items.filter(item => item.item_category === "Drinks").length;
-  }, 0); 
-  const snacks = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
-    return total + order.order_items.filter(item => item.item_category === "Snacks").length;
-  }, 0); 
+  let ordersThisWeek = [];
+  let pending_orders = 0;
+  let completed_orders = 0;
+  let cancelled_orders = 0;
+  let monthlyEarnings = 0;
+  let food = 0;
+  let drinks = 0;
+  let snacks = 0;
   
-  console.log(food, drinks, snacks)
+  
+  if (!isLoading && vendor_orders.length > 0) {
+    ordersThisWeek = filterOrdersByWeek(vendor_orders);
+    console.log("Orders This Week:", ordersThisWeek);
+    pending_orders = ordersThisWeek.filter(order => order.order_status === "Pending").length;
+    completed_orders = ordersThisWeek.filter(order => order.order_status === "Completed").length;
+    cancelled_orders = ordersThisWeek.filter(order => order.order_status === "Cancelled").length;
+    monthlyEarnings = calculateMonthlyEarnings(vendor_orders);
+
+    food = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
+      return total + order.order_items.filter(item => item.item_category === "Food").length;
+    }, 0);
+    
+    drinks = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
+      return total + order.order_items.filter(item => item.item_category === "Drinks").length;
+    }, 0);
+    
+    snacks = ordersThisWeek.filter(order => order.order_status === "Completed").reduce((total, order) => {
+      return total + order.order_items.filter(item => item.item_category === "Snacks").length;
+    }, 0);
+  }
+
   
   
   const pieData = {

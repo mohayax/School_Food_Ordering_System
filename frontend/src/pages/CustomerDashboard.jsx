@@ -106,9 +106,9 @@ const imageSrc = 'http://localhost:8000'
 
       <div className="flex flex-col gap-7 p-4 items-center justify-center w-[90%] mr-auto ml-auto">
         {vendors !== null? vendors.map((vendor, index) => (
-          <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400  hover:shadow-lg hover:animate-out'>
+          <div key={index} className='flex gap-3  w-[100%] border-2 border-gray-400  hover:shadow-lg hover:animate-out h-[170px]'>
             <div className='w-[30%]'>
-              <img src={vendor.vendor_logo} alt="" srcset="" className='h-[100%] w-50 '  />
+              <img src={vendor.vendor_logo} alt="" srcset="" className='h-[100%] w-full '  />
             </div>
             <div className='p-4 w-[70%] flex flex-col gap-2'>
               <h1 className='text-xl font-semibold font-base text-gray-700'>{vendor.vendor_name}</h1>

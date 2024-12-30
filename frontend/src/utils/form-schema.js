@@ -62,6 +62,12 @@ export const Customer_Profile_Schema = z.object({
     // )
 })
 
+export const Customer_Profile_Update_Schema = z.object({
+    first_name: z.string({required_error: "first name is required"}),
+    last_name: z.string({required_error: "last name is required"}),
+    customer_dob: z.string().date(),
+    phone_number: z.string(),
+})
 
 
 export const Menu_Item_Schema = z.object({

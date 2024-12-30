@@ -22,7 +22,6 @@ const vendorOrderSlice = createSlice({
         })
         .addCase(get_vendor_orders.fulfilled, (state, action) =>{
             state.isLoading = false
-            state.error = false
             state.vendor_orders = action.payload
         })
         .addCase(get_vendor_orders.rejected, (state) => {

@@ -19,7 +19,7 @@ import VendorLayout from "@/component/VendorLayout";
 import MenuItems from "@/pages/MenuItems";
 import Orders from "@/pages/Orders";
 import VendorProfile from "@/pages/VendorProfile";
-
+import Header from "@/component/Header";
 
 const Element = () => {
     
@@ -59,7 +59,10 @@ const Element = () => {
         },
         {
             path: "/customer-view/cart",
-            element:  <Cart/> 
+            element: <>
+             <Header/>
+             <Cart/>
+            </>  
         },
         {
             path: "/customer-view/profile",
@@ -71,7 +74,10 @@ const Element = () => {
         },
         {
             path: "/customer-view/vendor/:id",
-            element: <SingleVendorPage/>
+            element:<>  
+            <Header/>
+            <SingleVendorPage/>
+             </> 
         },
         {
             path: "/customer-view/vendor/:id/item/:item_id",

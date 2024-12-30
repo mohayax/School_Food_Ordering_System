@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ClearCartView, OrderView, Add_To_Order, Get_Customer_Order, Get_Vendor_Orders, Add_To_Cart, ViewCartItems, CartView, RecommendationsView
+from .views import ClearCartView, OrderView, Add_To_Order, Get_Customer_Order, Get_Vendor_Orders, Add_To_Cart, ViewCartItems, CartView, RecommendationsView, OrderSingleItem
 
 
 urlpatterns = [
@@ -7,6 +7,8 @@ urlpatterns = [
     path('items/<str:order_id>', OrderView.as_view()),
     
     path('place-order', Add_To_Order.as_view()),
+
+    path('order-item/<str:item_id>', OrderSingleItem.as_view()),
     # get order based on customer
     path('customer/orders', Get_Customer_Order.as_view()),
     
